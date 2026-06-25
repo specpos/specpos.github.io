@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator oszczędności — specpos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0A0A0C;
+  --white:#FFFFFF;
+  --muted:rgba(255,255,255,0.45);
+  --line:rgba(255,255,255,0.08);
+  --line2:rgba(255,255,255,0.12);
+  --surface:#111114;
+  --surface2:#16161A;
+  --blue:#185FA5;
+  --blue-mid:#378ADD;
+  --blue-light:rgba(24,95,165,0.15);
+  --green:#22C55E;
+  --green-light:rgba(34,197,94,0.12);
+  --gold:#F0B429;
+  --serif:'Playfair Display',serif;
+  --sans:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);color:var(--white);
+  background:var(--ink);min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* NAV */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px;border-bottom:1px solid var(--line);
+  background:rgba(10,10,12,0.95);backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:var(--serif);font-size:20px;font-weight:700;
+  color:var(--white);text-decoration:none;letter-spacing:-0.5px;
+}
+.logo span{color:var(--blue-mid)}
+.nav-back{
+  font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;
+  display:flex;align-items:center;gap:8px;transition:color .2s;
+}
+.nav-back:hover{color:var(--white)}
+.nav-back::before{content:'←'}
+
+/* HERO */
+.hero{
+  padding:72px 48px 56px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(to bottom, #0F0F14, var(--ink));
+}
+.hero-inner{max-width:900px;margin:0 auto}
+.eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--blue-mid);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--blue-mid)}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(36px,5vw,60px);
+  font-weight:900;letter-spacing:-2px;line-height:1.06;
+  color:var(--white);margin-bottom:16px;
+}
+.hero h1 em{font-style:italic;color:rgba(255,255,255,0.4)}
+.hero-sub{
+  font-size:16px;color:rgba(255,255,255,0.5);
+  line-height:1.7;font-weight:300;max-width:520px;
+}
+
+/* MAIN */
+main{max-width:900px;margin:0 auto;padding:56px 48px 80px}
+
+/* SECTION LABELS */
+.sec-label{
+  font-size:10px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* INPUTS */
+.inputs-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line2);
+  border:1px solid var(--line2);border-radius:8px;
+  overflow:hidden;margin-bottom:48px;
+}
+.inp-cell{
+  background:var(--surface);padding:24px 20px;
+  transition:background .2s;
+}
+.inp-cell:hover{background:var(--surface2)}
+.inp-label{
+  font-size:11px;font-weight:500;letter-spacing:1px;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.inp-unit{
+  font-size:10px;color:var(--blue-mid);
+  border:1px solid rgba(24,95,165,0.3);
+  padding:1px 6px;border-radius:2px;
+}
+.inp-field{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--line2);
+  color:var(--white);font-family:var(--serif);font-size:28px;font-weight:700;
+  padding:4px 0 8px;outline:none;transition:border-color .2s;
+  -moz-appearance:textfield;letter-spacing:-1px;
+}
+.inp-field::-webkit-inner-spin-button,.inp-field::-webkit-outer-spin-button{-webkit-appearance:none}
+.inp-field:focus{border-color:var(--blue-mid)}
+
+/* RESULTS */
+.results-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line2);
+  border:1px solid var(--line2);border-radius:8px;
+  overflow:hidden;margin-bottom:48px;
+}
+.res-card{background:var(--surface);padding:28px 20px;transition:background .2s;position:relative}
+.res-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;background:transparent;transition:background .2s;
+}
+.res-card:hover{background:var(--surface2)}
+.res-card:hover::after{background:var(--line2)}
+.res-card.good::after{background:var(--green)}
+.res-card.great::after{background:var(--gold)}
+.res-label{
+  font-size:11px;font-weight:500;letter-spacing:1px;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px;
+}
+.res-val{
+  font-family:var(--serif);font-size:32px;font-weight:700;
+  color:var(--white);line-height:1;letter-spacing:-1px;
+  transition:color .3s;
+}
+.res-val.green{color:var(--green)}
+.res-val.gold{color:var(--gold)}
+.res-unit{font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;letter-spacing:0.5px}
+.res-formula{
+  font-size:10px;color:rgba(255,255,255,0.2);
+  margin-top:8px;letter-spacing:0.5px;
+}
+
+/* BAR */
+.bar-section{
+  background:var(--surface);border:1px solid var(--line2);
+  border-radius:8px;padding:28px;margin-bottom:48px;
+}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.bar-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase}
+.bar-pct{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--green);letter-spacing:-1px}
+.bar-track{height:4px;background:var(--line2);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--green));width:0%;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.bar-sub{font-size:12px;color:rgba(255,255,255,0.25);margin-top:12px;font-weight:300}
+
+/* TABLE */
+.table-wrap{
+  background:var(--surface);border:1px solid var(--line2);
+  border-radius:8px;overflow:hidden;margin-bottom:48px;overflow-x:auto;
+}
+table{width:100%;border-collapse:collapse;min-width:600px}
+thead tr{background:#0D0D10;border-bottom:1px solid var(--line2)}
+thead th{
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);
+  padding:14px 16px;text-align:right;white-space:nowrap;
+}
+thead th:first-child{text-align:left}
+tbody tr{border-bottom:1px solid var(--line)}
+tbody td{
+  padding:16px;font-size:14px;color:rgba(255,255,255,0.75);
+  text-align:right;white-space:nowrap;
+}
+tbody td:first-child{
+  text-align:left;font-family:var(--serif);
+  font-weight:700;font-size:16px;color:var(--white);
+}
+.td-green{color:var(--green)!important;font-weight:500}
+.td-gold{color:var(--gold)!important;font-weight:500}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--line);margin:0 0 48px}
+
+/* CONTACT FORM */
+.cta-section{
+  background:var(--surface);border:1px solid var(--line2);
+  border-radius:8px;overflow:hidden;
+}
+.cta-top{
+  padding:36px 36px 0;
+  border-bottom:1px solid var(--line);
+  padding-bottom:28px;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+}
+.cta-h{
+  font-family:var(--serif);font-size:28px;font-weight:700;
+  letter-spacing:-0.5px;color:var(--white);margin-bottom:8px;
+}
+.cta-sub{font-size:14px;color:rgba(255,255,255,0.4);font-weight:300;line-height:1.6}
+.savings-pill{
+  background:var(--green-light);border:1px solid rgba(34,197,94,0.2);
+  border-radius:8px;padding:16px 20px;text-align:center;white-space:nowrap;
+}
+.savings-pill-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:6px}
+.savings-pill-val{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--green);letter-spacing:-1px}
+.savings-pill-unit{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px}
+.cta-form{padding:28px 36px 36px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fg label{
+  display:block;font-size:10px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.3);margin-bottom:8px;
+}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--line2);border-radius:4px;
+  font-family:var(--sans);font-size:14px;
+  color:var(--white);font-weight:300;
+  transition:border .2s;outline:none;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue-mid)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,0.2)}
+.fg select{appearance:none;cursor:pointer}
+.fg select option{background:#1A1A22}
+.fg textarea{min-height:80px;resize:vertical;margin-bottom:16px}
+.btn-send{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;background:var(--blue);color:var(--white);border:none;
+  padding:15px;border-radius:4px;font-family:var(--sans);
+  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:background .2s;
+}
+.btn-send:hover{background:#0A5CE8}
+.btn-send::after{content:'→'}
+.form-note{font-size:12px;color:rgba(255,255,255,0.2);text-align:center;margin-top:12px;font-weight:300}
+
+/* SUCCESS */
+.success-msg{
+  display:none;text-align:center;padding:48px 36px;
+}
+.success-msg.show{display:block}
+.success-icon{font-size:48px;margin-bottom:16px}
+.success-h{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:8px}
+.success-p{font-size:14px;color:rgba(255,255,255,0.45);font-weight:300}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);
+  padding:24px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:0;
+}
+.footer-logo{font-family:var(--serif);font-size:16px;font-weight:700;color:rgba(255,255,255,0.4);text-decoration:none}
+.footer-logo span{color:var(--blue-mid)}
+footer small{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:0.3px}
+
+/* PULSE */
+@keyframes pulse{0%{opacity:1}40%{opacity:.3}100%{opacity:1}}
+.pulse{animation:pulse .35s ease}
+
+/* FADE IN */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.fade.in{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  nav{padding:14px 20px}
+  .hero{padding:48px 20px 36px}
+  main{padding:36px 20px 60px}
+  .inputs-grid{grid-template-columns:1fr 1fr}
+  .results-grid{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+  .cta-top{grid-template-columns:1fr}
+  .savings-pill{display:none}
+  footer{flex-direction:column;gap:8px;padding:20px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo" style="display:flex;align-items:center;gap:10px;text-decoration:none"><svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-0.5px">spec<span style="color:#378ADD">pos</span></span></a>
+  <a href="/" class="nav-back">Wróć do strony głównej</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Kalkulator oszczędności</span>
+    <h1>Ile tracisz<br>na <em>prowizjach?</em></h1>
+    <p class="hero-sub">Poniższe pola można swobodnie uzupełnić swoimi danymi — jeśli posiadasz już terminal, wartości znajdziesz na fakturze od obecnego dostawcy. Wyniki aktualizują się na bieżąco.</p>
+  </div>
+</div>
+
+<main>
+
+  <!-- INPUTS -->
+  <p class="sec-label">Uzupełnij swoimi danymi — wartości można dowolnie zmieniać</p>
+  <div class="inputs-grid fade">
+    <div class="inp-cell">
+      <div class="inp-label">Obrót miesięczny <span class="inp-unit">PLN</span></div>
+      <input class="inp-field" id="inp-kwota" type="number" value="50000" step="1000" min="0">
+    </div>
+    <div class="inp-cell">
+      <div class="inp-label">Liczba transakcji <span class="inp-unit">szt.</span></div>
+      <input class="inp-field" id="inp-transakcje" type="number" value="200" step="10" min="0">
+    </div>
+    <div class="inp-cell">
+      <div class="inp-label">Prowizja obecna <span class="inp-unit">%</span></div>
+      <input class="inp-field" id="inp-biezaca" type="number" value="0.76" step="0.01" min="0" max="10">
+    </div>
+    <div class="inp-cell">
+      <div class="inp-label">Prowizja specpos <span class="inp-unit">%</span></div>
+      <input class="inp-field" id="inp-nowa" type="number" value="0.55" step="0.01" min="0" max="10">
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <p class="sec-label">Wyniki kalkulacji</p>
+  <div class="results-grid fade">
+    <div class="res-card">
+      <div class="res-label">Prowizja obecna</div>
+      <div class="res-val" id="r-biezaca">380,00</div>
+      <div class="res-unit">PLN / miesiąc</div>
+      <div class="res-formula" id="r-biezaca-pct">= 0,76% obrotu</div>
+    </div>
+    <div class="res-card">
+      <div class="res-label">Prowizja specpos</div>
+      <div class="res-val" id="r-nowa">275,00</div>
+      <div class="res-unit">PLN / miesiąc</div>
+      <div class="res-formula">= 0,55% obrotu</div>
+    </div>
+    <div class="res-card good">
+      <div class="res-label">Oszczędność / miesiąc</div>
+      <div class="res-val green" id="r-miesiac">105,00</div>
+      <div class="res-unit">PLN</div>
+      <div class="res-formula">prowizja obecna − specpos</div>
+    </div>
+    <div class="res-card great">
+      <div class="res-label">Oszczędność / rok</div>
+      <div class="res-val gold" id="r-rok">1 260,00</div>
+      <div class="res-unit">PLN</div>
+      <div class="res-formula">× 12 miesięcy</div>
+    </div>
+  </div>
+
+  <!-- BAR -->
+  <div class="bar-section fade">
+    <div class="bar-top">
+      <span class="bar-title">Procent oszczędności względem obecnej prowizji</span>
+      <span class="bar-pct" id="r-pct">27,6%</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" id="bar-fill"></div>
+    </div>
+    <p class="bar-sub" id="bar-sub">Przy obrocie 50 000 zł/mies. i prowizji 0,76% → 0,55% oszczędzasz 105,00 zł miesięcznie</p>
+  </div>
+
+  <!-- TABLE -->
+  <p class="sec-label">Szczegółowe zestawienie</p>
+  <div class="table-wrap fade">
+    <table>
+      <thead>
+        <tr>
+          <th>Karta</th>
+          <th>Transakcji</th>
+          <th>Obrót PLN</th>
+          <th>Prowizja obecna</th>
+          <th>Prowizja specpos</th>
+          <th>Oszczędność/mies.</th>
+          <th>Oszczędność/rok</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Visa / Mastercard</td>
+          <td id="t-trans">200</td>
+          <td id="t-obrot">50 000,00</td>
+          <td id="t-biezaca">380,00</td>
+          <td id="t-nowa">275,00</td>
+          <td class="td-green" id="t-miesiac">105,00</td>
+          <td class="td-gold" id="t-rok">1 260,00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CTA FORM -->
+  <div class="divider"></div>
+  <p class="sec-label">Chcę poznać pełną ofertę</p>
+  <div class="cta-section fade">
+    <div class="cta-top">
+      <div>
+        <div class="cta-h">Sprawdź ofertę dla swojego lokalu</div>
+        <p class="cta-sub">Zostaw dane — oddzwonimy lub napiszemy tego samego dnia roboczego. Konsultacja jest bezpłatna i bez zobowiązań.</p>
+      </div>
+      <div class="savings-pill">
+        <div class="savings-pill-label">Twoja oszczędność</div>
+        <div class="savings-pill-val" id="pill-rok">1 260</div>
+        <div class="savings-pill-unit">PLN rocznie</div>
+      </div>
+    </div>
+    <form class="cta-form" id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
+      <div class="form-row">
+        <div class="fg">
+          <label>Imię i nazwisko</label>
+          <input type="text" name="name" placeholder="Jan Kowalski" required>
+        </div>
+        <div class="fg">
+          <label>Telefon</label>
+          <input type="tel" name="phone" placeholder="+48 734 037 907" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fg">
+          <label>Nazwa lokalu</label>
+          <input type="text" name="lokal" placeholder="np. Restauracja Roma">
+        </div>
+        <div class="fg">
+          <label>Obecny dostawca terminala</label>
+          <select name="dostawca">
+            <option value="">Wybierz...</option>
+            <option>eService / PKO</option>
+            <option>Polskie ePłatności (PeP)</option>
+            <option>First Data / Fiserv</option>
+            <option>Paylane</option>
+            <option>PayTel</option>
+            <option>Nets</option>
+            <option>Inny</option>
+            <option>Nie mam jeszcze terminala</option>
+          </select>
+        </div>
+      </div>
+      <!-- Hidden fields — przekazujemy wyniki kalkulatora -->
+      <input type="hidden" name="obrot" id="f-obrot">
+      <input type="hidden" name="prowizja_obecna_pct" id="f-biezaca-pct">
+      <input type="hidden" name="prowizja_specpos_pct" id="f-nowa-pct">
+      <input type="hidden" name="oszczednosc_miesiac" id="f-miesiac">
+      <input type="hidden" name="oszczednosc_rok" id="f-rok">
+      <div class="fg">
+        <label>Wiadomość (opcjonalnie)</label>
+        <textarea name="message" placeholder="Dodatkowe informacje o lokalu, pytania..."></textarea>
+      </div>
+      <button type="submit" class="btn-send">Wyślij — skontaktujemy się dziś</button>
+      <p class="form-note">Odpowiadamy w ciągu kilku godzin w dni robocze · Bez spamu · Bez zobowiązań</p>
+    </form>
+    <div class="success-msg" id="success-msg">
+      <div class="success-icon">✓</div>
+      <div class="success-h">Wiadomość wysłana!</div>
+      <p class="success-p">Oddzwonimy lub napiszemy do Ciebie tego samego dnia roboczego.<br>Dziękujemy za zainteresowanie ofertą specpos.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <a href="/" class="footer-logo" style="display:flex;align-items:center;gap:8px;text-decoration:none"><svg width="18" height="32" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;color:rgba(255,255,255,0.6)">spec<span style="color:#378ADD">pos</span></span></a>
+  <small>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii</small>
+</footer>
+
+<script>
+const fmt = (n,d=2) => n.toLocaleString('pl-PL',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function recalc(){
+  const kwota = parseFloat(document.getElementById('inp-kwota').value)||0;
+  const trans = parseInt(document.getElementById('inp-transakcje').value)||0;
+  const pB    = parseFloat(document.getElementById('inp-biezaca').value)||0;
+  const pN    = parseFloat(document.getElementById('inp-nowa').value)||0;
+
+  const prowB  = kwota * pB / 100;
+  const prowN  = kwota * pN / 100;
+  const oszcz  = prowB - prowN;
+  const roczn  = oszcz * 12;
+  const ratio  = prowB > 0 ? (oszcz / prowB) * 100 : 0;
+
+  pulse('r-biezaca',  fmt(prowB));
+  pulse('r-nowa',     fmt(prowN));
+  pulse('r-miesiac',  fmt(oszcz));
+  pulse('r-rok',      fmt(roczn));
+
+  document.getElementById('r-biezaca-pct').textContent = '= ' + pB.toFixed(2).replace('.',',') + '% obrotu';
+  document.getElementById('r-pct').textContent = ratio.toFixed(1).replace('.',',') + '%';
+
+  const capped = Math.min(Math.max(ratio,0),100);
+  document.getElementById('bar-fill').style.width = capped.toFixed(1)+'%';
+  document.getElementById('bar-sub').textContent =
+    `Przy obrocie ${fmt(kwota,0)} zł/mies. i prowizji ${pB.toFixed(2).replace('.',',')}% → ${pN.toFixed(2).replace('.',',')}% oszczędzasz ${fmt(oszcz)} zł miesięcznie`;
+
+  document.getElementById('t-trans').textContent   = trans;
+  document.getElementById('t-obrot').textContent   = fmt(kwota);
+  document.getElementById('t-biezaca').textContent = fmt(prowB);
+  document.getElementById('t-nowa').textContent    = fmt(prowN);
+  document.getElementById('t-miesiac').textContent = fmt(oszcz);
+  document.getElementById('t-rok').textContent     = fmt(roczn);
+
+  // Pill
+  const pillVal = Math.round(roczn);
+  document.getElementById('pill-rok').textContent = pillVal.toLocaleString('pl-PL');
+
+  // Hidden form fields
+  document.getElementById('f-obrot').value        = fmt(kwota,0) + ' PLN';
+  document.getElementById('f-biezaca-pct').value  = pB.toFixed(2) + '%';
+  document.getElementById('f-nowa-pct').value     = pN.toFixed(2) + '%';
+  document.getElementById('f-miesiac').value      = fmt(oszcz) + ' PLN';
+  document.getElementById('f-rok').value          = fmt(roczn) + ' PLN';
+}
+
+function pulse(id,val){
+  const el = document.getElementById(id);
+  el.textContent = val;
+  el.classList.remove('pulse');
+  void el.offsetWidth;
+  el.classList.add('pulse');
+}
+
+['inp-kwota','inp-transakcje','inp-biezaca','inp-nowa'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', recalc);
+});
+
+// Form submit
+document.getElementById('contact-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = this.querySelector('.btn-send');
+  btn.textContent = 'Wysyłanie...';
+  btn.disabled = true;
+  try{
+    const res = await fetch(this.action,{
+      method:'POST',
+      body:new FormData(this),
+      headers:{'Accept':'application/json'}
+    });
+    if(res.ok){
+      this.style.display='none';
+      document.getElementById('success-msg').classList.add('show');
+    } else {
+      btn.textContent = 'Błąd — spróbuj ponownie';
+      btn.disabled = false;
+    }
+  }catch{
+    btn.textContent = 'Błąd — spróbuj ponownie';
+    btn.disabled = false;
+  }
+});
+
+// Scroll reveal
+const fades = document.querySelectorAll('.fade');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+},{threshold:0.08});
+fades.forEach(el=>obs.observe(el));
+
+window.addEventListener('load',()=>{ setTimeout(recalc,200); });
+</script>
+</body>
+</html>

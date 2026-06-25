@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>specpos – Inteligentne systemy POS dla gastronomii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0A0A0C;
+  --white:#FFFFFF;
+  --muted:rgba(255,255,255,0.55);
+  --line:rgba(255,255,255,0.1);
+  --blue:#185FA5;
+  --blue-mid:#378ADD;
+  --serif:'Playfair Display',serif;
+  --sans:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--white);background:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 64px;
+  transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(10,10,12,0.92);
+  backdrop-filter:blur(20px);
+  border-color:rgba(255,255,255,0.08);
+}
+.logo{
+  font-family:var(--serif);font-size:22px;font-weight:700;
+  color:var(--white);text-decoration:none;letter-spacing:-0.5px;
+}
+.logo-dot{color:var(--blue-mid)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{
+  font-size:13px;font-weight:400;color:rgba(255,255,255,0.65);
+  text-decoration:none;letter-spacing:0.3px;transition:color .2s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{
+  background:var(--blue);color:var(--white)!important;
+  padding:9px 22px;border-radius:4px;font-size:13px!important;
+  font-weight:500!important;transition:background .2s;
+}
+.nav-cta:hover{background:#0A5CE8!important}
+
+/* HERO — full viewport, video/image bg */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 64px 100px;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('https://images.pexels.com/photos/3887985/pexels-photo-3887985.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover no-repeat;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top, rgba(10,10,12,1) 0%, rgba(10,10,12,0.65) 50%, rgba(10,10,12,0.2) 100%);
+}
+.hero-content{position:relative;z-index:2;max-width:760px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);margin-bottom:28px;
+}
+.hero-tag::before{content:'';width:32px;height:1px;background:var(--blue-mid)}
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(52px,7vw,92px);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-3px;color:var(--white);margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:rgba(255,255,255,0.55)}
+.hero-lead{
+  font-size:18px;color:rgba(255,255,255,0.65);
+  line-height:1.75;margin-bottom:48px;max-width:560px;font-weight:300;
+}
+.hero-actions{display:flex;gap:20px;align-items:center}
+.btn-primary{
+  display:inline-block;background:var(--white);color:var(--ink);
+  padding:15px 36px;border-radius:4px;font-weight:600;font-size:14px;
+  text-decoration:none;letter-spacing:0.3px;transition:all .25s;
+}
+.btn-primary:hover{background:var(--blue-mid);color:var(--white)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:400;color:rgba(255,255,255,0.65);
+  text-decoration:none;transition:color .2s;
+}
+.btn-outline:hover{color:var(--white)}
+.btn-outline::after{content:'↓';font-size:18px;opacity:0.5}
+.hero-scroll{
+  position:absolute;bottom:40px;right:64px;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.scroll-line{width:1px;height:60px;background:rgba(255,255,255,0.2);position:relative;overflow:hidden}
+.scroll-line::after{
+  content:'';position:absolute;top:-100%;left:0;
+  width:1px;height:100%;background:rgba(255,255,255,0.6);
+  animation:scrollDrop 2s ease infinite;
+}
+@keyframes scrollDrop{to{top:200%}}
+.scroll-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);writing-mode:vertical-rl}
+
+/* STATS BAR */
+.stats-bar{
+  background:#111114;
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 64px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.sbar-item{
+  padding:40px 48px;
+  border-right:1px solid rgba(255,255,255,0.06);
+  text-align:center;
+}
+.sbar-item:first-child{padding-left:0;text-align:left}
+.sbar-item:last-child{border-right:none}
+.sbar-num{
+  font-family:var(--serif);font-size:48px;font-weight:700;
+  color:var(--white);display:block;line-height:1;margin-bottom:8px;letter-spacing:-2px;
+}
+.sbar-unit{font-size:22px;color:rgba(255,255,255,0.3)}
+.sbar-label{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase}
+
+/* FULL-SCREEN SECTIONS — Loxone style */
+.full-sec{
+  position:relative;min-height:90vh;
+  display:grid;grid-template-columns:1fr 1fr;align-items:stretch;
+  overflow:hidden;
+}
+.full-sec.reverse{direction:rtl}
+.full-sec.reverse>*{direction:ltr}
+.fsec-img{
+  position:relative;overflow:hidden;min-height:600px;
+}
+.fsec-img img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 8s ease;
+}
+.full-sec:hover .fsec-img img{transform:scale(1.04)}
+.fsec-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(10,10,12,0) 60%, rgba(10,10,12,0.8) 100%);
+}
+.full-sec.reverse .fsec-img-overlay{
+  background:linear-gradient(to left, rgba(10,10,12,0) 60%, rgba(10,10,12,0.8) 100%);
+}
+.fsec-content{
+  background:#0F0F12;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 72px;
+}
+.fsec-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue-mid);margin-bottom:24px;display:block;
+}
+.fsec-h{
+  font-family:var(--serif);font-size:clamp(36px,3.5vw,52px);
+  font-weight:900;letter-spacing:-1.5px;line-height:1.08;
+  color:var(--white);margin-bottom:20px;
+}
+.fsec-h em{font-style:italic;color:rgba(255,255,255,0.4)}
+.fsec-p{
+  font-size:16px;color:rgba(255,255,255,0.55);
+  line-height:1.8;font-weight:300;margin-bottom:40px;max-width:420px;
+}
+.fsec-list{list-style:none;margin-bottom:40px;display:flex;flex-direction:column;gap:14px}
+.fsec-list li{
+  display:flex;align-items:flex-start;gap:14px;
+  font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5;
+}
+.fsec-list li::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--blue-mid);flex-shrink:0;margin-top:7px;
+}
+.btn-sec{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);
+  text-decoration:none;letter-spacing:0.5px;text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:4px;
+  transition:all .2s;width:fit-content;
+}
+.btn-sec:hover{color:var(--white);border-color:var(--white)}
+.btn-sec::after{content:'→';transition:transform .2s}
+.btn-sec:hover::after{transform:translateX(4px)}
+
+/* PROCESS — dark numbered */
+.process-sec{background:#0A0A0C;padding:120px 64px}
+.process-header{max-width:640px;margin-bottom:80px}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,0.06)}
+.proc-step{
+  background:#0F0F12;padding:48px 36px;
+  transition:background .2s;
+}
+.proc-step:hover{background:#13131A}
+.proc-n{
+  font-family:var(--serif);font-size:80px;font-weight:900;
+  color:rgba(255,255,255,0.05);line-height:1;display:block;margin-bottom:4px;letter-spacing:-5px;
+}
+.proc-title{font-size:17px;font-weight:600;color:var(--white);margin-bottom:12px}
+.proc-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;font-weight:300}
+
+/* WHY — grid on dark */
+.why-sec{
+  background:#111114;padding:120px 64px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.why-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.why-left{}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,0.06)}
+.why-item{background:#111114;padding:36px 32px;transition:background .2s}
+.why-item:hover{background:#15151A}
+.why-num{
+  font-family:var(--serif);font-size:32px;font-weight:700;
+  color:rgba(255,255,255,0.08);display:block;margin-bottom:16px;
+}
+.why-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:10px}
+.why-desc{font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;font-weight:300}
+
+/* CONTACT */
+.contact-sec{position:relative;overflow:hidden}
+.contact-bg{
+  position:absolute;inset:0;
+  background:url('https://images.pexels.com/photos/2114365/pexels-photo-2114365.jpeg?auto=compress&cs=tinysrgb&w=1920') center/cover no-repeat;
+  filter:brightness(0.15);
+}
+.contact-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;align-items:start;
+  padding:120px 64px;gap:80px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.contact-left{}
+.contact-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue-mid);margin-bottom:20px;display:block;
+}
+.contact-h{
+  font-family:var(--serif);font-size:clamp(40px,4vw,60px);
+  font-weight:900;letter-spacing:-2px;line-height:1.06;
+  color:var(--white);margin-bottom:24px;
+}
+.contact-h em{font-style:italic;color:rgba(255,255,255,0.4)}
+.contact-p{
+  font-size:16px;color:rgba(255,255,255,0.5);
+  line-height:1.8;font-weight:300;margin-bottom:48px;
+}
+.contact-info{display:flex;flex-direction:column;gap:28px}
+.ci-item{display:flex;align-items:center;gap:16px}
+.ci-line{width:24px;height:1px;background:rgba(255,255,255,0.2)}
+.ci-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px;display:block}
+.ci-val{font-size:15px;font-weight:500;color:var(--white);text-decoration:none}
+.ci-val:hover{color:var(--blue-mid)}
+
+/* FORM */
+.contact-form{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;padding:48px;backdrop-filter:blur(8px);
+}
+.cf-title{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px}
+.cf-sub{font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:32px;font-weight:300}
+.fg{margin-bottom:16px}
+.fg label{
+  display:block;font-size:10px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-bottom:8px;
+}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:3px;font-family:var(--sans);
+  font-size:14px;color:var(--white);font-weight:300;
+  transition:border .2s;outline:none;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue-mid)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,0.2)}
+.fg select{appearance:none;cursor:pointer}
+.fg select option{background:#1A1A22;color:var(--white)}
+.fg textarea{min-height:90px;resize:vertical}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-form{
+  width:100%;background:var(--blue);color:var(--white);border:none;
+  padding:15px;border-radius:3px;font-family:var(--sans);
+  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:background .2s;margin-top:8px;
+}
+.btn-form:hover{background:#0A5CE8}
+
+/* FOOTER */
+footer{
+  background:#070709;
+  padding:48px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.footer-logo{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--white);text-decoration:none}
+.footer-logo span{color:var(--blue-mid)}
+footer small{font-size:12px;color:rgba(255,255,255,0.2);letter-spacing:0.3px}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.15s}
+.reveal-delay-2{transition-delay:.3s}
+.reveal-delay-3{transition-delay:.45s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:16px 24px}
+  .nav-links{display:none}
+  .hero{padding:0 24px 80px}
+  .stats-bar{grid-template-columns:1fr 1fr;padding:0 24px}
+  .sbar-item{padding:28px 20px;border-right:none;text-align:center}
+  .sbar-item:first-child{text-align:center}
+  .full-sec{grid-template-columns:1fr;min-height:auto}
+  .fsec-img{min-height:50vw}
+  .full-sec.reverse{direction:ltr}
+  .fsec-img-overlay{background:linear-gradient(to top,rgba(10,10,12,0.4) 0%,transparent 60%)}
+  .fsec-content{padding:52px 28px}
+  .process-sec{padding:80px 24px}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  .why-sec{padding:80px 24px}
+  .why-layout{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr;padding:80px 24px;gap:48px}
+  footer{flex-direction:column;gap:12px;padding:32px 24px;text-align:center}
+  .fg-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="/" class="logo" style="display:flex;align-items:center;gap:10px;text-decoration:none"><svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-0.5px">spec<span style="color:#378ADD">pos</span></span></a>
+  <ul class="nav-links">
+    <li><a href="#terminale">Terminale</a></li>
+    <li><a href="#system">System POS</a></li>
+    <li><a href="#wdrozenie">Wdrożenie</a></li>
+    <li><a href="#kontakt" class="nav-cta">Bezpłatna konsultacja</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Systemy POS &amp; Terminale płatnicze</span>
+    <h1>Sprzedaż,<br>która <em>po prostu</em><br>działa.</h1>
+    <p class="hero-lead">Wdrażamy systemy kasowe i terminale płatnicze dla restauracji, kawiarni i hoteli w całej Polsce. Jeden partner — od konsultacji po codzienny serwis.</p>
+    <div class="hero-actions">
+      <a href="#kontakt" class="btn-primary">Umów bezpłatną konsultację</a>
+      <a href="#terminale" class="btn-outline">Poznaj ofertę</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="sbar-item">
+    <span class="sbar-num">0,53<span class="sbar-unit">%</span></span>
+    <span class="sbar-label">Prowizja Visa / Mastercard</span>
+  </div>
+  <div class="sbar-item">
+    <span class="sbar-num">24<span class="sbar-unit">h</span></span>
+    <span class="sbar-label">Czas wdrożenia</span>
+  </div>
+  <div class="sbar-item">
+    <span class="sbar-num">7<span class="sbar-unit">/7</span></span>
+    <span class="sbar-label">Wsparcie techniczne</span>
+  </div>
+  <div class="sbar-item">
+    <span class="sbar-num">0<span class="sbar-unit"> zł</span></span>
+    <span class="sbar-label">Koszt konsultacji</span>
+  </div>
+</div>
+
+<!-- FULL SEC 1: Terminale -->
+<section class="full-sec" id="terminale">
+  <div class="fsec-img">
+    <img src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Terminal płatniczy na ladzie kawiarni" loading="lazy">
+    <div class="fsec-img-overlay"></div>
+  </div>
+  <div class="fsec-content">
+    <span class="fsec-eyebrow reveal">Terminale płatnicze</span>
+    <h2 class="fsec-h reveal reveal-delay-1">Każda płatność.<br><em>Bez komplikacji.</em></h2>
+    <p class="fsec-p reveal reveal-delay-1">Mobilne i stacjonarne terminale z przejrzystymi warunkami — prowizja, abonament, wszystko na papierze przed podpisaniem. Obsługujemy karty, BLIK, Google Pay i Apple Pay.</p>
+    <ul class="fsec-list reveal reveal-delay-2">
+      <li>Prowizja od 0,53% — Visa i Mastercard</li>
+      <li>Abonament od 18 zł miesięcznie</li>
+      <li>Płatności zbliżeniowe, BLIK, Google / Apple Pay</li>
+      <li>Terminal mobilny lub stacjonarny</li>
+      <li>Rozliczenia na konto T+1</li>
+    </ul>
+    <a href="#kontakt" class="btn-sec reveal reveal-delay-3">Zapytaj o terminal</a>
+  </div>
+</section>
+
+<!-- FULL SEC 2: System POS -->
+<section class="full-sec reverse" id="system">
+  <div class="fsec-img">
+    <img src="https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Elegancka restauracja" loading="lazy">
+    <div class="fsec-img-overlay"></div>
+  </div>
+  <div class="fsec-content">
+    <span class="fsec-eyebrow reveal">System POS</span>
+    <h2 class="fsec-h reveal reveal-delay-1">Lokal pod<br><em>pełną kontrolą.</em></h2>
+    <p class="fsec-p reveal reveal-delay-1">Oprogramowanie kasowe stworzone dla gastronomii. Zarządzaj stolikami, zamówieniami i raportem sprzedaży — z jednego ekranu, w czasie rzeczywistym.</p>
+    <ul class="fsec-list reveal reveal-delay-2">
+      <li>Mapa stolików i zarządzanie salą</li>
+      <li>Drukarka bonowa do kuchni</li>
+      <li>Raporty i statystyki online</li>
+      <li>Zarządzanie menu, cenami i kategoriami</li>
+      <li>Integracja z kasą fiskalną i KSeF</li>
+    </ul>
+    <a href="#kontakt" class="btn-sec reveal reveal-delay-3">Zapytaj o system POS</a>
+  </div>
+</section>
+
+<!-- FULL SEC 3: Wdrożenie -->
+<section class="full-sec" id="wdrozenie">
+  <div class="fsec-img">
+    <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Wnętrze restauracji z ciepłym oświetleniem" loading="lazy">
+    <div class="fsec-img-overlay"></div>
+  </div>
+  <div class="fsec-content">
+    <span class="fsec-eyebrow reveal">Wdrożenie i serwis</span>
+    <h2 class="fsec-h reveal reveal-delay-1">Gotowe<br><em>następnego dnia.</em></h2>
+    <p class="fsec-p reveal reveal-delay-1">Przyjeżdżamy do Twojego lokalu w całej Polsce. Montujemy, konfigurujemy, szkolimy obsługę i managera. System gotowy do pracy tego samego dnia.</p>
+    <ul class="fsec-list reveal reveal-delay-2">
+      <li>Przyjazd do lokalu — cała Polska</li>
+      <li>Pełna konfiguracja sprzętu i menu</li>
+      <li>Szkolenie personelu i managera</li>
+      <li>Wsparcie telefoniczne 7 dni w tygodniu</li>
+      <li>Aktualizacje systemu w cenie</li>
+    </ul>
+    <a href="#kontakt" class="btn-sec reveal reveal-delay-3">Zamów wdrożenie</a>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-sec">
+  <div class="process-header reveal">
+    <span style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--blue-mid);display:block;margin-bottom:20px">Proces współpracy</span>
+    <h2 style="font-family:var(--serif);font-size:clamp(36px,4vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.08;color:var(--white);margin-bottom:16px">Od rozmowy<br><em style="font-style:italic;color:rgba(255,255,255,0.35)">do gotowego systemu</em></h2>
+    <p style="font-size:16px;color:rgba(255,255,255,0.4);line-height:1.8;font-weight:300">Cztery etapy. Żaden nie trwa długo. Wiesz co się dzieje i kiedy.</p>
+  </div>
+  <div class="proc-grid">
+    <div class="proc-step reveal">
+      <span class="proc-n">01</span>
+      <div class="proc-title">Konsultacja</div>
+      <p class="proc-desc">Rozmawiamy o Twoim lokalu i potrzebach. Przez telefon lub na miejscu. Bezpłatnie, bez zobowiązań.</p>
+    </div>
+    <div class="proc-step reveal reveal-delay-1">
+      <span class="proc-n">02</span>
+      <div class="proc-title">Dobór rozwiązania</div>
+      <p class="proc-desc">Przygotowujemy konkretną propozycję z pełnym zestawieniem kosztów. Zero ukrytych opłat.</p>
+    </div>
+    <div class="proc-step reveal reveal-delay-2">
+      <span class="proc-n">03</span>
+      <div class="proc-title">Wdrożenie</div>
+      <p class="proc-desc">Przyjeżdżamy, montujemy, konfigurujemy i szkolimy Twój zespół. System gotowy do pracy tego samego dnia.</p>
+    </div>
+    <div class="proc-step reveal reveal-delay-3">
+      <span class="proc-n">04</span>
+      <div class="proc-title">Stałe wsparcie</div>
+      <p class="proc-desc">Dostępni 7 dni w tygodniu. Dzwonisz do konkretnej osoby, nie na infolinię. Bez ticketów i oczekiwania.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why-sec">
+  <div class="why-layout">
+    <div class="why-left reveal">
+      <span style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--blue-mid);display:block;margin-bottom:20px">Dlaczego SpecPOS</span>
+      <h2 style="font-family:var(--serif);font-size:clamp(36px,3.5vw,48px);font-weight:900;letter-spacing:-1.5px;line-height:1.08;color:var(--white);margin-bottom:20px">Bez<br>korporacyjnego<br><em style="font-style:italic;color:rgba(255,255,255,0.35)">bełkotu.</em></h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.4);line-height:1.8;font-weight:300;margin-bottom:36px">Partner, nie dostawca. Znamy gastronomię od środka.</p>
+      <a href="#kontakt" class="btn-sec">Porozmawiajmy</a>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <span class="why-num">01</span>
+        <div class="why-title">Jeden opiekun, nie infolinia</div>
+        <p class="why-desc">Dzwonisz do konkretnej osoby, która zna Twój lokal i Twoją historię. Zero przekierowań.</p>
+      </div>
+      <div class="why-item reveal reveal-delay-1">
+        <span class="why-num">02</span>
+        <div class="why-title">Wdrożenie w 24h</div>
+        <p class="why-desc">Od zamówienia do działającego systemu — jeden dzień. Twój lokal nie czeka.</p>
+      </div>
+      <div class="why-item reveal reveal-delay-1">
+        <span class="why-num">03</span>
+        <div class="why-title">Pełna kalkulacja na starcie</div>
+        <p class="why-desc">Prowizja, abonament, jednorazowe koszty — wszystko przed podpisaniem. Zero niespodzianek.</p>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <span class="why-num">04</span>
+        <div class="why-title">Cała Polska</div>
+        <p class="why-desc">Obsługujemy lokale w całym kraju. Przyjeżdżamy osobiście — serwis zdalny to tylko uzupełnienie.</p>
+      </div>
+      <div class="why-item reveal reveal-delay-2">
+        <span class="why-num">05</span>
+        <div class="why-title">Szkolenie w cenie</div>
+        <p class="why-desc">Kelner, który nigdy nie pracował z POS-em, po godzinie działa sprawnie. Bez dodatkowych opłat.</p>
+      </div>
+      <div class="why-item reveal reveal-delay-3">
+        <span class="why-num">06</span>
+        <div class="why-title">Bez długich umów</div>
+        <p class="why-desc">Nie zamykamy Cię w wieloletnich kontraktach. Zostajemy, bo warto — nie dlatego, że musisz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="kontakt">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <div class="contact-left">
+      <span class="contact-eyebrow reveal">Kontakt</span>
+      <h2 class="contact-h reveal reveal-delay-1">Porozmawiajmy<br>o <em>Twoim</em><br>lokalu.</h2>
+      <p class="contact-p reveal reveal-delay-1">Bezpłatna konsultacja. Powiedz nam czego szukasz — odpiszemy lub zadzwonimy tego samego dnia roboczego.</p>
+      <div class="contact-info reveal reveal-delay-2">
+        <div class="ci-item">
+          <div class="ci-line"></div>
+          <div>
+            <span class="ci-label">Telefon</span>
+            <a href="tel:+48734037907" class="ci-val">+48 734 037 907</a>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-line"></div>
+          <div>
+            <span class="ci-label">E-mail</span>
+            <a href="mailto:kontaktspecpos@gmail.com" class="ci-val">kontaktspecpos@gmail.com</a>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-line"></div>
+          <div>
+            <span class="ci-label">Obszar działania</span>
+            <span class="ci-val">Cała Polska</span>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-line"></div>
+          <div>
+            <span class="ci-label">Dostępność</span>
+            <span class="ci-val">Pon–Sob, 8:00–20:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal reveal-delay-1">
+      <div class="cf-title">Napisz do nas</div>
+      <div class="cf-sub">Odpowiadamy w ciągu kilku godzin w dni robocze.</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label>Imię i nazwisko</label>
+          <input type="text" placeholder="Jan Kowalski">
+        </div>
+        <div class="fg">
+          <label>Telefon</label>
+          <input type="tel" placeholder="+48 734 037 907">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Nazwa lokalu</label>
+        <input type="text" placeholder="np. Restauracja Roma">
+      </div>
+      <div class="fg">
+        <label>Czego szukasz?</label>
+        <select>
+          <option value="">Wybierz...</option>
+          <option>Terminal płatniczy</option>
+          <option>System POS dla restauracji</option>
+          <option>Terminal + System POS (pakiet)</option>
+          <option>Serwis / zmiana dostawcy</option>
+          <option>Doradztwo — nie wiem jeszcze</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Wiadomość</label>
+        <textarea placeholder="Rodzaj lokalu, liczba stolików, czy masz już terminal/POS..."></textarea>
+      </div>
+      <button class="btn-form">Wyślij wiadomość</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="footer-logo" style="display:flex;align-items:center;gap:8px;text-decoration:none"><svg width="18" height="32" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;color:rgba(255,255,255,0.6)">spec<span style="color:#378ADD">pos</span></span></a>
+  <small>© 2026 SpecPOS · Terminale płatnicze i systemy POS dla gastronomii · Polska</small>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
