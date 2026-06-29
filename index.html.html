@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>specpos – Terminale i systemy POS dla gastronomii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#FFFFFF;
+  --ink:#0A0A0F;
+  --ink2:#1A1A2E;
+  --muted:#6B6B7B;
+  --subtle:#9898A8;
+  --line:#E8E8F0;
+  --line2:#F0F0F8;
+  --bg:#FAFAFA;
+  --blue:#1860F0;
+  --blue-dark:#0A46CC;
+  --blue-light:#EEF3FF;
+  --blue-mid:#4080F8;
+  --serif:'Playfair Display',serif;
+  --sans:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 64px;height:68px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-text{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-0.5px}
+.logo-text span{color:var(--blue)}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{
+  background:var(--blue);color:var(--white)!important;
+  padding:10px 22px;border-radius:6px;
+  font-size:14px!important;font-weight:600!important;
+  transition:background .2s;
+}
+.nav-cta:hover{background:var(--blue-dark)!important}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:120px 64px 80px;
+  gap:80px;
+  background:var(--white);
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;
+  top:-300px;right:-300px;
+  width:700px;height:700px;
+  background:radial-gradient(circle,rgba(24,96,240,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:1}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--blue);
+  background:var(--blue-light);padding:6px 14px;
+  border-radius:20px;margin-bottom:28px;
+}
+.hero h1{
+  font-family:var(--serif);
+  font-size:clamp(48px,5.5vw,72px);
+  font-weight:900;line-height:1.05;
+  letter-spacing:-2.5px;color:var(--ink);
+  margin-bottom:24px;
+}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero-lead{
+  font-size:18px;color:var(--muted);
+  line-height:1.75;font-weight:300;
+  margin-bottom:44px;max-width:500px;
+}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-blue{
+  display:inline-block;background:var(--blue);color:var(--white);
+  padding:14px 32px;border-radius:6px;font-weight:600;font-size:15px;
+  text-decoration:none;transition:all .2s;
+  box-shadow:0 4px 24px rgba(24,96,240,0.25);
+}
+.btn-blue:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 6px 32px rgba(24,96,240,0.35)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:15px;font-weight:500;color:var(--muted);
+  text-decoration:none;transition:color .2s;
+}
+.btn-ghost:hover{color:var(--ink)}
+.btn-ghost::after{content:'→';transition:transform .2s}
+.btn-ghost:hover::after{transform:translateX(4px)}
+
+/* HERO VISUAL */
+.hero-visual{position:relative;z-index:1}
+.hero-img-wrap{
+  position:relative;border-radius:16px;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.12);
+}
+.hero-img-wrap img{width:100%;height:480px;object-fit:cover;display:block}
+.hero-badge{
+  position:absolute;bottom:24px;left:24px;right:24px;
+  background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);
+  border-radius:10px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  border:1px solid var(--line);
+}
+.badge-left{display:flex;align-items:center;gap:12px}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.badge-label{font-size:13px;font-weight:600;color:var(--ink)}
+.badge-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.badge-right{text-align:right}
+.badge-amount{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--blue)}
+.badge-unit{font-size:11px;color:var(--muted);letter-spacing:0.5px}
+
+/* STATS */
+.stats-row{
+  background:var(--ink);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding:0 64px;
+}
+.stat-item{
+  padding:44px 40px;
+  border-right:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+}
+.stat-item:first-child{text-align:left;padding-left:0}
+.stat-item:last-child{border-right:none}
+.stat-num{
+  font-family:var(--serif);font-size:46px;font-weight:700;
+  color:var(--white);display:block;line-height:1;
+  margin-bottom:8px;letter-spacing:-2px;
+}
+.stat-unit{font-size:20px;color:rgba(255,255,255,0.4)}
+.stat-label{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase}
+
+/* SECTIONS */
+section{padding:110px 64px}
+.container{max-width:1240px;margin:0 auto}
+.eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--blue);
+  margin-bottom:16px;display:block;
+}
+.section-h{
+  font-family:var(--serif);
+  font-size:clamp(36px,4vw,52px);
+  font-weight:900;letter-spacing:-1.5px;
+  line-height:1.08;color:var(--ink);margin-bottom:16px;
+}
+.section-h em{font-style:italic;color:var(--blue)}
+.section-p{
+  font-size:17px;color:var(--muted);
+  max-width:560px;line-height:1.75;
+  font-weight:300;margin-bottom:64px;
+}
+
+/* OFERTA */
+#oferta{background:var(--white)}
+.oferta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ocard{
+  background:var(--bg);border:1px solid var(--line);
+  border-radius:12px;padding:40px 36px;
+  transition:all .25s;position:relative;
+}
+.ocard:hover{border-color:var(--blue);box-shadow:0 8px 40px rgba(24,96,240,0.1);transform:translateY(-4px)}
+.ocard.featured{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.ocard.featured .ocard-desc{color:rgba(255,255,255,0.7)}
+.ocard.featured .ocard-list li{color:rgba(255,255,255,0.85)}
+.ocard.featured .ocard-list li::before{background:rgba(255,255,255,0.5)}
+.ocard.featured:hover{box-shadow:0 8px 40px rgba(24,96,240,0.35)}
+.featured-badge{
+  position:absolute;top:-12px;left:28px;
+  background:var(--ink);color:var(--white);
+  font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:4px 12px;border-radius:20px;
+}
+.ocard-icon{font-size:32px;margin-bottom:20px;display:block}
+.ocard-title{
+  font-family:var(--serif);font-size:24px;font-weight:700;
+  letter-spacing:-0.5px;color:var(--ink);margin-bottom:12px;
+}
+.ocard.featured .ocard-title{color:var(--white)}
+.ocard-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px;font-weight:300}
+.ocard-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ocard-list li{
+  font-size:14px;color:var(--ink2);
+  display:flex;align-items:flex-start;gap:10px;line-height:1.5;
+}
+.ocard-list li::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--blue);flex-shrink:0;margin-top:6px;
+}
+
+/* FULL SECTIONS */
+.full-sec{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:stretch;min-height:600px;overflow:hidden;
+}
+.full-sec.reverse{direction:rtl}
+.full-sec.reverse>*{direction:ltr}
+.fsec-img{position:relative;overflow:hidden}
+.fsec-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 8s ease;
+}
+.full-sec:hover .fsec-img img{transform:scale(1.04)}
+.fsec-content{
+  background:var(--bg);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 72px;
+}
+.fsec-h{
+  font-family:var(--serif);font-size:clamp(32px,3vw,46px);
+  font-weight:900;letter-spacing:-1.5px;line-height:1.1;
+  color:var(--ink);margin-bottom:16px;
+}
+.fsec-h em{font-style:italic;color:var(--blue)}
+.fsec-p{font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:32px;max-width:440px}
+.fsec-list{list-style:none;margin-bottom:36px;display:flex;flex-direction:column;gap:12px}
+.fsec-list li{
+  font-size:14px;color:var(--ink2);
+  display:flex;align-items:flex-start;gap:12px;line-height:1.5;
+}
+.fsec-list li::before{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:var(--blue);flex-shrink:0;margin-top:6px;
+}
+.btn-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:600;color:var(--blue);
+  text-decoration:none;letter-spacing:0.3px;
+  transition:gap .2s;
+}
+.btn-link:hover{gap:12px}
+.btn-link::after{content:'→'}
+
+/* PROCESS */
+#jak-dzialamy{background:var(--white)}
+.proc-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+}
+.proc-step{background:var(--white);padding:40px 32px;transition:background .2s}
+.proc-step:hover{background:var(--bg)}
+.proc-num{
+  width:40px;height:40px;background:var(--blue-light);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:18px;font-weight:700;color:var(--blue);
+  margin-bottom:20px;
+}
+.proc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.proc-desc{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* WHY */
+#dlaczego{background:var(--bg)}
+.why-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.witem{background:var(--white);padding:32px 28px;transition:background .2s}
+.witem:hover{background:var(--blue-light)}
+.witem-icon{
+  width:40px;height:40px;background:var(--blue-light);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:16px;transition:background .2s;
+}
+.witem:hover .witem-icon{background:rgba(24,96,240,0.2)}
+.witem-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.witem-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* CONTACT */
+#kontakt{background:var(--white)}
+.kontakt-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+.kinfo-item{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:24px 0;border-bottom:1px solid var(--line);
+}
+.kinfo-item:first-child{padding-top:0}
+.kinfo-icon{
+  width:40px;height:40px;background:var(--blue-light);
+  border-radius:8px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:18px;
+}
+.kinfo-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--subtle);margin-bottom:4px;display:block}
+.kinfo-val{font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
+.kinfo-val:hover{color:var(--blue)}
+.kform{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:48px}
+.kform-h{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;color:var(--ink)}
+.kform-sub{font-size:14px;color:var(--muted);margin-bottom:32px;font-weight:300}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--ink2);letter-spacing:0.3px;margin-bottom:7px;text-transform:uppercase}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:12px 16px;
+  background:var(--white);border:1.5px solid var(--line);
+  border-radius:6px;font-family:var(--sans);font-size:14px;
+  color:var(--ink);font-weight:300;
+  transition:border .2s;outline:none;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
+.fg textarea{min-height:90px;resize:vertical}
+.fg select{appearance:none;cursor:pointer}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn-submit{
+  width:100%;background:var(--blue);color:var(--white);border:none;
+  padding:14px;border-radius:6px;font-family:var(--sans);
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:background .2s;margin-top:6px;letter-spacing:0.3px;
+}
+.btn-submit:hover{background:var(--blue-dark)}
+
+/* FOOTER */
+footer{
+  background:var(--ink);padding:40px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.footer-logo-text{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--white)}
+.footer-logo-text span{color:var(--blue-mid)}
+footer small{font-size:12px;color:rgba(255,255,255,0.3)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;gap:40px}
+  .hero-visual{display:none}
+  section{padding:72px 24px}
+  .stats-row{grid-template-columns:1fr 1fr;padding:0 24px}
+  .stat-item{padding:28px 16px;border-right:none;text-align:center}
+  .stat-item:first-child{text-align:center;padding-left:16px}
+  .oferta-grid{grid-template-columns:1fr}
+  .full-sec{grid-template-columns:1fr;min-height:auto}
+  .full-sec.reverse{direction:ltr}
+  .fsec-img{min-height:300px}
+  .fsec-content{padding:48px 28px}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  .why-layout{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .kontakt-layout{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:12px;padding:32px 24px;text-align:center}
+  .fg-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="1" width="10" height="36" rx="3" fill="#0A46CC" transform="rotate(-12 5 19)"/>
+      <rect x="14" y="1" width="10" height="36" rx="3" fill="#1860F0" transform="rotate(-12 19 19)"/>
+    </svg>
+    <span class="logo-text">spec<span>pos</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#terminale">Terminale</a></li>
+    <li><a href="#oferta">Oferta</a></li>
+    <li><a href="#jak-dzialamy">Jak działamy</a></li>
+    <li><a href="#kontakt" class="nav-cta">Bezpłatna konsultacja</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag reveal">Systemy POS &amp; Terminale płatnicze</span>
+    <h1 class="reveal d1">Sprzedaż,<br>która <em>po prostu</em><br>działa.</h1>
+    <p class="hero-lead reveal d2">Wdrażamy systemy kasowe i terminale płatnicze dla restauracji, kawiarni i hoteli w całej Polsce. Jeden partner — od konsultacji po codzienny serwis.</p>
+    <div class="hero-actions reveal d3">
+      <a href="#kontakt" class="btn-blue">Umów bezpłatną konsultację</a>
+      <a href="#oferta" class="btn-ghost">Zobacz ofertę</a>
+    </div>
+  </div>
+  <div class="hero-visual reveal d2">
+    <div class="hero-img-wrap">
+      <img src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Obsługa restauracji" loading="lazy">
+      <div class="hero-badge">
+        <div class="badge-left">
+          <div class="badge-dot"></div>
+          <div>
+            <div class="badge-label">Terminal aktywny</div>
+            <div class="badge-sub">Płatność zaakceptowana</div>
+          </div>
+        </div>
+        <div class="badge-right">
+          <div class="badge-amount">129,00 zł</div>
+          <div class="badge-unit">VISA / MASTERCARD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-item">
+    <span class="stat-num">0,55<span class="stat-unit">%</span></span>
+    <span class="stat-label">Prowizja Visa / MC</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">24<span class="stat-unit">h</span></span>
+    <span class="stat-label">Czas wdrożenia</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">7<span class="stat-unit">/7</span></span>
+    <span class="stat-label">Wsparcie techniczne</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">0<span class="stat-unit"> zł</span></span>
+    <span class="stat-label">Koszt konsultacji</span>
+  </div>
+</div>
+
+<!-- OFERTA -->
+<section id="oferta">
+  <div class="container">
+    <span class="eyebrow reveal">Oferta</span>
+    <h2 class="section-h reveal d1">Wszystko czego potrzebuje<br><em>Twój lokal</em></h2>
+    <p class="section-p reveal d1">Terminale, oprogramowanie kasowe, wdrożenie i serwis — dobieramy rozwiązanie do specyfiki każdego miejsca.</p>
+    <div class="oferta-grid">
+      <div class="ocard reveal">
+        <span class="ocard-icon">💳</span>
+        <div class="ocard-title">Terminale płatnicze</div>
+        <p class="ocard-desc">Mobilne i stacjonarne terminale z przejrzystymi warunkami. Bez ukrytych opłat.</p>
+        <ul class="ocard-list">
+          <li>Prowizja od 0,55% — Visa / Mastercard</li>
+          <li>Abonament od 18 zł miesięcznie</li>
+          <li>BLIK, płatności zbliżeniowe, Google Pay</li>
+          <li>Terminal mobilny lub stacjonarny</li>
+          <li>Rozliczenia T+1 na konto</li>
+        </ul>
+      </div>
+      <div class="ocard featured reveal d1">
+        <span class="featured-badge">Bestseller</span>
+        <span class="ocard-icon">🖥️</span>
+        <div class="ocard-title">System POS</div>
+        <p class="ocard-desc">Kompletne oprogramowanie kasowe dla gastronomii. Zarządzaj lokalem z jednego ekranu.</p>
+        <ul class="ocard-list">
+          <li>Mapa stolików i zarządzanie salą</li>
+          <li>Drukarka bonowa do kuchni</li>
+          <li>Raporty sprzedaży online</li>
+          <li>Zarządzanie menu i cenami</li>
+          <li>Integracja z kasą fiskalną i KSeF</li>
+        </ul>
+      </div>
+      <div class="ocard reveal d2">
+        <span class="ocard-icon">🔧</span>
+        <div class="ocard-title">Wdrożenie i serwis</div>
+        <p class="ocard-desc">Instalacja, konfiguracja, szkolenie i bieżące wsparcie przez cały czas współpracy.</p>
+        <ul class="ocard-list">
+          <li>Przyjazd do lokalu — cała Polska</li>
+          <li>Konfiguracja menu i urządzeń</li>
+          <li>Szkolenie obsługi i managera</li>
+          <li>Wsparcie 7 dni w tygodniu</li>
+          <li>Aktualizacje systemu w cenie</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL SEC 1 -->
+<section id="terminale" style="padding:0">
+  <div class="full-sec">
+    <div class="fsec-img">
+      <img src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Terminal płatniczy" loading="lazy">
+    </div>
+    <div class="fsec-content">
+      <span class="eyebrow reveal">Terminale płatnicze</span>
+      <h2 class="fsec-h reveal d1">Każda płatność.<br><em>Bez komplikacji.</em></h2>
+      <p class="fsec-p reveal d1">Mobilne i stacjonarne terminale z prowizją od 0,55%. Obsługujemy karty, BLIK, Google Pay i Apple Pay. Rozliczenia trafiają na konto następnego dnia.</p>
+      <ul class="fsec-list reveal d2">
+        <li>Prowizja od 0,55% — Visa i Mastercard</li>
+        <li>Abonament od 18 zł miesięcznie</li>
+        <li>BLIK, zbliżeniowe, Google / Apple Pay</li>
+        <li>Rozliczenia T+1 na konto bankowe</li>
+      </ul>
+      <a href="#kontakt" class="btn-link reveal d3">Zapytaj o terminal</a>
+    </div>
+  </div>
+</section>
+
+<!-- FULL SEC 2 -->
+<section style="padding:0">
+  <div class="full-sec reverse">
+    <div class="fsec-img">
+      <img src="https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Restauracja z gośćmi" loading="lazy">
+    </div>
+    <div class="fsec-content">
+      <span class="eyebrow reveal">System POS</span>
+      <h2 class="fsec-h reveal d1">Lokal pod<br><em>pełną kontrolą.</em></h2>
+      <p class="fsec-p reveal d1">Oprogramowanie kasowe stworzone dla gastronomii. Zarządzaj stolikami, zamówieniami i raportem sprzedaży z jednego ekranu.</p>
+      <ul class="fsec-list reveal d2">
+        <li>Mapa stolików i zarządzanie salą</li>
+        <li>Drukarka bonowa do kuchni</li>
+        <li>Raporty i statystyki online</li>
+        <li>Integracja z kasą fiskalną i KSeF</li>
+      </ul>
+      <a href="#kontakt" class="btn-link reveal d3">Zapytaj o system POS</a>
+    </div>
+  </div>
+</section>
+
+<!-- JAK DZIAŁAMY -->
+<section id="jak-dzialamy">
+  <div class="container">
+    <span class="eyebrow reveal">Proces współpracy</span>
+    <h2 class="section-h reveal d1">Od rozmowy do<br><em>gotowego systemu</em></h2>
+    <p class="section-p reveal d1">Cztery kroki. Żaden nie trwa długo. Wiesz co się dzieje i kiedy.</p>
+    <div class="proc-grid">
+      <div class="proc-step reveal">
+        <div class="proc-num">1</div>
+        <div class="proc-title">Bezpłatna konsultacja</div>
+        <p class="proc-desc">Rozmawiamy o Twoim lokalu i potrzebach. Przez telefon lub na miejscu. Bez zobowiązań.</p>
+      </div>
+      <div class="proc-step reveal d1">
+        <div class="proc-num">2</div>
+        <div class="proc-title">Dobór rozwiązania</div>
+        <p class="proc-desc">Przygotowujemy propozycję z pełnym zestawieniem kosztów. Zero ukrytych opłat.</p>
+      </div>
+      <div class="proc-step reveal d2">
+        <div class="proc-num">3</div>
+        <div class="proc-title">Wdrożenie</div>
+        <p class="proc-desc">Przyjeżdżamy, montujemy, konfigurujemy i szkolimy Twój zespół. Gotowe tego samego dnia.</p>
+      </div>
+      <div class="proc-step reveal d3">
+        <div class="proc-num">4</div>
+        <div class="proc-title">Stałe wsparcie</div>
+        <p class="proc-desc">Dostępni 7 dni w tygodniu. Dzwonisz do konkretnej osoby — nie na infolinię.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DLACZEGO -->
+<section id="dlaczego">
+  <div class="container">
+    <div class="why-layout">
+      <div>
+        <span class="eyebrow reveal">Dlaczego specpos</span>
+        <h2 class="section-h reveal d1" style="margin-bottom:16px">Lokalnie.<br>Konkretnie.<br><em>Bez ściemy.</em></h2>
+        <p class="section-p reveal d1" style="margin-bottom:32px">Partner, nie dostawca. Znamy gastronomię od kuchni.</p>
+        <a href="#kontakt" class="btn-blue reveal d2" style="display:inline-block">Porozmawiajmy</a>
+      </div>
+      <div class="why-grid">
+        <div class="witem reveal">
+          <div class="witem-icon">🤝</div>
+          <div class="witem-title">Jeden opiekun, nie infolinia</div>
+          <p class="witem-desc">Dzwonisz do konkretnej osoby która zna Twój lokal. Zero przekierowań.</p>
+        </div>
+        <div class="witem reveal d1">
+          <div class="witem-icon">⚡</div>
+          <div class="witem-title">Wdrożenie w 24h</div>
+          <p class="witem-desc">Od zamówienia do działającego systemu — jeden dzień. Twój lokal nie czeka.</p>
+        </div>
+        <div class="witem reveal d1">
+          <div class="witem-icon">💰</div>
+          <div class="witem-title">Pełna kalkulacja na starcie</div>
+          <p class="witem-desc">Prowizja, abonament, koszty jednorazowe — wszystko przed podpisaniem.</p>
+        </div>
+        <div class="witem reveal d2">
+          <div class="witem-icon">🇵🇱</div>
+          <div class="witem-title">Cała Polska</div>
+          <p class="witem-desc">Obsługujemy lokale w całym kraju. Przyjeżdżamy osobiście.</p>
+        </div>
+        <div class="witem reveal d2">
+          <div class="witem-icon">🎓</div>
+          <div class="witem-title">Szkolenie w cenie</div>
+          <p class="witem-desc">Kelner który nigdy nie pracował z POS-em, po godzinie działa sprawnie.</p>
+        </div>
+        <div class="witem reveal d3">
+          <div class="witem-icon">🔓</div>
+          <div class="witem-title">Bez długich umów</div>
+          <p class="witem-desc">Zostajemy bo warto — nie dlatego że musisz.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="container">
+    <span class="eyebrow reveal">Kontakt</span>
+    <h2 class="section-h reveal d1">Porozmawiajmy<br>o <em>Twoim lokalu</em></h2>
+    <p class="section-p reveal d1">Bezpłatna konsultacja. Odpiszemy lub zadzwonimy tego samego dnia roboczego.</p>
+    <div class="kontakt-layout">
+      <div>
+        <div class="kinfo-item reveal">
+          <div class="kinfo-icon">📞</div>
+          <div>
+            <span class="kinfo-label">Telefon</span>
+            <a href="tel:+48734037907" class="kinfo-val">+48 734 037 907</a>
+          </div>
+        </div>
+        <div class="kinfo-item reveal d1">
+          <div class="kinfo-icon">✉️</div>
+          <div>
+            <span class="kinfo-label">E-mail</span>
+            <a href="mailto:kontaktspecpos@gmail.com" class="kinfo-val">kontaktspecpos@gmail.com</a>
+          </div>
+        </div>
+        <div class="kinfo-item reveal d1">
+          <div class="kinfo-icon">📍</div>
+          <div>
+            <span class="kinfo-label">Obszar działania</span>
+            <span class="kinfo-val">Cała Polska</span>
+          </div>
+        </div>
+        <div class="kinfo-item reveal d2">
+          <div class="kinfo-icon">🕐</div>
+          <div>
+            <span class="kinfo-label">Dostępność</span>
+            <span class="kinfo-val">Pon–Sob, 8:00–20:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="kform reveal d1">
+        <div class="kform-h">Napisz do nas</div>
+        <div class="kform-sub">Odpowiadamy w ciągu kilku godzin w dni robocze.</div>
+        <form action="https://formspree.io/f/mpwwnegr" method="POST">
+          <div class="fg-row">
+            <div class="fg">
+              <label>Imię i nazwisko</label>
+              <input type="text" name="name" placeholder="Jan Kowalski" required>
+            </div>
+            <div class="fg">
+              <label>Telefon</label>
+              <input type="tel" name="phone" placeholder="+48 000 000 000" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Nazwa lokalu</label>
+            <input type="text" name="lokal" placeholder="np. Restauracja Roma">
+          </div>
+          <div class="fg">
+            <label>Czego szukasz?</label>
+            <select name="temat">
+              <option value="">Wybierz...</option>
+              <option>Terminal płatniczy</option>
+              <option>System POS dla restauracji</option>
+              <option>Terminal + System POS (pakiet)</option>
+              <option>Serwis / zmiana dostawcy</option>
+              <option>Doradztwo</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Wiadomość</label>
+            <textarea name="message" placeholder="Krótko o lokalu — rodzaj, liczba stolików..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Wyślij wiadomość →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" class="footer-logo">
+    <svg width="18" height="32" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="1" width="10" height="36" rx="3" fill="#0A46CC" transform="rotate(-12 5 19)"/>
+      <rect x="14" y="1" width="10" height="36" rx="3" fill="#4080F8" transform="rotate(-12 19 19)"/>
+    </svg>
+    <span class="footer-logo-text">spec<span>pos</span></span>
+  </a>
+  <small>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii · Polska</small>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
+},{threshold:0.1});
+reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
