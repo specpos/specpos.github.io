@@ -52,7 +52,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#BBBBB8;}
     <form id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
       <input type="hidden" name="kampania" id="f-kampania">
       <input type="hidden" name="zrodlo" value="SMS">
-      <div class="fg"><label>Numer telefonu</label><div class="tel-wrap"><span class="prefix">+48</span><input type="tel" name="phone" placeholder="734 037 907" required autocomplete="tel"></div></div>
+      <div class="fg"><label>Numer telefonu</label><div class="tel-wrap"><span class="prefix">+48</span><input type="text" name="phone" id="inp-phone" inputmode="numeric" placeholder="" required readonly onfocus="this.removeAttribute('readonly')"></div></div>
       <div class="fg"><label>Nazwa firmy / lokalu</label><input type="text" name="firma" placeholder="np. Restauracja Roma" required autocomplete="organization"></div>
       <button type="submit" class="btn-send">Wyslij - oddzwonimy dzis &#8594;</button>
       <p class="form-note">Bez spamu &middot; Dane bezpieczne &middot; Odpowiadamy 8-18</p>
