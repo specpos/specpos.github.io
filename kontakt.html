@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zostaw kontakt - specpos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0C;--white:#FFFFFF;--off:#F7F7F5;--border:#E0E0DC;--muted:#888884;--blue:#185FA5;--blue-mid:#378ADD;--blue-light:#EBF3FB;--blue-dark:#0D4A85;--green:#16A34A;--green-light:#F0FBF4;--serif:'Playfair Display',Georgia,serif;--sans:'Inter',sans-serif;}
+html{height:100%}body{font-family:var(--sans);color:var(--ink);background:var(--off);min-height:100vh;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}.logo-text{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-0.5px;}.logo-text span{color:var(--blue-mid)}
+.nav-back{font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;}.nav-back:hover{color:var(--ink)}.nav-back::before{content:'\u2190'}
+.page{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 20px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:12px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.card-header{padding:36px 36px 28px;border-bottom:1px solid var(--border);}
+.eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue-mid);display:flex;align-items:center;gap:8px;margin-bottom:16px;}.eyebrow::before{content:'';width:20px;height:1px;background:var(--blue-mid)}
+.card-header h1{font-family:var(--serif);font-size:28px;font-weight:900;letter-spacing:-0.5px;line-height:1.1;color:var(--ink);margin-bottom:10px;}.card-header h1 em{font-style:italic;color:var(--blue-mid)}
+.card-sub{font-size:14px;color:var(--muted);line-height:1.65;font-weight:300;}
+.kampania-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-light);border:1px solid rgba(55,138,221,0.2);border-radius:4px;padding:5px 10px;font-size:11px;font-weight:500;color:var(--blue);margin-top:14px;}
+.kampania-badge svg{width:12px;height:12px;}
+.card-form{padding:28px 36px 32px}.fg{margin-bottom:18px}
+.fg label{display:block;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.fg input{width:100%;padding:13px 16px;background:var(--off);border:1px solid var(--border);border-radius:6px;font-family:var(--sans);font-size:15px;color:var(--ink);transition:border .2s,background .2s;outline:none;-webkit-appearance:none;}
+.fg input:focus{border-color:var(--blue-mid);background:var(--white);box-shadow:0 0 0 3px rgba(55,138,221,0.12);}.fg input::placeholder{color:#BBBBB7}
+.tel-wrap{position:relative}.tel-wrap .prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted);pointer-events:none;}.tel-wrap input{padding-left:42px}
+.btn-send{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--blue);color:var(--white);border:none;padding:15px;border-radius:6px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:8px;}
+.btn-send:hover{background:var(--blue-dark)}.form-note{font-size:11px;color:#BBBBBA;text-align:center;margin-top:12px;line-height:1.6;}
+.success-msg{display:none;padding:48px 36px;text-align:center;}.success-msg.show{display:block}
+.success-icon{width:56px;height:56px;border-radius:50%;background:var(--green-light);border:1px solid rgba(22,163,74,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.success-icon svg{width:24px;height:24px;color:var(--green)}.success-h{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.success-p{font-size:14px;color:var(--muted);line-height:1.65;font-weight:300}
+footer{text-align:center;padding:20px;font-size:11px;color:#BBBBB8;}
+@media(max-width:520px){nav{padding:14px 20px}.page{padding:24px 16px 40px}.card-header{padding:28px 24px 24px}.card-header h1{font-size:24px}.card-form{padding:24px 24px 28px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo"><svg width="20" height="34" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span class="logo-text">spec<span>pos</span></span></a>
+  <a href="/" class="nav-back">Strona glowna</a>
+</nav>
+<div class="page"><div class="card">
+  <div class="card-header">
+    <div class="eyebrow">Bezplatna konsultacja</div>
+    <h1>Oddzwonimy<br>do <em>Ciebie</em></h1>
+    <p class="card-sub">Zostaw numer i nazwe firmy - skontaktujemy sie tego samego dnia roboczego. Bez zobowiazan.</p>
+    <div class="kampania-badge" id="kampania-badge" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.38 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.72a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg><span id="kampania-label">Kampania SMS</span></div>
+  </div>
+  <div class="card-form">
+    <form id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
+      <input type="hidden" name="kampania" id="f-kampania">
+      <input type="hidden" name="zrodlo" value="SMS">
+      <div class="fg"><label>Numer telefonu</label><div class="tel-wrap"><span class="prefix">+48</span><input type="tel" name="phone" placeholder="734 037 907" required autocomplete="tel"></div></div>
+      <div class="fg"><label>Nazwa firmy / lokalu</label><input type="text" name="firma" placeholder="np. Restauracja Roma" required autocomplete="organization"></div>
+      <button type="submit" class="btn-send">Wyslij - oddzwonimy dzis &#8594;</button>
+      <p class="form-note">Bez spamu &middot; Dane bezpieczne &middot; Odpowiadamy 8-18</p>
+    </form>
+    <div class="success-msg" id="success-msg"><div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div class="success-h">Gotowe!</div><p class="success-p">Oddzwonimy lub napiszemy tego samego dnia roboczego.<br><br>Dziekujemy za zainteresowanie specpos.</p></div>
+  </div>
+</div></div>
+<footer>&copy; 2026 specpos &middot; Terminale platnicze i systemy POS dla gastronomii</footer>
+<script>
+const p=new URLSearchParams(window.location.search),k=p.get('kampania');
+const L={'1':'Kampania 1 - Nowa firma / terminal','2':'Kampania 2 - Gastro / terminal + POS','3':'Kampania 3 - Kalkulator prowizji','4':'Kampania 4 - Rezygnacja z abonamentu'};
+if(k&&L[k]){document.getElementById('f-kampania').value=L[k];document.getElementById('kampania-label').textContent=L[k];document.getElementById('kampania-badge').style.display='inline-flex';}
+document.getElementById('contact-form').addEventListener('submit',async function(e){
+  e.preventDefault();const btn=this.querySelector('.btn-send');btn.textContent='Wysylanie...';btn.disabled=true;
+  try{const r=await fetch(this.action,{method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}});
+  if(r.ok){this.style.display='none';document.getElementById('success-msg').classList.add('show');}
+  else{btn.textContent='Blad - sprobuj ponownie';btn.disabled=false;}}
+  catch{btn.textContent='Blad - sprobuj ponownie';btn.disabled=false;}
+});
+</script>
+</body>
+</html>
