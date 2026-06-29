@@ -52,7 +52,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#BBBBB8;}
     <form id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
       <input type="hidden" name="kampania" id="f-kampania">
       <input type="hidden" name="zrodlo" value="SMS">
-      <div class="fg"><label>Numer telefonu</label><div class="tel-wrap"><span class="prefix">+48</span><input type="tel" name="phone" placeholder="500 000 000" required autocomplete="off"></div></div>
+      <div class="fg"><label>Numer telefonu</label><div class="tel-wrap"><span class="prefix">+48</span><input type="tel" name="phone" placeholder="734 037 907" required autocomplete="tel"></div></div>
       <div class="fg"><label>Nazwa firmy / lokalu</label><input type="text" name="firma" placeholder="np. Restauracja Roma" required autocomplete="organization"></div>
       <button type="submit" class="btn-send">Wyslij - oddzwonimy dzis &#8594;</button>
       <p class="form-note">Bez spamu &middot; Dane bezpieczne &middot; Odpowiadamy 8-18</p>
@@ -63,7 +63,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#BBBBB8;}
 <footer>&copy; 2026 specpos &middot; Terminale platnicze i systemy POS dla gastronomii</footer>
 <script>
 const p=new URLSearchParams(window.location.search),k=p.get('kampania');
-const L={'1':'Kampania 1 - Nowa firma / terminal','2':'Kampania 2 - Gastro / terminal + POS','3':'Kampania 3 - Kalkulator prowizji','4':'Kampania 4 - Rezygnacja z abonamentu'};
+const L={'1':'Kampania 1','2':'Kampania 2','3':'Kampania 3','4':'Kampania 4'};
 if(k&&L[k]){document.getElementById('f-kampania').value=L[k];document.getElementById('kampania-label').textContent=L[k];document.getElementById('kampania-badge').style.display='inline-flex';}
 document.getElementById('contact-form').addEventListener('submit',async function(e){
   e.preventDefault();const btn=this.querySelector('.btn-send');btn.textContent='Wysylanie...';btn.disabled=true;
