@@ -1,697 +1,646 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBGH4M410M"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZBGH4M410M');</script></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>specpos – Terminale i systemy POS dla gastronomii</title>
+<title>Terminale płatnicze dla gastronomii – specpos</title>
+<meta name="description" content="Terminal płatniczy z prowizją od 0,55%. Specjalizacja: gastronomia. Bezpłatna analiza opłat, wdrożenie w 24h, wsparcie 7/7.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --white:#FFFFFF;
   --ink:#0A0A0F;
-  --ink2:#1A1A2E;
   --muted:#6B6B7B;
   --subtle:#9898A8;
   --line:#E8E8F0;
-  --line2:#F0F0F8;
   --bg:#FAFAFA;
   --blue:#1860F0;
   --blue-dark:#0A46CC;
   --blue-light:#EEF3FF;
   --blue-mid:#4080F8;
+  --red:#E53935;
+  --red-bg:#FFF0F0;
+  --green:#16A34A;
+  --green-bg:#F0FDF4;
+  --amber:#D97706;
   --serif:'Playfair Display',serif;
   --sans:'Inter',sans-serif;
+  --radius:12px;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--blue-dark)}
 
 /* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 64px;height:68px;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line);
-}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-text{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-0.5px}
-.logo-text span{color:var(--blue)}
-.nav-links{display:flex;gap:36px;list-style:none;align-items:center}
-.nav-links a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:var(--sans);font-weight:700;font-size:20px;letter-spacing:-.5px;color:var(--ink)}
+.nav-logo span{color:var(--blue)}
+.nav-links{display:flex;gap:32px;font-size:14px;font-weight:500}
+.nav-links a{color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
-.nav-cta{
-  background:var(--blue);color:var(--white)!important;
-  padding:10px 22px;border-radius:6px;
-  font-size:14px!important;font-weight:600!important;
-  transition:background .2s;
-}
-.nav-cta:hover{background:var(--blue-dark)!important}
-
-/* HERO */
-.hero{
-  min-height:100vh;
-  display:grid;grid-template-columns:1fr 1fr;
-  align-items:center;
-  padding:120px 64px 80px;
-  gap:80px;
-  background:var(--white);
-  position:relative;overflow:hidden;
-}
-.hero::after{
-  content:'';position:absolute;
-  top:-300px;right:-300px;
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(24,96,240,0.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-content{position:relative;z-index:1}
-.hero-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:12px;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;color:var(--blue);
-  background:var(--blue-light);padding:6px 14px;
-  border-radius:20px;margin-bottom:28px;
-}
-.hero h1{
-  font-family:var(--serif);
-  font-size:clamp(48px,5.5vw,72px);
-  font-weight:900;line-height:1.05;
-  letter-spacing:-2.5px;color:var(--ink);
-  margin-bottom:24px;
-}
-.hero h1 em{font-style:italic;color:var(--blue)}
-.hero-lead{
-  font-size:18px;color:var(--muted);
-  line-height:1.75;font-weight:300;
-  margin-bottom:44px;max-width:500px;
-}
-.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.btn-blue{
-  display:inline-block;background:var(--blue);color:var(--white);
-  padding:14px 32px;border-radius:6px;font-weight:600;font-size:15px;
-  text-decoration:none;transition:all .2s;
-  box-shadow:0 4px 24px rgba(24,96,240,0.25);
-}
-.btn-blue:hover{background:var(--blue-dark);transform:translateY(-1px);box-shadow:0 6px 32px rgba(24,96,240,0.35)}
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:15px;font-weight:500;color:var(--muted);
-  text-decoration:none;transition:color .2s;
-}
-.btn-ghost:hover{color:var(--ink)}
-.btn-ghost::after{content:'→';transition:transform .2s}
-.btn-ghost:hover::after{transform:translateX(4px)}
-
-/* HERO VISUAL */
-.hero-visual{position:relative;z-index:1}
-.hero-img-wrap{
-  position:relative;border-radius:16px;overflow:hidden;
-  box-shadow:0 24px 80px rgba(0,0,0,0.12);
-}
-.hero-img-wrap img{width:100%;height:480px;object-fit:cover;display:block}
-.hero-badge{
-  position:absolute;bottom:24px;left:24px;right:24px;
-  background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);
-  border-radius:10px;padding:16px 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  border:1px solid var(--line);
-}
-.badge-left{display:flex;align-items:center;gap:12px}
-.badge-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;flex-shrink:0}
-.badge-label{font-size:13px;font-weight:600;color:var(--ink)}
-.badge-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.badge-right{text-align:right}
-.badge-amount{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--blue)}
-.badge-unit{font-size:11px;color:var(--muted);letter-spacing:0.5px}
-
-/* STATS */
-.stats-row{
-  background:var(--ink);
-  display:grid;grid-template-columns:repeat(4,1fr);
-  padding:0 64px;
-}
-.stat-item{
-  padding:44px 40px;
-  border-right:1px solid rgba(255,255,255,0.08);
-  text-align:center;
-}
-.stat-item:first-child{text-align:left;padding-left:0}
-.stat-item:last-child{border-right:none}
-.stat-num{
-  font-family:var(--serif);font-size:46px;font-weight:700;
-  color:var(--white);display:block;line-height:1;
-  margin-bottom:8px;letter-spacing:-2px;
-}
-.stat-unit{font-size:20px;color:rgba(255,255,255,0.4)}
-.stat-label{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase}
+.nav-links a.active{color:var(--blue)}
+.nav-cta-btn{background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:10px 20px;border-radius:8px;transition:background .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-cta-btn:hover{background:var(--blue-dark);color:#fff}
 
 /* SECTIONS */
-section{padding:110px 64px}
-.container{max-width:1240px;margin:0 auto}
-.eyebrow{
-  font-size:12px;font-weight:600;letter-spacing:2px;
-  text-transform:uppercase;color:var(--blue);
-  margin-bottom:16px;display:block;
-}
-.section-h{
-  font-family:var(--serif);
-  font-size:clamp(36px,4vw,52px);
-  font-weight:900;letter-spacing:-1.5px;
-  line-height:1.08;color:var(--ink);margin-bottom:16px;
-}
-.section-h em{font-style:italic;color:var(--blue)}
-.section-p{
-  font-size:17px;color:var(--muted);
-  max-width:560px;line-height:1.75;
-  font-weight:300;margin-bottom:64px;
-}
+section{padding:88px 24px}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.section-title{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.3px;line-height:1.15;margin-bottom:16px;color:var(--ink)}
+.section-title em{font-style:italic;color:var(--blue)}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px;line-height:1.7}
 
-/* OFERTA */
-#oferta{background:var(--white)}
-.oferta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.ocard{
-  background:var(--bg);border:1px solid var(--line);
-  border-radius:12px;padding:40px 36px;
-  transition:all .25s;position:relative;
-}
-.ocard:hover{border-color:var(--blue);box-shadow:0 8px 40px rgba(24,96,240,0.1);transform:translateY(-4px)}
-.ocard.featured{background:var(--blue);border-color:var(--blue);color:var(--white)}
-.ocard.featured .ocard-desc{color:rgba(255,255,255,0.7)}
-.ocard.featured .ocard-list li{color:rgba(255,255,255,0.85)}
-.ocard.featured .ocard-list li::before{background:rgba(255,255,255,0.5)}
-.ocard.featured:hover{box-shadow:0 8px 40px rgba(24,96,240,0.35)}
-.featured-badge{
-  position:absolute;top:-12px;left:28px;
-  background:var(--ink);color:var(--white);
-  font-size:10px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;padding:4px 12px;border-radius:20px;
-}
-.ocard-icon{font-size:32px;margin-bottom:20px;display:block}
-.ocard-title{
-  font-family:var(--serif);font-size:24px;font-weight:700;
-  letter-spacing:-0.5px;color:var(--ink);margin-bottom:12px;
-}
-.ocard.featured .ocard-title{color:var(--white)}
-.ocard-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px;font-weight:300}
-.ocard-list{list-style:none;display:flex;flex-direction:column;gap:10px}
-.ocard-list li{
-  font-size:14px;color:var(--ink2);
-  display:flex;align-items:flex-start;gap:10px;line-height:1.5;
-}
-.ocard-list li::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--blue);flex-shrink:0;margin-top:6px;
-}
+/* HERO */
+.hero{padding-top:140px;padding-bottom:60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(24,96,240,.06) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid rgba(24,96,240,.15);border-radius:24px;padding:6px 16px 6px 12px;font-size:13px;font-weight:500;color:var(--blue);margin-bottom:24px}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--serif);font-size:clamp(34px,5vw,54px);font-weight:600;letter-spacing:-.5px;line-height:1.1;margin-bottom:20px;color:var(--ink)}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero-desc{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:460px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.btn-primary:hover{background:var(--blue-dark);color:#fff;transform:translateY(-1px)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);font-weight:500;font-size:15px;padding:14px 28px;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.btn-secondary:hover{border-color:var(--subtle);background:var(--bg)}
 
-/* FULL SECTIONS */
-.full-sec{
-  display:grid;grid-template-columns:1fr 1fr;
-  align-items:stretch;min-height:600px;overflow:hidden;
-}
-.full-sec.reverse{direction:rtl}
-.full-sec.reverse>*{direction:ltr}
-.fsec-img{position:relative;overflow:hidden}
-.fsec-img img{
-  width:100%;height:100%;object-fit:cover;display:block;
-  transition:transform 8s ease;
-}
-.full-sec:hover .fsec-img img{transform:scale(1.04)}
-.fsec-content{
-  background:var(--bg);
-  display:flex;flex-direction:column;justify-content:center;
-  padding:80px 72px;
-}
-.fsec-h{
-  font-family:var(--serif);font-size:clamp(32px,3vw,46px);
-  font-weight:900;letter-spacing:-1.5px;line-height:1.1;
-  color:var(--ink);margin-bottom:16px;
-}
-.fsec-h em{font-style:italic;color:var(--blue)}
-.fsec-p{font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:32px;max-width:440px}
-.fsec-list{list-style:none;margin-bottom:36px;display:flex;flex-direction:column;gap:12px}
-.fsec-list li{
-  font-size:14px;color:var(--ink2);
-  display:flex;align-items:flex-start;gap:12px;line-height:1.5;
-}
-.fsec-list li::before{
-  content:'';width:5px;height:5px;border-radius:50%;
-  background:var(--blue);flex-shrink:0;margin-top:6px;
-}
-.btn-link{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:14px;font-weight:600;color:var(--blue);
-  text-decoration:none;letter-spacing:0.3px;
-  transition:gap .2s;
-}
-.btn-link:hover{gap:12px}
-.btn-link::after{content:'→'}
+/* STATS ROW */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:var(--radius);overflow:hidden;margin-top:56px;border:1px solid var(--line)}
+.stat{background:var(--white);padding:28px 20px;text-align:center}
+.stat-value{font-family:var(--serif);font-size:28px;font-weight:600;color:var(--ink)}
+.stat-value span{color:var(--blue)}
+.stat-label{font-size:13px;color:var(--subtle);margin-top:4px}
 
-/* PROCESS */
-#jak-dzialamy{background:var(--white)}
-.proc-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--line);
-  border:1px solid var(--line);border-radius:12px;overflow:hidden;
-}
-.proc-step{background:var(--white);padding:40px 32px;transition:background .2s}
-.proc-step:hover{background:var(--bg)}
-.proc-num{
-  width:40px;height:40px;background:var(--blue-light);
-  border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);font-size:18px;font-weight:700;color:var(--blue);
-  margin-bottom:20px;
-}
-.proc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.proc-desc{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+/* HERO RIGHT — terminal visual */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.terminal-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:32px;width:100%;max-width:380px;box-shadow:0 4px 40px rgba(24,96,240,.08),0 1px 3px rgba(0,0,0,.04)}
+.tc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.tc-chip{width:36px;height:26px;border-radius:4px;background:linear-gradient(135deg,#F59E0B,#D97706)}
+.tc-status{font-size:12px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:6px}
+.tc-status::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
+.tc-amount{font-family:var(--serif);font-size:44px;font-weight:600;color:var(--ink);text-align:center;margin:16px 0 4px}
+.tc-amount-sub{text-align:center;font-size:13px;color:var(--subtle);margin-bottom:24px}
+.tc-row{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)}
+.tc-row-label{font-size:13px;color:var(--subtle)}
+.tc-row-value{font-size:13px;font-weight:600;color:var(--blue)}
+.tc-savings{margin-top:16px;background:var(--green-bg);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:12px;text-align:center;font-size:13px;color:var(--green);font-weight:500}
 
-/* WHY */
-#dlaczego{background:var(--bg)}
-.why-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.witem{background:var(--white);padding:32px 28px;transition:background .2s}
-.witem:hover{background:var(--blue-light)}
-.witem-icon{
-  width:40px;height:40px;background:var(--blue-light);
-  border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-size:18px;margin-bottom:16px;transition:background .2s;
-}
-.witem:hover .witem-icon{background:rgba(24,96,240,0.2)}
-.witem-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px}
-.witem-desc{font-size:13px;color:var(--muted);line-height:1.7;font-weight:300}
+/* SAVINGS TABLE */
+.savings-section{background:var(--bg)}
+.savings-wrap{margin-top:32px;overflow-x:auto}
+.savings-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.savings-table thead th{background:var(--bg);padding:14px 24px;text-align:left;font-size:12px;font-weight:600;color:var(--subtle);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line)}
+.savings-table td{padding:16px 24px;font-size:15px;border-bottom:1px solid var(--line)}
+.savings-table tr:last-child td{border-bottom:none}
+.savings-table td:first-child{color:var(--muted);font-size:14px;font-weight:500}
+.val-old{color:var(--red);text-decoration:line-through;font-weight:500}
+.val-new{color:var(--green);font-weight:600}
+.savings-summary{margin-top:28px;background:var(--blue-light);border:1px solid rgba(24,96,240,.12);border-radius:var(--radius);padding:28px;text-align:center}
+.savings-summary-label{font-size:14px;color:var(--muted)}
+.savings-summary-value{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--blue);margin-top:4px}
+.savings-summary-note{font-size:13px;color:var(--subtle);margin-top:6px}
 
-/* CONTACT */
-#kontakt{background:var(--white)}
-.kontakt-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
-.kinfo-item{
-  display:flex;gap:16px;align-items:flex-start;
-  padding:24px 0;border-bottom:1px solid var(--line);
-}
-.kinfo-item:first-child{padding-top:0}
-.kinfo-icon{
-  width:40px;height:40px;background:var(--blue-light);
-  border-radius:8px;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;font-size:18px;
-}
-.kinfo-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--subtle);margin-bottom:4px;display:block}
-.kinfo-val{font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
-.kinfo-val:hover{color:var(--blue)}
-.kform{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:48px}
-.kform-h{font-family:var(--serif);font-size:26px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;color:var(--ink)}
-.kform-sub{font-size:14px;color:var(--muted);margin-bottom:32px;font-weight:300}
-.fg{margin-bottom:16px}
-.fg label{display:block;font-size:12px;font-weight:600;color:var(--ink2);letter-spacing:0.3px;margin-bottom:7px;text-transform:uppercase}
-.fg input,.fg select,.fg textarea{
-  width:100%;padding:12px 16px;
-  background:var(--white);border:1.5px solid var(--line);
-  border-radius:6px;font-family:var(--sans);font-size:14px;
-  color:var(--ink);font-weight:300;
-  transition:border .2s;outline:none;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
-.fg textarea{min-height:90px;resize:vertical}
-.fg select{appearance:none;cursor:pointer}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.btn-submit{
-  width:100%;background:var(--blue);color:var(--white);border:none;
-  padding:14px;border-radius:6px;font-family:var(--sans);
-  font-size:14px;font-weight:600;cursor:pointer;
-  transition:background .2s;margin-top:6px;letter-spacing:0.3px;
-}
-.btn-submit:hover{background:var(--blue-dark)}
+/* PAIN POINTS */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:36px}
+.pain-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:box-shadow .2s,border-color .2s}
+.pain-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.05);border-color:rgba(24,96,240,.15)}
+.pain-icon{width:44px;height:44px;border-radius:10px;background:var(--red-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.pain-q{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.pain-a{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* CALCULATOR */
+.calc-section{background:var(--bg)}
+.calc-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.03)}
+.calc-row{margin-bottom:28px}
+.calc-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.calc-label-text{font-size:14px;color:var(--muted)}
+.calc-label-value{font-size:18px;font-weight:600;color:var(--ink)}
+.calc-slider{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--line);outline:none;cursor:pointer}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer;box-shadow:0 1px 4px rgba(24,96,240,.3)}
+.calc-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer}
+.calc-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.calc-break-item{background:var(--bg);border-radius:8px;padding:16px;text-align:center}
+.calc-break-label{font-size:12px;color:var(--subtle);text-transform:uppercase;letter-spacing:.5px;font-weight:500}
+.calc-break-val{font-family:var(--serif);font-size:22px;font-weight:600;margin-top:4px}
+.calc-break-val.old{color:var(--red)}
+.calc-break-val.new{color:var(--green)}
+.calc-result{margin-top:20px;text-align:center;padding:24px;background:var(--blue-light);border:1px solid rgba(24,96,240,.12);border-radius:10px}
+.calc-result-label{font-size:14px;color:var(--muted)}
+.calc-result-value{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--blue);margin-top:4px}
+.calc-result-note{font-size:14px;color:var(--subtle);margin-top:6px}
+
+/* HOW WE WORK */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-top:36px}
+.step-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:box-shadow .2s}
+.step-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.step-num{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--blue-light);line-height:1;margin-bottom:12px}
+.step-title{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.step-desc{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* WIZARD */
+.wizard-section{background:var(--bg)}
+.wizard-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.03)}
+.wizard-progress{display:flex;gap:4px;margin-bottom:28px}
+.wizard-dot{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.wizard-dot.active{background:var(--blue)}
+.wizard-dot.done{background:var(--blue-dark)}
+.wizard-question{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:20px;line-height:1.3}
+.wizard-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wizard-opt{background:var(--white);border:2px solid var(--line);border-radius:var(--radius);padding:18px 14px;text-align:center;cursor:pointer;transition:all .15s;font-size:14px;color:var(--ink);font-family:var(--sans)}
+.wizard-opt:hover{border-color:var(--blue-mid);background:var(--blue-light)}
+.wizard-opt.selected{border-color:var(--blue);background:var(--blue-light)}
+.wizard-opt-icon{font-size:24px;display:block;margin-bottom:6px}
+.wizard-opt-label{font-weight:500}
+.wizard-nav{display:flex;justify-content:space-between;margin-top:24px}
+.wizard-back{background:none;border:none;color:var(--subtle);font-size:14px;cursor:pointer;font-family:var(--sans);padding:10px 0}
+.wizard-back:hover{color:var(--muted)}
+.wizard-next{background:var(--blue);color:#fff;font-weight:600;font-size:14px;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;font-family:var(--sans);transition:background .2s}
+.wizard-next:hover{background:var(--blue-dark)}
+.wizard-next:disabled{opacity:.35;cursor:not-allowed}
+.wizard-step{display:none}
+.wizard-step.active{display:block}
+.wizard-contact{display:grid;gap:14px}
+.wizard-input{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:13px 16px;font-size:15px;color:var(--ink);font-family:var(--sans);outline:none;width:100%;transition:border-color .2s}
+.wizard-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,96,240,.08)}
+.wizard-input::placeholder{color:var(--subtle)}
+
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:36px}
+.testimonial-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.testimonial-stars{color:var(--amber);font-size:15px;letter-spacing:2px;margin-bottom:14px}
+.testimonial-text{font-size:15px;color:var(--ink);line-height:1.7;font-style:italic;margin-bottom:16px}
+.testimonial-author{font-size:13px;color:var(--subtle)}
+.testimonial-author strong{color:var(--muted);font-weight:600}
+
+/* CTA BOTTOM */
+.cta-bottom{background:var(--blue-light);border:1px solid rgba(24,96,240,.1);border-radius:20px;padding:52px;text-align:center;margin-top:40px}
+.cta-phone{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--ink);margin:12px 0 6px}
+.cta-phone a{color:var(--ink)}
+.cta-phone a:hover{color:var(--blue)}
+.cta-hours{font-size:14px;color:var(--subtle)}
 
 /* FOOTER */
-footer{
-  background:var(--ink);padding:40px 64px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.footer-logo-text{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--white)}
-.footer-logo-text span{color:var(--blue-mid)}
-footer small{font-size:12px;color:rgba(255,255,255,0.3)}
-
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.reveal.in{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+.footer{background:var(--ink);color:rgba(255,255,255,.5);padding:40px 24px;text-align:center;font-size:13px}
+.footer a{color:rgba(255,255,255,.7)}
+.footer-logo{font-family:var(--sans);font-weight:700;font-size:18px;color:#fff;margin-bottom:8px;display:block}
+.footer-logo span{color:var(--blue-mid)}
 
 /* RESPONSIVE */
-@media(max-width:1024px){
-  nav{padding:0 24px}
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero-visual{order:-1}
+  .terminal-card{max-width:320px;margin:0 auto}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .wizard-options{grid-template-columns:1fr}
   .nav-links{display:none}
-  .hero{grid-template-columns:1fr;padding:100px 24px 60px;gap:40px}
-  .hero-visual{display:none}
-  section{padding:72px 24px}
-  .stats-row{grid-template-columns:1fr 1fr;padding:0 24px}
-  .stat-item{padding:28px 16px;border-right:none;text-align:center}
-  .stat-item:first-child{text-align:center;padding-left:16px}
-  .oferta-grid{grid-template-columns:1fr}
-  .full-sec{grid-template-columns:1fr;min-height:auto}
-  .full-sec.reverse{direction:ltr}
-  .fsec-img{min-height:300px}
-  .fsec-content{padding:48px 28px}
-  .proc-grid{grid-template-columns:1fr 1fr}
-  .why-layout{grid-template-columns:1fr}
-  .why-grid{grid-template-columns:1fr}
-  .kontakt-layout{grid-template-columns:1fr}
-  footer{flex-direction:column;gap:12px;padding:32px 24px;text-align:center}
-  .fg-row{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column}
+  .calc-breakdown{grid-template-columns:1fr}
+  section{padding:64px 24px}
+}
+
+/* Scroll animations */
+@media(prefers-reduced-motion:no-preference){
+  .pain-card,.step-card,.testimonial-card{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+  .pain-card.visible,.step-card.visible,.testimonial-card.visible{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">
-    <svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="1" width="10" height="36" rx="3" fill="#0A46CC" transform="rotate(-12 5 19)"/>
-      <rect x="14" y="1" width="10" height="36" rx="3" fill="#1860F0" transform="rotate(-12 19 19)"/>
-    </svg>
-    <span class="logo-text">spec<span>pos</span></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#terminale">Terminale</a></li>
-    <li><a href="#oferta">Oferta</a></li>
-    <li><a href="#jak-dzialamy">Jak działamy</a></li>
-    <li><a href="#kontakt" class="nav-cta">Bezpłatna konsultacja</a></li>
-  </ul>
+<!-- NAV -->
+<nav class="nav">
+<div class="nav-inner">
+  <a href="https://specpos.pl/" class="nav-logo">spec<span>pos</span></a>
+  <div class="nav-links">
+    <a href="#oszczednosci">Oferta</a>
+    <a href="#kalkulator">Kalkulator</a>
+    <a href="#jak-dzialamy">Jak działamy</a>
+    <a href="#opinie">Opinie</a>
+  </div>
+  <a href="#kontakt-wizard" class="nav-cta-btn">Bezpłatna analiza →</a>
+</div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <span class="hero-tag reveal">Systemy POS &amp; Terminale płatnicze</span>
-    <h1 class="reveal d1">Sprzedaż,<br>która <em>po prostu</em><br>działa.</h1>
-    <p class="hero-lead reveal d2">Wdrażamy systemy kasowe i terminale płatnicze dla restauracji, kawiarni i hoteli w całej Polsce. Jeden partner — od konsultacji po codzienny serwis.</p>
-    <div class="hero-actions reveal d3">
-      <a href="#kontakt" class="btn-blue">Umów bezpłatną konsultację</a>
-      <a href="#oferta" class="btn-ghost">Zobacz ofertę</a>
+<section class="hero" id="hero">
+<div class="container">
+<div class="hero-grid">
+  <div>
+    <h1>Twój terminal kosztuje <em>za dużo?</em></h1>
+    <p class="hero-desc">Przeanalizujemy Twoje opłaty i dobierzemy terminal z najniższą prowizją na rynku. Bez ukrytych kosztów, bez długich umów.</p>
+    <div class="hero-btns">
+      <a href="#kontakt-wizard" class="btn-primary">Bezpłatna analiza opłat →</a>
+      <a href="#kalkulator" class="btn-secondary">Sprawdź ile przepłacasz</a>
     </div>
   </div>
-  <div class="hero-visual reveal d2">
-    <div class="hero-img-wrap">
-      <img src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Obsługa restauracji" loading="lazy">
-      <div class="hero-badge">
-        <div class="badge-left">
-          <div class="badge-dot"></div>
-          <div>
-            <div class="badge-label">Terminal aktywny</div>
-            <div class="badge-sub">Płatność zaakceptowana</div>
-          </div>
-        </div>
-        <div class="badge-right">
-          <div class="badge-amount">129,00 zł</div>
-          <div class="badge-unit">VISA / MASTERCARD</div>
-        </div>
+  <div class="hero-visual">
+    <div class="terminal-card">
+      <div class="tc-header">
+        <div class="tc-chip"></div>
+        <div class="tc-status">Aktywny</div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:var(--subtle);margin-bottom:4px">Szacowane oszczędności przy obrocie 30 000 zł/mies.</div>
+      <div style="text-align:center;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--green);margin:8px 0 16px">nawet 280 zł / mies.</div>
+      <div class="tc-row"><span class="tc-row-label">Prowizja Visa / MC</span><span class="tc-row-value">od 0,55%</span></div>
+      <div class="tc-row"><span class="tc-row-label">Rozliczenie</span><span class="tc-row-value">T+1 na koncie</span></div>
+      <div class="tc-row"><span class="tc-row-label">Abonament</span><span class="tc-row-value">od 18 zł/mies.</span></div>
+      <div class="tc-savings" style="background:var(--blue-light);border-color:rgba(24,96,240,.12)">
+        <div style="font-family:var(--serif);font-size:13px;color:var(--muted)">To aż</div>
+        <div style="font-family:var(--serif);font-size:52px;font-weight:600;color:var(--blue);margin:4px 0">3 360 zł</div>
+        <div style="font-size:14px;font-weight:600;color:var(--blue)">rocznie — które zostają u Ciebie</div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-row">
-  <div class="stat-item">
-    <span class="stat-num">0,55<span class="stat-unit">%</span></span>
-    <span class="stat-label">Prowizja Visa / MC</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">24<span class="stat-unit">h</span></span>
-    <span class="stat-label">Czas wdrożenia</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">7<span class="stat-unit">/7</span></span>
-    <span class="stat-label">Wsparcie techniczne</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-num">0<span class="stat-unit"> zł</span></span>
-    <span class="stat-label">Koszt konsultacji</span>
   </div>
 </div>
 
-<!-- OFERTA -->
-<section id="oferta">
-  <div class="container">
-    <span class="eyebrow reveal">Oferta</span>
-    <h2 class="section-h reveal d1">Wszystko czego potrzebuje<br><em>Twój lokal</em></h2>
-    <p class="section-p reveal d1">Terminale, oprogramowanie kasowe, wdrożenie i serwis — dobieramy rozwiązanie do specyfiki każdego miejsca.</p>
-    <div class="oferta-grid">
-      <div class="ocard reveal">
-        <span class="ocard-icon">💳</span>
-        <div class="ocard-title">Terminale płatnicze</div>
-        <p class="ocard-desc">Mobilne i stacjonarne terminale z przejrzystymi warunkami. Bez ukrytych opłat.</p>
-        <ul class="ocard-list">
-          <li>Prowizja od 0,55% — Visa / Mastercard</li>
-          <li>Abonament od 18 zł miesięcznie</li>
-          <li>BLIK, płatności zbliżeniowe, Google Pay</li>
-          <li>Terminal mobilny lub stacjonarny</li>
-          <li>Rozliczenia T+1 na konto</li>
-        </ul>
-      </div>
-      <div class="ocard featured reveal d1">
-        <span class="featured-badge">Bestseller</span>
-        <span class="ocard-icon">🖥️</span>
-        <div class="ocard-title">System POS</div>
-        <p class="ocard-desc">Kompletne oprogramowanie kasowe dla gastronomii. Zarządzaj lokalem z jednego ekranu.</p>
-        <ul class="ocard-list">
-          <li>Mapa stolików i zarządzanie salą</li>
-          <li>Drukarka bonowa do kuchni</li>
-          <li>Raporty sprzedaży online</li>
-          <li>Zarządzanie menu i cenami</li>
-          <li>Integracja z kasą fiskalną i KSeF</li>
-        </ul>
-      </div>
-      <div class="ocard reveal d2">
-        <span class="ocard-icon">🔧</span>
-        <div class="ocard-title">Wdrożenie i serwis</div>
-        <p class="ocard-desc">Instalacja, konfiguracja, szkolenie i bieżące wsparcie przez cały czas współpracy.</p>
-        <ul class="ocard-list">
-          <li>Przyjazd do lokalu — cała Polska</li>
-          <li>Konfiguracja menu i urządzeń</li>
-          <li>Szkolenie obsługi i managera</li>
-          <li>Wsparcie 7 dni w tygodniu</li>
-          <li>Aktualizacje systemu w cenie</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<div class="stats">
+  <div class="stat"><div class="stat-value"><span>0,55%</span></div><div class="stat-label">Prowizja Visa / MC</div></div>
+  <div class="stat"><div class="stat-value">24<span>h</span></div><div class="stat-label">Czas wdrożenia</div></div>
+  <div class="stat"><div class="stat-value">7<span>/</span>7</div><div class="stat-label">Wsparcie techniczne</div></div>
+  <div class="stat"><div class="stat-value">0 <span>zł</span></div><div class="stat-label">Koszt analizy</div></div>
+</div>
+</div>
 </section>
 
-<!-- FULL SEC 1 -->
-<section id="terminale" style="padding:0">
-  <div class="full-sec">
-    <div class="fsec-img">
-      <img src="https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Terminal płatniczy" loading="lazy">
-    </div>
-    <div class="fsec-content">
-      <span class="eyebrow reveal">Terminale płatnicze</span>
-      <h2 class="fsec-h reveal d1">Każda płatność.<br><em>Bez komplikacji.</em></h2>
-      <p class="fsec-p reveal d1">Mobilne i stacjonarne terminale z prowizją od 0,55%. Obsługujemy karty, BLIK, Google Pay i Apple Pay. Rozliczenia trafiają na konto następnego dnia.</p>
-      <ul class="fsec-list reveal d2">
-        <li>Prowizja od 0,55% — Visa i Mastercard</li>
-        <li>Abonament od 18 zł miesięcznie</li>
-        <li>BLIK, zbliżeniowe, Google / Apple Pay</li>
-        <li>Rozliczenia T+1 na konto bankowe</li>
-      </ul>
-      <a href="#kontakt" class="btn-link reveal d3">Zapytaj o terminal</a>
-    </div>
+<!-- SAVINGS TABLE -->
+<section class="savings-section" id="oszczednosci">
+<div class="container">
+  <div class="section-label">Porównanie</div>
+  <h2 class="section-title">Ile <em>naprawdę</em> przepłacasz?</h2>
+  <p class="section-sub">Większość restauratorów nie zna swoich realnych kosztów obsługi płatności. Porównaj warunki.</p>
+  
+  <div class="savings-wrap">
+  <table class="savings-table">
+    <thead>
+      <tr><th>Opłata</th><th>Typowy operator</th><th>specpos</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Prowizja Visa / MC</td><td class="val-old">0,99 – 1,29%</td><td class="val-new">od 0,55%</td></tr>
+      <tr><td>Abonament miesięczny</td><td class="val-old">49 – 79 zł</td><td class="val-new">od 18 zł</td></tr>
+      <tr><td>Opłata za transakcję</td><td class="val-old">0,15 – 0,29 zł</td><td class="val-new">0,00 zł</td></tr>
+      <tr><td>Rozliczenie na konto</td><td class="val-old">T+3 do T+7</td><td class="val-new">T+1</td></tr>
+      <tr><td>Okres umowy</td><td class="val-old">24 – 36 miesięcy</td><td class="val-new">Bez zobowiązań</td></tr>
+      <tr><td>BLIK</td><td class="val-old">często dodatkowa opłata</td><td class="val-new">W cenie</td></tr>
+    </tbody>
+  </table>
   </div>
+
+  <div class="savings-summary">
+    <div class="savings-summary-label">Szacowane oszczędności przy obrocie kartowym 30 000 zł/mies.</div>
+    <div class="savings-summary-value">nawet 280 zł / miesiąc</div>
+    <div class="savings-summary-note">3 360 zł rocznie — sprawdź dokładną kwotę w kalkulatorze poniżej</div>
+  </div>
+</div>
 </section>
 
-<!-- FULL SEC 2 -->
-<section style="padding:0">
-  <div class="full-sec reverse">
-    <div class="fsec-img">
-      <img src="https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Restauracja z gośćmi" loading="lazy">
+<!-- PAIN POINTS -->
+<section id="problem">
+<div class="container">
+  <div class="section-label">Brzmi znajomo?</div>
+  <h2 class="section-title">Problemy, z którymi <em>nie musisz żyć</em></h2>
+  
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon">💸</div>
+      <div class="pain-q">„Nie wiem ile naprawdę płacę"</div>
+      <div class="pain-a">Faktura od operatora to 3 strony niezrozumiałych pozycji. Prowizja interchange, marża, opłata schematowa — nikt Ci tego nie wytłumaczył przy podpisaniu umowy. Przeanalizujemy Twoje faktury za darmo i powiemy wprost ile tracisz.</div>
     </div>
-    <div class="fsec-content">
-      <span class="eyebrow reveal">System POS</span>
-      <h2 class="fsec-h reveal d1">Lokal pod<br><em>pełną kontrolą.</em></h2>
-      <p class="fsec-p reveal d1">Oprogramowanie kasowe stworzone dla gastronomii. Zarządzaj stolikami, zamówieniami i raportem sprzedaży z jednego ekranu.</p>
-      <ul class="fsec-list reveal d2">
-        <li>Mapa stolików i zarządzanie salą</li>
-        <li>Drukarka bonowa do kuchni</li>
-        <li>Raporty i statystyki online</li>
-        <li>Integracja z kasą fiskalną i KSeF</li>
-      </ul>
-      <a href="#kontakt" class="btn-link reveal d3">Zapytaj o system POS</a>
+    <div class="pain-card">
+      <div class="pain-icon">🔒</div>
+      <div class="pain-q">„Jestem w umowie na 3 lata"</div>
+      <div class="pain-a">Sprawdzimy warunki Twojej umowy. Często kara za wcześniejsze rozwiązanie jest niższa niż roczna przepłata na prowizjach. A jeśli nie warto teraz zmieniać — powiemy Ci to wprost i przypomnimy, gdy umowa się kończy.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📈</div>
+      <div class="pain-q">„Obroty rosną, prowizja też"</div>
+      <div class="pain-a">Przy obrocie 50 000 zł miesięcznie różnica między 1,2% a 0,55% to ponad 300 zł. Co miesiąc. Przy odpowiedniej strukturze opłat Twój sukces nie karmi operatora.</div>
     </div>
   </div>
+</div>
 </section>
 
-<!-- JAK DZIAŁAMY -->
+<!-- CALCULATOR -->
+<section class="calc-section" id="kalkulator">
+<div class="container">
+  <div class="section-label">Kalkulator</div>
+  <h2 class="section-title">Sprawdź <em>swoją</em> oszczędność</h2>
+  <p class="section-sub">Przesuń suwaki, żeby zobaczyć ile możesz zaoszczędzić przechodząc na specpos.</p>
+  
+  <div class="calc-wrapper">
+    <div class="calc-row">
+      <div class="calc-label">
+        <span class="calc-label-text">Miesięczny obrót kartowy</span>
+        <span class="calc-label-value" id="calc-obrot-val">30 000 zł</span>
+      </div>
+      <input type="range" class="calc-slider" id="slider-obrot" min="5000" max="150000" value="30000" step="1000">
+    </div>
+    <div class="calc-row">
+      <div class="calc-label">
+        <span class="calc-label-text">Twoja obecna prowizja</span>
+        <span class="calc-label-value" id="calc-prowizja-val">1,20%</span>
+      </div>
+      <input type="range" class="calc-slider" id="slider-prowizja" min="0.6" max="2.5" value="1.2" step="0.05">
+    </div>
+    <div class="calc-row" style="margin-bottom:12px">
+      <div class="calc-label">
+        <span class="calc-label-text">Obecny abonament</span>
+        <span class="calc-label-value" id="calc-abonament-val">49 zł</span>
+      </div>
+      <input type="range" class="calc-slider" id="slider-abonament" min="0" max="150" value="49" step="1">
+    </div>
+    
+    <div class="calc-breakdown">
+      <div class="calc-break-item">
+        <div class="calc-break-label">Teraz płacisz</div>
+        <div class="calc-break-val old" id="calc-now">409 zł</div>
+      </div>
+      <div class="calc-break-item">
+        <div class="calc-break-label">Ze specpos zapłacisz</div>
+        <div class="calc-break-val new" id="calc-specpos">183 zł</div>
+      </div>
+    </div>
+    
+    <div class="calc-result">
+      <div class="calc-result-label">Twoja miesięczna oszczędność</div>
+      <div style="font-family:var(--serif);font-size:22px;font-weight:600;color:var(--blue);margin:4px 0" id="calc-savings">226 zł</div>
+      <div style="font-size:14px;color:var(--muted);margin:12px 0 4px">To aż</div>
+      <div class="calc-result-value" id="calc-yearly">2 712 zł</div>
+      <div class="calc-result-note">rocznie</div>
+    </div>
+    
+    <div style="text-align:center;margin-top:24px">
+      <a href="#kontakt-wizard" class="btn-primary">Chcę tyle oszczędzać →</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- HOW WE WORK -->
 <section id="jak-dzialamy">
-  <div class="container">
-    <span class="eyebrow reveal">Proces współpracy</span>
-    <h2 class="section-h reveal d1">Od rozmowy do<br><em>gotowego systemu</em></h2>
-    <p class="section-p reveal d1">Cztery kroki. Żaden nie trwa długo. Wiesz co się dzieje i kiedy.</p>
-    <div class="proc-grid">
-      <div class="proc-step reveal">
-        <div class="proc-num">1</div>
-        <div class="proc-title">Bezpłatna konsultacja</div>
-        <p class="proc-desc">Rozmawiamy o Twoim lokalu i potrzebach. Przez telefon lub na miejscu. Bez zobowiązań.</p>
-      </div>
-      <div class="proc-step reveal d1">
-        <div class="proc-num">2</div>
-        <div class="proc-title">Dobór rozwiązania</div>
-        <p class="proc-desc">Przygotowujemy propozycję z pełnym zestawieniem kosztów. Zero ukrytych opłat.</p>
-      </div>
-      <div class="proc-step reveal d2">
-        <div class="proc-num">3</div>
-        <div class="proc-title">Wdrożenie</div>
-        <p class="proc-desc">Przyjeżdżamy, montujemy, konfigurujemy i szkolimy Twój zespół. Gotowe tego samego dnia.</p>
-      </div>
-      <div class="proc-step reveal d3">
-        <div class="proc-num">4</div>
-        <div class="proc-title">Stałe wsparcie</div>
-        <p class="proc-desc">Dostępni 7 dni w tygodniu. Dzwonisz do konkretnej osoby — nie na infolinię.</p>
-      </div>
+<div class="container">
+  <div class="section-label">Proces</div>
+  <h2 class="section-title">Od rozmowy do <em>niższych opłat</em></h2>
+  
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">Analiza</div>
+      <div class="step-desc">Prześlij nam swoją fakturę od operatora. Rozłożymy ją na czynniki i pokażemy ile tracisz — bezpłatnie.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">Oferta</div>
+      <div class="step-desc">Otrzymasz konkretną propozycję z pełnym zestawieniem kosztów. Żadnych gwiazdek ani drobnego druku.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">Wdrożenie</div>
+      <div class="step-desc">Przywozimy terminal, konfigurujemy i testujemy na miejscu. Działasz tego samego dnia.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-title">Wsparcie</div>
+      <div class="step-desc">Dzwonisz do konkretnej osoby — nie na infolinię. Dostępni 7 dni w tygodniu, cały rok.</div>
     </div>
   </div>
+</div>
 </section>
 
-<!-- DLACZEGO -->
-<section id="dlaczego">
-  <div class="container">
-    <div class="why-layout">
-      <div>
-        <span class="eyebrow reveal">Dlaczego specpos</span>
-        <h2 class="section-h reveal d1" style="margin-bottom:16px">Lokalnie.<br>Konkretnie.<br><em>Bez ściemy.</em></h2>
-        <p class="section-p reveal d1" style="margin-bottom:32px">Partner, nie dostawca. Znamy gastronomię od kuchni.</p>
-        <a href="#kontakt" class="btn-blue reveal d2" style="display:inline-block">Porozmawiajmy</a>
-      </div>
-      <div class="why-grid">
-        <div class="witem reveal">
-          <div class="witem-icon">🤝</div>
-          <div class="witem-title">Jeden opiekun, nie infolinia</div>
-          <p class="witem-desc">Dzwonisz do konkretnej osoby która zna Twój lokal. Zero przekierowań.</p>
-        </div>
-        <div class="witem reveal d1">
-          <div class="witem-icon">⚡</div>
-          <div class="witem-title">Wdrożenie w 24h</div>
-          <p class="witem-desc">Od zamówienia do działającego systemu — jeden dzień. Twój lokal nie czeka.</p>
-        </div>
-        <div class="witem reveal d1">
-          <div class="witem-icon">💰</div>
-          <div class="witem-title">Pełna kalkulacja na starcie</div>
-          <p class="witem-desc">Prowizja, abonament, koszty jednorazowe — wszystko przed podpisaniem.</p>
-        </div>
-        <div class="witem reveal d2">
-          <div class="witem-icon">🇵🇱</div>
-          <div class="witem-title">Cała Polska</div>
-          <p class="witem-desc">Obsługujemy lokale w całym kraju. Przyjeżdżamy osobiście.</p>
-        </div>
-        <div class="witem reveal d2">
-          <div class="witem-icon">🎓</div>
-          <div class="witem-title">Szkolenie w cenie</div>
-          <p class="witem-desc">Kelner który nigdy nie pracował z POS-em, po godzinie działa sprawnie.</p>
-        </div>
-        <div class="witem reveal d3">
-          <div class="witem-icon">🔓</div>
-          <div class="witem-title">Bez długich umów</div>
-          <p class="witem-desc">Zostajemy bo warto — nie dlatego że musisz.</p>
-        </div>
+<!-- WIZARD FORM -->
+<section class="wizard-section" id="kontakt-wizard">
+<div class="container">
+  <div class="section-label">Formularz</div>
+  <h2 class="section-title">Dobierz terminal <em>w 2 minuty</em></h2>
+  <p class="section-sub">Odpowiedz na kilka pytań — oddzwonimy z konkretną propozycją dopasowaną do Twojego lokalu.</p>
+  
+  <div class="wizard-wrapper">
+    <div class="wizard-progress">
+      <div class="wizard-dot active" id="dot-0"></div>
+      <div class="wizard-dot" id="dot-1"></div>
+      <div class="wizard-dot" id="dot-2"></div>
+      <div class="wizard-dot" id="dot-3"></div>
+      <div class="wizard-dot" id="dot-4"></div>
+    </div>
+    
+    <div class="wizard-step active" id="wstep-0">
+      <div class="wizard-question">Czy masz już terminal płatniczy?</div>
+      <div class="wizard-options">
+        <button class="wizard-opt" data-step="0" data-value="tak" onclick="wizSelect(this)"><span class="wizard-opt-icon">✅</span><span class="wizard-opt-label">Tak, mam</span></button>
+        <button class="wizard-opt" data-step="0" data-value="nie" onclick="wizSelect(this)"><span class="wizard-opt-icon">🔍</span><span class="wizard-opt-label">Nie, szukam pierwszego</span></button>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- KONTAKT -->
-<section id="kontakt">
-  <div class="container">
-    <span class="eyebrow reveal">Kontakt</span>
-    <h2 class="section-h reveal d1">Porozmawiajmy<br>o <em>Twoim lokalu</em></h2>
-    <p class="section-p reveal d1">Bezpłatna konsultacja. Odpiszemy lub zadzwonimy tego samego dnia roboczego.</p>
-    <div class="kontakt-layout">
-      <div>
-        <div class="kinfo-item reveal">
-          <div class="kinfo-icon">📞</div>
-          <div>
-            <span class="kinfo-label">Telefon</span>
-            <a href="tel:+48734037907" class="kinfo-val">+48 734 037 907</a>
-          </div>
-        </div>
-        <div class="kinfo-item reveal d1">
-          <div class="kinfo-icon">✉️</div>
-          <div>
-            <span class="kinfo-label">E-mail</span>
-            <a href="mailto:kontaktspecpos@gmail.com" class="kinfo-val">kontaktspecpos@gmail.com</a>
-          </div>
-        </div>
-        <div class="kinfo-item reveal d1">
-          <div class="kinfo-icon">📍</div>
-          <div>
-            <span class="kinfo-label">Obszar działania</span>
-            <span class="kinfo-val">Cała Polska</span>
-          </div>
-        </div>
-        <div class="kinfo-item reveal d2">
-          <div class="kinfo-icon">🕐</div>
-          <div>
-            <span class="kinfo-label">Dostępność</span>
-            <span class="kinfo-val">Pon–Sob, 8:00–20:00</span>
-          </div>
-        </div>
-      </div>
-      <div class="kform reveal d1">
-        <div class="kform-h">Napisz do nas</div>
-        <div class="kform-sub">Odpowiadamy w ciągu kilku godzin w dni robocze.</div>
-        <form action="https://formspree.io/f/mpwwnegr" method="POST">
-          <div class="fg-row">
-            <div class="fg">
-              <label>Imię i nazwisko</label>
-              <input type="text" name="name" placeholder="Jan Kowalski" required>
-            </div>
-            <div class="fg">
-              <label>Telefon</label>
-              <input type="tel" name="phone" placeholder="+48 000 000 000" required>
-            </div>
-          </div>
-          <div class="fg">
-            <label>Nazwa lokalu</label>
-            <input type="text" name="lokal" placeholder="np. Restauracja Roma">
-          </div>
-          <div class="fg">
-            <label>Czego szukasz?</label>
-            <select name="temat">
-              <option value="">Wybierz...</option>
-              <option>Terminal płatniczy</option>
-              <option>System POS dla restauracji</option>
-              <option>Terminal + System POS (pakiet)</option>
-              <option>Serwis / zmiana dostawcy</option>
-              <option>Doradztwo</option>
-            </select>
-          </div>
-          <div class="fg">
-            <label>Wiadomość</label>
-            <textarea name="message" placeholder="Krótko o lokalu — rodzaj, liczba stolików..."></textarea>
-          </div>
-          <button type="submit" class="btn-submit">Wyślij wiadomość →</button>
-        </form>
+    
+    <div class="wizard-step" id="wstep-1">
+      <div class="wizard-question">Jaki typ lokalu prowadzisz?</div>
+      <div class="wizard-options" style="grid-template-columns:1fr 1fr 1fr">
+        <button class="wizard-opt" data-step="1" data-value="restauracja" onclick="wizSelect(this)"><span class="wizard-opt-icon">🍽️</span><span class="wizard-opt-label">Restauracja</span></button>
+        <button class="wizard-opt" data-step="1" data-value="kawiarnia" onclick="wizSelect(this)"><span class="wizard-opt-icon">☕</span><span class="wizard-opt-label">Kawiarnia / bar</span></button>
+        <button class="wizard-opt" data-step="1" data-value="hotel" onclick="wizSelect(this)"><span class="wizard-opt-icon">🏨</span><span class="wizard-opt-label">Hotel</span></button>
+        <button class="wizard-opt" data-step="1" data-value="food-truck" onclick="wizSelect(this)"><span class="wizard-opt-icon">🚚</span><span class="wizard-opt-label">Food truck</span></button>
+        <button class="wizard-opt" data-step="1" data-value="catering" onclick="wizSelect(this)"><span class="wizard-opt-icon">🍱</span><span class="wizard-opt-label">Catering</span></button>
+        <button class="wizard-opt" data-step="1" data-value="inny" onclick="wizSelect(this)"><span class="wizard-opt-icon">🏪</span><span class="wizard-opt-label">Inny</span></button>
       </div>
     </div>
+    
+    <div class="wizard-step" id="wstep-2">
+      <div class="wizard-question">Jaki masz miesięczny obrót kartowy?</div>
+      <div class="wizard-options">
+        <button class="wizard-opt" data-step="2" data-value="do-10k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">Do 10 000 zł</span></button>
+        <button class="wizard-opt" data-step="2" data-value="10-30k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">10 – 30 tys. zł</span></button>
+        <button class="wizard-opt" data-step="2" data-value="30-80k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">30 – 80 tys. zł</span></button>
+        <button class="wizard-opt" data-step="2" data-value="80k+" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">Powyżej 80 tys. zł</span></button>
+      </div>
+    </div>
+    
+    <div class="wizard-step" id="wstep-3">
+      <div class="wizard-question">Co jest dla Ciebie najważniejsze?</div>
+      <div class="wizard-options">
+        <button class="wizard-opt" data-step="3" data-value="prowizja" onclick="wizSelect(this)"><span class="wizard-opt-icon">💰</span><span class="wizard-opt-label">Najniższa prowizja</span></button>
+        <button class="wizard-opt" data-step="3" data-value="szybkosc" onclick="wizSelect(this)"><span class="wizard-opt-icon">⚡</span><span class="wizard-opt-label">Szybkie wdrożenie</span></button>
+        <button class="wizard-opt" data-step="3" data-value="mobilnosc" onclick="wizSelect(this)"><span class="wizard-opt-icon">📱</span><span class="wizard-opt-label">Terminal mobilny</span></button>
+        <button class="wizard-opt" data-step="3" data-value="wsparcie" onclick="wizSelect(this)"><span class="wizard-opt-icon">🤝</span><span class="wizard-opt-label">Dobre wsparcie</span></button>
+      </div>
+    </div>
+    
+    <div class="wizard-step" id="wstep-4">
+      <div class="wizard-question">Podaj dane — oddzwonimy z ofertą</div>
+      <div class="wizard-contact">
+        <input class="wizard-input" type="text" name="name" placeholder="Imię i nazwisko" required id="wiz-name">
+        <input class="wizard-input" type="tel" name="phone" placeholder="Numer telefonu" required id="wiz-phone">
+        <input class="wizard-input" type="text" name="lokal" placeholder="Nazwa lokalu (opcjonalnie)" id="wiz-lokal">
+        <input class="wizard-input" type="text" name="miasto" placeholder="Miasto" id="wiz-miasto">
+      </div>
+    </div>
+    
+    <div class="wizard-step" id="wstep-success" style="text-align:center;padding:32px 0">
+      <div style="font-size:48px;margin-bottom:16px">✅</div>
+      <div style="font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:8px">Dziękujemy!</div>
+      <div style="color:var(--muted);font-size:15px;line-height:1.6">Oddzwonimy w ciągu kilku godzin z propozycją dopasowaną do Twojego lokalu.</div>
+      <div style="margin-top:16px;font-size:14px;color:var(--subtle)">Możesz też zadzwonić: <a href="tel:+48734037907" style="font-weight:600">734 037 907</a></div>
+    </div>
+    
+    <div class="wizard-nav" id="wizard-nav">
+      <button class="wizard-back" id="wiz-back" onclick="wizBack()" style="visibility:hidden">← Wstecz</button>
+      <button class="wizard-next" id="wiz-next" onclick="wizNext()" disabled>Dalej →</button>
+    </div>
   </div>
+</div>
 </section>
 
-<footer>
-  <a href="/" class="footer-logo">
-    <svg width="18" height="32" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="1" width="10" height="36" rx="3" fill="#0A46CC" transform="rotate(-12 5 19)"/>
-      <rect x="14" y="1" width="10" height="36" rx="3" fill="#4080F8" transform="rotate(-12 19 19)"/>
-    </svg>
-    <span class="footer-logo-text">spec<span>pos</span></span>
-  </a>
-  <small>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii · Polska</small>
+<!-- TESTIMONIALS -->
+<section id="opinie">
+<div class="container">
+  <div class="section-label">Opinie</div>
+  <h2 class="section-title">Co mówią <em>nasi klienci</em></h2>
+  
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">„Myślałem, że prowizja 1,2% to standard. Po analizie okazało się, że przepłacam ponad 200 zł miesięcznie. Zmiana terminala trwała jeden dzień."</div>
+      <div class="testimonial-author"><strong>Marek W.</strong> — właściciel pizzerii, Kraków</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">„Doceniam to, że dzwonię do konkretnej osoby. Poprzedni operator miał infolinię, na której czekałem po 20 minut."</div>
+      <div class="testimonial-author"><strong>Anna K.</strong> — kawiarnia, Nowy Sącz</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-text">„Bałam się, że zmiana operatora to tygodnie papierków. Przyjechali rano, po południu terminal już działał. Zero przestojów."</div>
+      <div class="testimonial-author"><strong>Katarzyna M.</strong> — restauracja, Tarnów</div>
+    </div>
+  </div>
+  
+  <div class="cta-bottom">
+    <div class="section-label">Zacznij oszczędzać</div>
+    <h2 class="section-title" style="margin-bottom:4px">Zadzwoń lub zostaw numer</h2>
+    <div class="cta-phone"><a href="tel:+48734037907">734 037 907</a></div>
+    <div class="cta-hours">Pon–Sob, 8:00–20:00 · kontaktspecpos@gmail.com</div>
+    <div style="margin-top:20px"><a href="#kontakt-wizard" class="btn-primary">Wypełnij formularz →</a></div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <span class="footer-logo">spec<span>pos</span></span>
+    <p>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii · Polska</p>
+  </div>
 </footer>
 
 <script>
-const reveals = document.querySelectorAll('.reveal');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
-},{threshold:0.1});
-reveals.forEach(el => obs.observe(el));
+// === CALCULATOR ===
+var sliderObrot = document.getElementById('slider-obrot');
+var sliderProwizja = document.getElementById('slider-prowizja');
+var sliderAbonament = document.getElementById('slider-abonament');
+
+function updateCalc() {
+  var obrot = parseInt(sliderObrot.value);
+  var prowizja = parseFloat(sliderProwizja.value);
+  var abonament = parseInt(sliderAbonament.value);
+  var specposProwizja = 0.55;
+  var specposAbonament = 18;
+  var kosztTeraz = Math.round(obrot * prowizja / 100 + abonament);
+  var kosztSpecpos = Math.round(obrot * specposProwizja / 100 + specposAbonament);
+  var savings = Math.max(0, kosztTeraz - kosztSpecpos);
+  document.getElementById('calc-obrot-val').textContent = obrot.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('calc-prowizja-val').textContent = prowizja.toFixed(2).replace('.', ',') + '%';
+  document.getElementById('calc-abonament-val').textContent = abonament + ' zł';
+  document.getElementById('calc-now').textContent = kosztTeraz.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('calc-specpos').textContent = kosztSpecpos.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('calc-savings').textContent = savings.toLocaleString('pl-PL') + ' zł';
+  document.getElementById('calc-yearly').textContent = (savings * 12).toLocaleString('pl-PL') + ' zł';
+}
+sliderObrot.addEventListener('input', updateCalc);
+sliderProwizja.addEventListener('input', updateCalc);
+sliderAbonament.addEventListener('input', updateCalc);
+updateCalc();
+
+// === WIZARD ===
+var wizardStep = 0;
+var wizardData = {};
+
+function wizSelect(el) {
+  var step = parseInt(el.dataset.step);
+  el.parentElement.querySelectorAll('.wizard-opt').forEach(function(o){o.classList.remove('selected')});
+  el.classList.add('selected');
+  wizardData['step' + step] = el.dataset.value;
+  document.getElementById('wiz-next').disabled = false;
+}
+
+function wizNext() {
+  if (wizardStep === 4) {
+    var name = document.getElementById('wiz-name').value.trim();
+    var phone = document.getElementById('wiz-phone').value.trim();
+    if (!name || !phone) {
+      document.getElementById('wiz-name').style.borderColor = name ? '' : 'var(--red)';
+      document.getElementById('wiz-phone').style.borderColor = phone ? '' : 'var(--red)';
+      return;
+    }
+    wizardData.name = name;
+    wizardData.phone = phone;
+    wizardData.lokal = document.getElementById('wiz-lokal').value.trim();
+    wizardData.miasto = document.getElementById('wiz-miasto').value.trim();
+    fetch('https://formspree.io/f/mpwwnegr', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({source: 'specpos.pl/terminale - wizard', ...wizardData})
+    }).catch(function(){});
+    document.querySelectorAll('.wizard-step').forEach(function(s){s.classList.remove('active')});
+    document.getElementById('wstep-success').classList.add('active');
+    document.getElementById('wizard-nav').style.display = 'none';
+    document.querySelectorAll('.wizard-dot').forEach(function(d){d.classList.remove('active');d.classList.add('done')});
+    return;
+  }
+  wizardStep++;
+  showWizardStep();
+}
+
+function wizBack() {
+  if (wizardStep > 0) { wizardStep--; showWizardStep(); }
+}
+
+function showWizardStep() {
+  document.querySelectorAll('.wizard-step').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('wstep-' + wizardStep).classList.add('active');
+  for (var i = 0; i < 5; i++) {
+    var dot = document.getElementById('dot-' + i);
+    dot.classList.remove('active', 'done');
+    if (i < wizardStep) dot.classList.add('done');
+    else if (i === wizardStep) dot.classList.add('active');
+  }
+  document.getElementById('wiz-back').style.visibility = wizardStep === 0 ? 'hidden' : 'visible';
+  var nextBtn = document.getElementById('wiz-next');
+  if (wizardStep === 4) {
+    nextBtn.textContent = 'Wyślij →';
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.textContent = 'Dalej →';
+    var sel = document.querySelector('#wstep-' + wizardStep + ' .wizard-opt.selected');
+    nextBtn.disabled = !sel;
+  }
+}
+
+// === SCROLL ANIMATIONS ===
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.pain-card, .step-card, .testimonial-card').forEach(function(el) { observer.observe(el); });
+}
+
+// === SOLO MODE ===
+if (new URLSearchParams(window.location.search).has('solo')) {
+  document.querySelectorAll('[data-solo-hide]').forEach(function(el) { el.style.display = 'none'; });
+}
 </script>
 </body>
 </html>
