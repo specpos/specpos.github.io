@@ -46,6 +46,7 @@ a:hover{color:var(--blue-dark)}
 .nav-links a.active{color:var(--blue)}
 .nav-cta-btn{background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:10px 20px;border-radius:8px;transition:background .2s;display:inline-flex;align-items:center;gap:6px}
 .nav-cta-btn:hover{background:var(--blue-dark);color:#fff}
+.hamburger{display:none}
 
 /* SECTIONS */
 section{padding:88px 24px}
@@ -200,6 +201,14 @@ section{padding:88px 24px}
   .stats{grid-template-columns:repeat(2,1fr)}
   .wizard-options{grid-template-columns:1fr}
   .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--line);padding:16px 24px;gap:0;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+  .nav-links.open a{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .nav-links.open a:last-child{border-bottom:none}
+  .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-right:8px}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:all .2s}
+  .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
   .hero-btns{flex-direction:column}
   .calc-breakdown{grid-template-columns:1fr}
   section{padding:64px 24px}
@@ -225,6 +234,9 @@ section{padding:88px 24px}
     <a href="#opinie">Opinie</a>
   </div>
   <a href="#kontakt-wizard" class="nav-cta-btn">Bezpłatna analiza →</a>
+  <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </div>
 </nav>
 
@@ -532,7 +544,7 @@ section{padding:88px 24px}
 <footer class="footer">
   <div class="container">
     <span class="footer-logo">spec<span>pos</span></span>
-    <p>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii · Polska</p>
+    <p>© 2026 specpos · Terminale płatnicze · Polska</p>
   </div>
 </footer>
 
@@ -641,6 +653,14 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 if (new URLSearchParams(window.location.search).has('solo')) {
   document.querySelectorAll('[data-solo-hide]').forEach(function(el) { el.style.display = 'none'; });
 }
+
+// === MOBILE NAV CLOSE ON CLICK ===
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('open');
+  });
+});
 </script>
 </body>
 </html>
