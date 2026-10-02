@@ -4,19 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Terminale płatnicze dla gastronomii – specpos</title>
-<meta name="description" content="Terminal płatniczy z prowizją od 0,55%. Bezpłatna analiza opłat, wdrożenie w 24h, wsparcie 7/7.">
+<meta name="description" content="Terminal płatniczy z prowizją 0,55% + 0,05 zł za transakcję. Bezpłatna analiza opłat, wdrożenie w 24h, wsparcie 7/7.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* Układ: biała strona, hero 2-kolumnowe ze zdjęciem, sekcje na przemian białe / jasnoszare */
 :root{
   --white:#FFFFFF;
   --ink:#0A0A0F;
-  --muted:#6B6B7B;
-  --subtle:#9898A8;
+  --muted:#5E5E6E;
+  --subtle:#8A8A9A;
   --line:#E8E8F0;
-  --bg:#FAFAFA;
+  --bg:#F7F8FB;
   --blue:#1860F0;
   --blue-dark:#0A46CC;
   --blue-light:#EEF3FF;
@@ -26,77 +27,117 @@
   --green:#16A34A;
   --green-bg:#F0FDF4;
   --amber:#D97706;
-  --serif:'Playfair Display',serif;
-  --sans:'Inter',sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --radius:12px;
+  color-scheme:light;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
 a{color:var(--blue);text-decoration:none}
 a:hover{color:var(--blue-dark)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-logo{font-family:var(--sans);font-weight:700;font-size:20px;letter-spacing:-.5px;color:var(--ink)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav-logo{font-weight:700;font-size:20px;letter-spacing:-.5px;color:var(--ink)}
 .nav-logo span{color:var(--blue)}
 .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500}
 .nav-links a{color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
-.nav-links a.active{color:var(--blue)}
-.nav-cta-btn{background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:10px 20px;border-radius:8px;transition:background .2s;display:inline-flex;align-items:center;gap:6px}
+.nav-cta-btn{background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:10px 18px;border-radius:8px;transition:background .2s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .nav-cta-btn:hover{background:var(--blue-dark);color:#fff}
-.hamburger{display:none}
+.hamburger{display:none;background:none;border:none}
 
 /* SECTIONS */
-section{padding:88px 24px}
+section{padding:88px 20px}
 .container{max-width:1100px;margin:0 auto}
-.section-label{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.section-title{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.3px;line-height:1.15;margin-bottom:16px;color:var(--ink)}
+.section-label{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.section-title{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.3px;line-height:1.15;margin-bottom:16px;color:var(--ink);text-wrap:balance}
 .section-title em{font-style:italic;color:var(--blue)}
 .section-sub{font-size:17px;color:var(--muted);max-width:560px;line-height:1.7}
 
 /* HERO */
-.hero{padding-top:140px;padding-bottom:60px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(24,96,240,.06) 0%,transparent 70%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid rgba(24,96,240,.15);border-radius:24px;padding:6px 16px 6px 12px;font-size:13px;font-weight:500;color:var(--blue);margin-bottom:24px}
-.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+.hero{padding-top:128px;padding-bottom:56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:520px;height:520px;background:radial-gradient(circle,rgba(24,96,240,.07) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.hero-grid > *{min-width:0}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid rgba(24,96,240,.15);border-radius:24px;padding:6px 16px 6px 12px;font-size:13px;font-weight:500;color:var(--blue);margin-bottom:22px}
+.photo-badge{display:none;position:absolute;left:16px;right:16px;bottom:16px;z-index:2;align-items:center;gap:10px;background:rgba(255,255,255,.95);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.photo-badge b{color:var(--blue)}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:var(--serif);font-size:clamp(34px,5vw,54px);font-weight:600;letter-spacing:-.5px;line-height:1.1;margin-bottom:20px;color:var(--ink)}
+.hero h1{font-family:var(--serif);font-size:clamp(34px,5vw,54px);font-weight:600;letter-spacing:-.5px;line-height:1.1;margin-bottom:20px;color:var(--ink);text-wrap:balance}
 .hero h1 em{font-style:italic;color:var(--blue)}
-.hero-desc{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:32px;max-width:460px}
+.hero-desc{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:30px;max-width:460px}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.hero-checks{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:26px;font-size:14px;color:var(--muted)}
+.hero-checks span{display:inline-flex;align-items:center;gap:6px}
+.hero-checks .ico{width:18px;height:18px;color:var(--green)}
 .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;transition:all .2s;font-family:var(--sans)}
 .btn-primary:hover{background:var(--blue-dark);color:#fff;transform:translateY(-1px)}
-.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);font-weight:500;font-size:15px;padding:14px 28px;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:all .2s;font-family:var(--sans)}
-.btn-secondary:hover{border-color:var(--subtle);background:var(--bg)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--ink);font-weight:500;font-size:15px;padding:14px 28px;border-radius:10px;border:1px solid var(--line);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.btn-secondary:hover{border-color:var(--subtle);background:var(--bg);color:var(--ink)}
+
+/* HERO PHOTO */
+.hero-photo{position:relative;padding:0 0 28px 28px}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 60px rgba(10,30,80,.18)}
+.chip{position:absolute;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:0 10px 30px rgba(10,30,80,.12);display:flex;align-items:center;gap:12px}
+.chip-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--blue-light);color:var(--blue)}
+.chip-ico.green{background:var(--green-bg);color:var(--green)}
+.chip-val{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.1;color:var(--ink)}
+.chip-lbl{font-size:12px;color:var(--subtle)}
+.chip-a{left:0;bottom:0}
+.chip-b{right:-14px;top:22px}
+@media(prefers-reduced-motion:no-preference){
+  .chip{animation:float 6s ease-in-out infinite}
+  .chip-b{animation-delay:-3s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+}
 
 /* STATS ROW */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-radius:var(--radius);overflow:hidden;margin-top:56px;border:1px solid var(--line)}
-.stat{background:var(--white);padding:28px 20px;text-align:center}
+.stat{background:var(--white);padding:26px 16px;text-align:center}
 .stat-value{font-family:var(--serif);font-size:28px;font-weight:600;color:var(--ink)}
 .stat-value span{color:var(--blue)}
 .stat-label{font-size:13px;color:var(--subtle);margin-top:4px}
 
-/* HERO RIGHT — terminal visual */
-.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
-.terminal-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:32px;width:100%;max-width:380px;box-shadow:0 4px 40px rgba(24,96,240,.08),0 1px 3px rgba(0,0,0,.04)}
-.tc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-.tc-chip{width:36px;height:26px;border-radius:4px;background:linear-gradient(135deg,#F59E0B,#D97706)}
-.tc-status{font-size:12px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:6px}
-.tc-status::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green)}
-.tc-amount{font-family:var(--serif);font-size:44px;font-weight:600;color:var(--ink);text-align:center;margin:16px 0 4px}
-.tc-amount-sub{text-align:center;font-size:13px;color:var(--subtle);margin-bottom:24px}
-.tc-row{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)}
-.tc-row-label{font-size:13px;color:var(--subtle)}
-.tc-row-value{font-size:13px;font-weight:600;color:var(--blue)}
-.tc-savings{margin-top:16px;background:var(--green-bg);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:12px;text-align:center;font-size:13px;color:var(--green);font-weight:500}
+/* TRUST STRIP */
+.trust{padding:28px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--white)}
+.trust-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 28px}
+.trust-lbl{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--subtle)}
+.trust-items{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.trust-item{font-size:14px;font-weight:600;color:var(--muted);padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.trust-item.strong{color:var(--blue);background:var(--blue-light);border-color:rgba(24,96,240,.15)}
+
+/* TERMINAL */
+.terminal-grid{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:center;margin-top:8px}
+.terminal-grid > *{min-width:0}
+.terminal-img{position:relative;width:260px;justify-self:center}
+.terminal-img::before{content:'';position:absolute;inset:40px -40px;background:radial-gradient(circle,rgba(24,96,240,.16),transparent 65%);z-index:-1}
+.terminal-img img{border-radius:18px;box-shadow:0 30px 60px rgba(10,30,80,.22)}
+.feat-list{display:grid;grid-template-columns:1fr 1fr;gap:22px 28px;margin-top:28px}
+.feat{display:flex;gap:14px;align-items:flex-start}
+.feat-ico{width:42px;height:42px;border-radius:10px;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feat-t{font-weight:600;font-size:15px;margin-bottom:2px}
+.feat-d{font-size:14px;color:var(--muted);line-height:1.55}
+.note{font-size:12px;color:var(--subtle);margin-top:24px}
+
+/* BRANŻE */
+.branch-section{background:var(--bg)}
+.branch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+.branch{background:var(--white);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.branch img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.branch-body{padding:20px 22px 24px}
+.branch-t{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:6px}
+.branch-d{font-size:14px;color:var(--muted);line-height:1.6}
 
 /* SAVINGS TABLE */
-.savings-section{background:var(--bg)}
 .savings-wrap{margin-top:32px;overflow-x:auto}
-.savings-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.savings-table{width:100%;min-width:520px;border-collapse:separate;border-spacing:0;background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
 .savings-table thead th{background:var(--bg);padding:14px 24px;text-align:left;font-size:12px;font-weight:600;color:var(--subtle);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line)}
 .savings-table td{padding:16px 24px;font-size:15px;border-bottom:1px solid var(--line)}
 .savings-table tr:last-child td{border-bottom:none}
@@ -108,22 +149,38 @@ section{padding:88px 24px}
 .savings-summary-value{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--blue);margin-top:4px}
 .savings-summary-note{font-size:13px;color:var(--subtle);margin-top:6px}
 
+/* NOWA FIRMA */
+.newbiz{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--white)}
+.newbiz > *{min-width:0}
+.nb-head{grid-column:1/-1;padding:22px 28px;background:var(--green-bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.nb-head .promise-ico{background:var(--white)}
+.nb-title{font-family:var(--serif);font-size:22px;font-weight:600}
+.nb-sub{font-size:14px;color:var(--muted)}
+.nb-col{padding:22px 28px}
+.nb-col + .nb-col{border-left:1px solid var(--line)}
+.nb-when{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--subtle);margin-bottom:6px}
+.nb-price{font-family:var(--serif);font-size:26px;font-weight:600;margin-bottom:6px}
+.nb-price.free{color:var(--green)}
+.nb-d{font-size:14px;color:var(--muted);line-height:1.6}
+.nb-note{grid-column:1/-1;padding:12px 28px;font-size:12px;color:var(--subtle);border-top:1px solid var(--line);background:var(--bg)}
+@media(max-width:768px){.newbiz{grid-template-columns:1fr}.nb-col + .nb-col{border-left:none;border-top:1px solid var(--line)}.nb-head,.nb-col,.nb-note{padding-left:20px;padding-right:20px}}
+
 /* PAIN POINTS */
-.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:36px}
+.pain-section{background:var(--bg)}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
 .pain-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:box-shadow .2s,border-color .2s}
 .pain-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.05);border-color:rgba(24,96,240,.15)}
-.pain-icon{width:44px;height:44px;border-radius:10px;background:var(--red-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.pain-icon{width:44px;height:44px;border-radius:10px;background:var(--red-bg);color:var(--red);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
 .pain-q{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px}
 .pain-a{font-size:14px;color:var(--muted);line-height:1.7}
 
 /* CALCULATOR */
-.calc-section{background:var(--bg)}
-.calc-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.03)}
+.calc-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.04)}
 .calc-row{margin-bottom:28px}
-.calc-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.calc-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:12px}
 .calc-label-text{font-size:14px;color:var(--muted)}
-.calc-label-value{font-size:18px;font-weight:600;color:var(--ink)}
-.calc-slider{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--line);outline:none;cursor:pointer}
+.calc-label-value{font-size:18px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--line);outline:none;cursor:pointer}
 .calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer;box-shadow:0 1px 4px rgba(24,96,240,.3)}
 .calc-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer}
 .calc-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
@@ -138,26 +195,28 @@ section{padding:88px 24px}
 .calc-result-note{font-size:14px;color:var(--subtle);margin-top:6px}
 
 /* HOW WE WORK */
-.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-top:36px}
-.step-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:box-shadow .2s}
-.step-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.04)}
-.step-num{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--blue-light);line-height:1;margin-bottom:12px}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px;counter-reset:step}
+.step-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;position:relative}
+.step-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.step-ico{width:44px;height:44px;border-radius:10px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center}
+.step-num{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--blue-light);line-height:1}
 .step-title{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px}
 .step-desc{font-size:14px;color:var(--muted);line-height:1.6}
 
 /* WIZARD */
 .wizard-section{background:var(--bg)}
-.wizard-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.03)}
+.wizard-wrapper{max-width:600px;margin:36px auto 0;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px;box-shadow:0 2px 20px rgba(0,0,0,.04)}
 .wizard-progress{display:flex;gap:4px;margin-bottom:28px}
 .wizard-dot{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
 .wizard-dot.active{background:var(--blue)}
 .wizard-dot.done{background:var(--blue-dark)}
 .wizard-question{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:20px;line-height:1.3}
 .wizard-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.wizard-opt{background:var(--white);border:2px solid var(--line);border-radius:var(--radius);padding:18px 14px;text-align:center;cursor:pointer;transition:all .15s;font-size:14px;color:var(--ink);font-family:var(--sans)}
+.wizard-options.three{grid-template-columns:1fr 1fr 1fr}
+.wizard-opt{background:var(--white);border:2px solid var(--line);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .15s;font-size:14px;color:var(--ink);font-family:var(--sans);display:flex;flex-direction:column;align-items:center;gap:8px}
+.wizard-opt .ico{color:var(--blue);width:24px;height:24px}
 .wizard-opt:hover{border-color:var(--blue-mid);background:var(--blue-light)}
 .wizard-opt.selected{border-color:var(--blue);background:var(--blue-light)}
-.wizard-opt-icon{font-size:24px;display:block;margin-bottom:6px}
 .wizard-opt-label{font-weight:500}
 .wizard-nav{display:flex;justify-content:space-between;margin-top:24px}
 .wizard-back{background:none;border:none;color:var(--subtle);font-size:14px;cursor:pointer;font-family:var(--sans);padding:10px 0}
@@ -171,73 +230,138 @@ section{padding:88px 24px}
 .wizard-input{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:13px 16px;font-size:15px;color:var(--ink);font-family:var(--sans);outline:none;width:100%;transition:border-color .2s}
 .wizard-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,96,240,.08)}
 .wizard-input::placeholder{color:var(--subtle)}
+.success-ico{width:56px;height:56px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 
-/* TESTIMONIALS */
-.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:36px}
-.testimonial-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
-.testimonial-stars{color:var(--amber);font-size:15px;letter-spacing:2px;margin-bottom:14px}
-.testimonial-text{font-size:15px;color:var(--ink);line-height:1.7;font-style:italic;margin-bottom:16px}
-.testimonial-author{font-size:13px;color:var(--subtle)}
-.testimonial-author strong{color:var(--muted);font-weight:600}
+/* ZOBOWIĄZANIA (zamiast opinii) */
+.promise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+.promise{display:flex;gap:16px;align-items:flex-start;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--white)}
+.promise-ico{width:44px;height:44px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.promise-t{font-weight:600;font-size:16px;margin-bottom:4px}
+.promise-d{font-size:14px;color:var(--muted);line-height:1.6}
 
 /* CTA BOTTOM */
-.cta-bottom{background:var(--blue-light);border:1px solid rgba(24,96,240,.1);border-radius:20px;padding:52px;text-align:center;margin-top:40px}
-.cta-phone{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--ink);margin:12px 0 6px}
-.cta-phone a{color:var(--ink)}
-.cta-phone a:hover{color:var(--blue)}
-.cta-hours{font-size:14px;color:var(--subtle)}
+.cta-bottom{position:relative;overflow:hidden;border-radius:20px;margin-top:48px;display:grid;grid-template-columns:1.1fr 1fr;background:var(--blue)}
+.cta-bottom > *{min-width:0}
+.cta-text{padding:48px;color:#fff}
+.cta-text .section-label{color:rgba(255,255,255,.75)}
+.cta-text .section-title{color:#fff;margin-bottom:6px}
+.cta-phone{font-family:var(--serif);font-size:34px;font-weight:600;margin:10px 0 4px}
+.cta-phone a{color:#fff}
+.cta-hours{font-size:14px;color:rgba(255,255,255,.8)}
+.cta-text .btn-primary{background:#fff;color:var(--blue);margin-top:22px}
+.cta-text .btn-primary:hover{background:var(--blue-light);color:var(--blue-dark)}
+.cta-img{background:url('img/baner.webp') 60% center/cover no-repeat;min-height:260px}
+
+/* KONTAKT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px;max-width:800px}
+.contact-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;text-align:center}
+.contact-ico{width:52px;height:52px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.contact-card a{overflow-wrap:anywhere}
 
 /* FOOTER */
-.footer{background:var(--ink);color:rgba(255,255,255,.5);padding:40px 24px;text-align:center;font-size:13px}
-.footer a{color:rgba(255,255,255,.7)}
-.footer-logo{font-family:var(--sans);font-weight:700;font-size:18px;color:#fff;margin-bottom:8px;display:block}
+.footer{background:var(--ink);color:rgba(255,255,255,.55);padding:40px 20px;text-align:center;font-size:13px}
+.footer a{color:rgba(255,255,255,.75)}
+.footer-logo{font-weight:700;font-size:18px;color:#fff;margin-bottom:8px;display:block}
 .footer-logo span{color:var(--blue-mid)}
 
 /* RESPONSIVE */
+@media(max-width:980px){
+  .steps-grid{grid-template-columns:repeat(2,1fr)}
+  .pain-grid,.promise-grid{grid-template-columns:1fr}
+}
 @media(max-width:768px){
-  .hero-grid{grid-template-columns:1fr;gap:32px}
-  .hero-visual{order:-1}
-  .terminal-card{max-width:320px;margin:0 auto}
+  .hero{padding-top:100px}
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .hero{padding-top:80px}
+  .hero-photo{order:-1;padding:0;margin:0 -20px}
+  .hero-photo img{border-radius:0;aspect-ratio:4/3.2;object-position:40% center;box-shadow:none}
+  .hero-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,20,50,.55),transparent 45%);pointer-events:none}
+  .chip-a{display:none}
+  .chip-b{right:12px;top:12px}
+  .hero-text .hero-badge{display:none}
+  .photo-badge{display:flex}
+  .chip{padding:10px 12px}
+  .chip-val{font-size:17px}
   .stats{grid-template-columns:repeat(2,1fr)}
-  .wizard-options{grid-template-columns:1fr}
+  .terminal-grid{grid-template-columns:1fr;gap:36px}
+  .terminal-img{width:200px}
+  .feat-list{grid-template-columns:1fr}
+  .branch-grid{grid-template-columns:1fr}
+  .wizard-options,.wizard-options.three{grid-template-columns:1fr 1fr}
+  .cta-bottom{grid-template-columns:1fr}
+  .cta-img{min-height:200px;order:-1}
+  .cta-text{padding:32px 24px}
+  .contact-grid{grid-template-columns:1fr}
   .nav-links{display:none}
   .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--line);padding:16px 24px;gap:0;box-shadow:0 8px 24px rgba(0,0,0,.06)}
   .nav-links.open a{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
   .nav-links.open a:last-child{border-bottom:none}
-  .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-right:8px}
+  .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
   .hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:all .2s}
   .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
   .hamburger.open span:nth-child(2){opacity:0}
   .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
   .hero-btns{flex-direction:column}
+  .hero-btns a{justify-content:center}
+  .calc-wrapper,.wizard-wrapper{padding:24px 20px}
   .calc-breakdown{grid-template-columns:1fr}
-  section{padding:64px 24px}
+  section{padding:64px 20px}
 }
-
-/* Scroll animations */
-@media(prefers-reduced-motion:no-preference){
-  .pain-card,.step-card,.testimonial-card{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
-  .pain-card.visible,.step-card.visible,.testimonial-card.visible{opacity:1;transform:none}
+@media(max-width:420px){
+  .nav-cta-btn{padding:9px 12px;font-size:12px}
+  .steps-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+
+<!-- Ikony SVG (sprite) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><path d="M2 9a15 15 0 0 1 20 0"/><circle cx="12" cy="19.5" r="1"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10h18L12 4z"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2" y="14" width="5" height="6" rx="1.5"/><rect x="17" y="14" width="5" height="6" rx="1.5"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></symbol>
+  <symbol id="i-plate" viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M12 3v3M4 21h16"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 2v3M12 2v3"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M2 18V6M2 14h20v4M22 14v-3a3 3 0 0 0-3-3h-8v6"/><circle cx="6.5" cy="10.5" r="1.5"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9 4.5 4h15L21 9M3 9v11h18V9M3 9h18"/><path d="M9 20v-6h6v6"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M7 11V6a2 2 0 0 1 4 0v4M11 10V4a2 2 0 0 1 4 0v6M15 10V6a2 2 0 0 1 4 0v8a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.5L3 14a2 2 0 0 1 3.4-2L7 13"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .9-3 2s1.3 1.7 3 2 3 .9 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+</svg>
 
 <!-- NAV -->
 <nav class="nav">
 <div class="nav-inner">
   <a href="https://specpos.pl/" class="nav-logo">spec<span>pos</span></a>
   <div class="nav-links">
+    <a href="#terminal">Terminal</a>
     <a href="#oszczednosci">Oferta</a>
     <a href="#kalkulator">Kalkulator</a>
     <a href="#jak-dzialamy">Jak działamy</a>
-    <a href="#opinie">Opinie</a>
     <a href="#kontakt">Kontakt</a>
   </div>
   <a href="#kontakt-wizard" class="nav-cta-btn">Bezpłatna analiza →</a>
-  <div class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+  <button class="hamburger" type="button" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </div>
 </nav>
 
@@ -245,36 +369,36 @@ section{padding:88px 24px}
 <section class="hero" id="hero">
 <div class="container">
 <div class="hero-grid">
-  <div>
+  <div class="hero-text">
+    <a href="#nowa-firma" class="hero-badge"><span class="hero-badge-dot"></span>Nowa firma? Pierwszy rok za 0 zł w programie Polska Bezgotówkowa →</a>
     <h1>Twój terminal kosztuje <em>za dużo?</em></h1>
     <p class="hero-desc">Przeanalizujemy Twoje opłaty i dobierzemy terminal z najniższą prowizją na rynku. Bez ukrytych kosztów, bez długich umów.</p>
     <div class="hero-btns">
       <a href="#kontakt-wizard" class="btn-primary">Bezpłatna analiza opłat →</a>
       <a href="#kalkulator" class="btn-secondary">Sprawdź ile przepłacasz</a>
     </div>
+    <div class="hero-checks">
+      <span><svg class="ico"><use href="#i-check"/></svg>Karty, BLIK, telefon</span>
+      <span><svg class="ico"><use href="#i-check"/></svg>Pieniądze na koncie T+1</span>
+      <span><svg class="ico"><use href="#i-check"/></svg>Bez zobowiązań</span>
+    </div>
   </div>
-  <div class="hero-visual">
-    <div class="terminal-card">
-      <div class="tc-header">
-        <div class="tc-chip"></div>
-        <div class="tc-status">Aktywny</div>
-      </div>
-      <div style="text-align:center;font-size:13px;color:var(--subtle);margin-bottom:4px">Szacowane oszczędności przy obrocie 30 000 zł/mies.</div>
-      <div style="text-align:center;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--green);margin:8px 0 16px">nawet 280 zł / mies.</div>
-      <div class="tc-row"><span class="tc-row-label">Prowizja Visa / MC</span><span class="tc-row-value">od 0,55%</span></div>
-      <div class="tc-row"><span class="tc-row-label">Rozliczenie</span><span class="tc-row-value">T+1 na koncie</span></div>
-      <div class="tc-row"><span class="tc-row-label">Abonament</span><span class="tc-row-value">od 18 zł/mies.</span></div>
-      <div class="tc-savings" style="background:var(--blue-light);border-color:rgba(24,96,240,.12)">
-        <div style="font-family:var(--serif);font-size:13px;color:var(--muted)">To aż</div>
-        <div style="font-family:var(--serif);font-size:52px;font-weight:600;color:var(--blue);margin:4px 0">3 360 zł</div>
-        <div style="font-size:14px;font-weight:600;color:var(--blue)">rocznie — które zostają u Ciebie</div>
-      </div>
+  <div class="hero-photo">
+    <img src="img/hero-restauracja.webp" width="1600" height="1067" alt="Klientka kawiarni płaci kartą zbliżeniowo przy terminalu płatniczym">
+    <a href="#nowa-firma" class="photo-badge"><span class="hero-badge-dot"></span><span>Nowa firma? <b>Pierwszy rok za 0 zł</b></span></a>
+    <div class="chip chip-b">
+      <div class="chip-ico"><svg class="ico"><use href="#i-percent"/></svg></div>
+      <div><div class="chip-val">0,55% + 0,05 zł</div><div class="chip-lbl">prowizja za transakcję</div></div>
+    </div>
+    <div class="chip chip-a">
+      <div class="chip-ico green"><svg class="ico"><use href="#i-trend"/></svg></div>
+      <div><div class="chip-val">ponad 2 200 zł</div><div class="chip-lbl">oszczędności rocznie*</div></div>
     </div>
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-value"><span>0,55%</span></div><div class="stat-label">Prowizja Visa / MC</div></div>
+  <div class="stat"><div class="stat-value"><span>0,55%</span></div><div class="stat-label">+ 0,05 zł za transakcję</div></div>
   <div class="stat"><div class="stat-value">24<span>h</span></div><div class="stat-label">Czas wdrożenia</div></div>
   <div class="stat"><div class="stat-value">7<span>/</span>7</div><div class="stat-label">Wsparcie techniczne</div></div>
   <div class="stat"><div class="stat-value">0 <span>zł</span></div><div class="stat-label">Koszt analizy</div></div>
@@ -282,22 +406,82 @@ section{padding:88px 24px}
 </div>
 </section>
 
+<!-- TRUST STRIP -->
+<div class="trust">
+  <div class="trust-inner">
+    <span class="trust-lbl">Przyjmujesz</span>
+    <div class="trust-items">
+      <span class="trust-item">Visa</span>
+      <span class="trust-item">Mastercard</span>
+      <span class="trust-item">BLIK</span>
+      <span class="trust-item">Apple Pay</span>
+      <span class="trust-item">Google Pay</span>
+      <span class="trust-item strong">Polska Bezgotówkowa</span>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL -->
+<section id="terminal">
+<div class="container">
+  <div class="terminal-grid">
+    <div class="terminal-img">
+      <img src="img/terminal.webp" width="260" height="550" alt="Mobilny terminal płatniczy z ekranem dotykowym">
+    </div>
+    <div>
+      <div class="section-label">Twój terminal</div>
+      <h2 class="section-title">Nowoczesny terminal z Androidem, <em>gotowy w 24h</em></h2>
+      <p class="section-sub">Przywozimy, konfigurujemy i uczymy obsługi na miejscu. Działa przy stoliku, przy ladzie i w drodze.</p>
+      <div class="feat-list">
+        <div class="feat"><div class="feat-ico"><svg class="ico"><use href="#i-card"/></svg></div><div><div class="feat-t">Wszystkie metody płatności</div><div class="feat-d">Karty, BLIK, Apple Pay i Google Pay w jednym urządzeniu.</div></div></div>
+        <div class="feat"><div class="feat-ico"><svg class="ico"><use href="#i-wifi"/></svg></div><div><div class="feat-t">Wi-Fi lub karta SIM</div><div class="feat-d">Sam przełącza się na 4G, gdy internet w lokalu zawiedzie.</div></div></div>
+        <div class="feat"><div class="feat-ico"><svg class="ico"><use href="#i-bank"/></svg></div><div><div class="feat-t">Rozliczenie T+1</div><div class="feat-d">Utarg z dzisiaj jest na Twoim koncie następnego dnia roboczego.</div></div></div>
+        <div class="feat"><div class="feat-ico"><svg class="ico"><use href="#i-chart"/></svg></div><div><div class="feat-t">Podgląd sprzedaży</div><div class="feat-d">Transakcje i raporty sprawdzisz w panelu online z telefonu.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BRANŻE -->
+<section class="branch-section" id="branze">
+<div class="container">
+  <div class="section-label">Dla kogo</div>
+  <h2 class="section-title">Terminal dopasowany do <em>Twojego lokalu</em></h2>
+  <p class="section-sub">Ustawiamy terminal pod sposób, w jaki obsługujesz gości: przy stoliku, przy ladzie albo na wynos.</p>
+  <div class="branch-grid">
+    <div class="branch">
+      <img src="img/kawiarnia.webp" width="800" height="600" alt="Płatność kartą zbliżeniową przy terminalu obok filiżanki kawy">
+      <div class="branch-body"><div class="branch-t">Kawiarnie i piekarnie</div><div class="branch-d">Szybkie płatności zbliżeniowe przy ladzie, bez kolejki przy porannym ruchu.</div></div>
+    </div>
+    <div class="branch">
+      <img src="img/hotel.webp" width="800" height="600" alt="Gość hotelu płaci kartą przy recepcji">
+      <div class="branch-body"><div class="branch-t">Restauracje i hotele</div><div class="branch-d">Mobilny terminal do stolika i na recepcję. Gość z zagranicy zapłaci w swojej walucie.</div></div>
+    </div>
+    <div class="branch">
+      <img src="img/foodtruck.webp" width="800" height="600" alt="Klientka płaci telefonem przy food trucku z kanapkami">
+      <div class="branch-body"><div class="branch-t">Food trucki i stoiska</div><div class="branch-d">Terminal na kartę SIM działa tam, gdzie nie ma Wi-Fi: na festiwalu, targu i w trasie.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
 <!-- SAVINGS TABLE -->
-<section class="savings-section" id="oszczednosci">
+<section id="oszczednosci">
 <div class="container">
   <div class="section-label">Porównanie</div>
   <h2 class="section-title">Ile <em>naprawdę</em> przepłacasz?</h2>
   <p class="section-sub">Większość restauratorów nie zna swoich realnych kosztów obsługi płatności. Porównaj warunki.</p>
-  
+
   <div class="savings-wrap">
   <table class="savings-table">
     <thead>
       <tr><th>Opłata</th><th>Typowy operator</th><th>specpos</th></tr>
     </thead>
     <tbody>
-      <tr><td>Prowizja Visa / MC</td><td class="val-old">0,99 – 1,29%</td><td class="val-new">od 0,55%</td></tr>
-      <tr><td>Abonament miesięczny</td><td class="val-old">49 – 79 zł</td><td class="val-new">od 18 zł</td></tr>
-      <tr><td>Opłata za transakcję</td><td class="val-old">0,15 – 0,29 zł</td><td class="val-new">0,00 zł</td></tr>
+      <tr><td>Prowizja (popularne karty)</td><td class="val-old">0,99 – 1,29%</td><td class="val-new">0,55%</td></tr>
+      <tr><td>Wynajem terminala (netto)</td><td class="val-old">49 – 79 zł</td><td class="val-new">30 zł / mies.</td></tr>
+      <tr><td>Opłata za transakcję</td><td class="val-old">0,15 – 0,29 zł</td><td class="val-new">0,05 zł</td></tr>
       <tr><td>Rozliczenie na konto</td><td class="val-old">T+3 do T+7</td><td class="val-new">T+1</td></tr>
       <tr><td>Okres umowy</td><td class="val-old">24 – 36 miesięcy</td><td class="val-new">Bez zobowiązań</td></tr>
       <tr><td>BLIK</td><td class="val-old">często dodatkowa opłata</td><td class="val-new">W cenie</td></tr>
@@ -305,33 +489,51 @@ section{padding:88px 24px}
   </table>
   </div>
 
+  <div class="newbiz" id="nowa-firma">
+    <div class="nb-head">
+      <div class="promise-ico"><svg class="ico"><use href="#i-calendar"/></svg></div>
+      <div><div class="nb-title">Nowa firma? Pierwszy rok za 0 zł</div><div class="nb-sub">W programie Polska Bezgotówkowa nie płacisz za terminal ani za transakcje przez 12 miesięcy.</div></div>
+    </div>
+    <div class="nb-col">
+      <div class="nb-when">Miesiące 1–12</div>
+      <div class="nb-price free">0 zł</div>
+      <div class="nb-d">Bez opłaty za wynajem terminala i bez prowizji od transakcji.</div>
+    </div>
+    <div class="nb-col">
+      <div class="nb-when">Od 13. miesiąca</div>
+      <div class="nb-price">0,55% + 0,05 zł</div>
+      <div class="nb-d">za transakcję popularnymi kartami oraz 30 zł netto miesięcznie za wynajem terminala.</div>
+    </div>
+    <div class="nb-note">Dotyczy firm, które w ostatnim roku nie przyjmowały płatności kartą. Bezpłatne transakcje do 100 000 zł obrotu kartowego.</div>
+  </div>
+
   <div class="savings-summary">
-    <div class="savings-summary-label">Szacowane oszczędności przy obrocie kartowym 30 000 zł/mies.</div>
-    <div class="savings-summary-value">nawet 280 zł / miesiąc</div>
-    <div class="savings-summary-note">3 360 zł rocznie — sprawdź dokładną kwotę w kalkulatorze poniżej</div>
+    <div class="savings-summary-label">* Przykład: obrót kartowy 30 000 zł/mies., średnia transakcja 50 zł, obecnie 1,2% + 49 zł abonamentu</div>
+    <div class="savings-summary-value">ok. 180 zł / miesiąc</div>
+    <div class="savings-summary-note">Ponad 2 200 zł rocznie. Dokładną kwotę dla swojego lokalu sprawdzisz w kalkulatorze poniżej.</div>
   </div>
 </div>
 </section>
 
 <!-- PAIN POINTS -->
-<section id="problem">
+<section class="pain-section" id="problem">
 <div class="container">
   <div class="section-label">Brzmi znajomo?</div>
   <h2 class="section-title">Problemy, z którymi <em>nie musisz żyć</em></h2>
-  
+
   <div class="pain-grid">
     <div class="pain-card">
-      <div class="pain-icon">💸</div>
+      <div class="pain-icon"><svg class="ico"><use href="#i-receipt"/></svg></div>
       <div class="pain-q">„Nie wiem ile naprawdę płacę"</div>
       <div class="pain-a">Faktura od operatora to 3 strony niezrozumiałych pozycji. Prowizja interchange, marża, opłata schematowa — nikt Ci tego nie wytłumaczył przy podpisaniu umowy. Przeanalizujemy Twoje faktury za darmo i powiemy wprost ile tracisz.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">🔒</div>
+      <div class="pain-icon"><svg class="ico"><use href="#i-lock"/></svg></div>
       <div class="pain-q">„Jestem w umowie na 3 lata"</div>
       <div class="pain-a">Sprawdzimy warunki Twojej umowy. Często kara za wcześniejsze rozwiązanie jest niższa niż roczna przepłata na prowizjach. A jeśli nie warto teraz zmieniać — powiemy Ci to wprost i przypomnimy, gdy umowa się kończy.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">📈</div>
+      <div class="pain-icon"><svg class="ico"><use href="#i-trend"/></svg></div>
       <div class="pain-q">„Obroty rosną, prowizja też"</div>
       <div class="pain-a">Przy obrocie 50 000 zł miesięcznie różnica między 1,2% a 0,55% to ponad 300 zł. Co miesiąc. Przy odpowiedniej strukturze opłat Twój sukces nie karmi operatora.</div>
     </div>
@@ -340,35 +542,42 @@ section{padding:88px 24px}
 </section>
 
 <!-- CALCULATOR -->
-<section class="calc-section" id="kalkulator">
+<section id="kalkulator">
 <div class="container">
   <div class="section-label">Kalkulator</div>
   <h2 class="section-title">Sprawdź <em>swoją</em> oszczędność</h2>
   <p class="section-sub">Przesuń suwaki, żeby zobaczyć ile możesz zaoszczędzić przechodząc na specpos.</p>
-  
+
   <div class="calc-wrapper">
     <div class="calc-row">
       <div class="calc-label">
         <span class="calc-label-text">Miesięczny obrót kartowy</span>
         <span class="calc-label-value" id="calc-obrot-val">30 000 zł</span>
       </div>
-      <input type="range" class="calc-slider" id="slider-obrot" min="5000" max="150000" value="30000" step="1000">
+      <input type="range" class="calc-slider" id="slider-obrot" min="5000" max="150000" value="30000" step="1000" aria-label="Miesięczny obrót kartowy">
     </div>
     <div class="calc-row">
       <div class="calc-label">
         <span class="calc-label-text">Twoja obecna prowizja</span>
         <span class="calc-label-value" id="calc-prowizja-val">1,20%</span>
       </div>
-      <input type="range" class="calc-slider" id="slider-prowizja" min="0.6" max="2.5" value="1.2" step="0.05">
+      <input type="range" class="calc-slider" id="slider-prowizja" min="0.6" max="2.5" value="1.2" step="0.05" aria-label="Obecna prowizja">
+    </div>
+    <div class="calc-row">
+      <div class="calc-label">
+        <span class="calc-label-text">Średnia wartość transakcji</span>
+        <span class="calc-label-value" id="calc-paragon-val">50 zł</span>
+      </div>
+      <input type="range" class="calc-slider" id="slider-paragon" min="10" max="300" value="50" step="5" aria-label="Średnia wartość transakcji">
     </div>
     <div class="calc-row" style="margin-bottom:12px">
       <div class="calc-label">
-        <span class="calc-label-text">Obecny abonament</span>
+        <span class="calc-label-text">Obecny abonament (netto)</span>
         <span class="calc-label-value" id="calc-abonament-val">49 zł</span>
       </div>
-      <input type="range" class="calc-slider" id="slider-abonament" min="0" max="150" value="49" step="1">
+      <input type="range" class="calc-slider" id="slider-abonament" min="0" max="150" value="49" step="1" aria-label="Obecny abonament">
     </div>
-    
+
     <div class="calc-breakdown">
       <div class="calc-break-item">
         <div class="calc-break-label">Teraz płacisz</div>
@@ -376,18 +585,18 @@ section{padding:88px 24px}
       </div>
       <div class="calc-break-item">
         <div class="calc-break-label">Ze specpos zapłacisz</div>
-        <div class="calc-break-val new" id="calc-specpos">183 zł</div>
+        <div class="calc-break-val new" id="calc-specpos">225 zł</div>
       </div>
     </div>
-    
+
     <div class="calc-result">
       <div class="calc-result-label">Twoja miesięczna oszczędność</div>
-      <div style="font-family:var(--serif);font-size:22px;font-weight:600;color:var(--blue);margin:4px 0" id="calc-savings">226 zł</div>
+      <div style="font-family:var(--serif);font-size:22px;font-weight:600;color:var(--blue);margin:4px 0" id="calc-savings">184 zł</div>
       <div style="font-size:14px;color:var(--muted);margin:12px 0 4px">To aż</div>
-      <div class="calc-result-value" id="calc-yearly">2 712 zł</div>
-      <div class="calc-result-note">rocznie</div>
+      <div class="calc-result-value" id="calc-yearly">2 208 zł</div>
+      <div class="calc-result-note">rocznie · specpos: 0,55% + 0,05 zł za transakcję + 30 zł netto wynajmu</div>
     </div>
-    
+
     <div style="text-align:center;margin-top:24px">
       <a href="#kontakt-wizard" class="btn-primary">Chcę tyle oszczędzać →</a>
     </div>
@@ -396,29 +605,29 @@ section{padding:88px 24px}
 </section>
 
 <!-- HOW WE WORK -->
-<section id="jak-dzialamy">
+<section class="pain-section" id="jak-dzialamy">
 <div class="container">
   <div class="section-label">Proces</div>
   <h2 class="section-title">Od rozmowy do <em>niższych opłat</em></h2>
-  
+
   <div class="steps-grid">
     <div class="step-card">
-      <div class="step-num">01</div>
+      <div class="step-top"><div class="step-ico"><svg class="ico"><use href="#i-search"/></svg></div><div class="step-num">01</div></div>
       <div class="step-title">Analiza</div>
       <div class="step-desc">Prześlij nam swoją fakturę od operatora. Rozłożymy ją na czynniki i pokażemy ile tracisz — bezpłatnie.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">02</div>
+      <div class="step-top"><div class="step-ico"><svg class="ico"><use href="#i-file"/></svg></div><div class="step-num">02</div></div>
       <div class="step-title">Oferta</div>
       <div class="step-desc">Otrzymasz konkretną propozycję z pełnym zestawieniem kosztów. Żadnych gwiazdek ani drobnego druku.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">03</div>
+      <div class="step-top"><div class="step-ico"><svg class="ico"><use href="#i-truck"/></svg></div><div class="step-num">03</div></div>
       <div class="step-title">Wdrożenie</div>
       <div class="step-desc">Przywozimy terminal, konfigurujemy i testujemy na miejscu. Działasz tego samego dnia.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">04</div>
+      <div class="step-top"><div class="step-ico"><svg class="ico"><use href="#i-headset"/></svg></div><div class="step-num">04</div></div>
       <div class="step-title">Wsparcie</div>
       <div class="step-desc">Dzwonisz do konkretnej osoby — nie na infolinię. Dostępni 7 dni w tygodniu, cały rok.</div>
     </div>
@@ -427,12 +636,12 @@ section{padding:88px 24px}
 </section>
 
 <!-- WIZARD FORM -->
-<section class="wizard-section" id="kontakt-wizard">
+<section id="kontakt-wizard">
 <div class="container">
   <div class="section-label">Formularz</div>
   <h2 class="section-title">Dobierz terminal <em>w 2 minuty</em></h2>
   <p class="section-sub">Odpowiedz na kilka pytań — oddzwonimy z konkretną propozycją dopasowaną do Twojego lokalu.</p>
-  
+
   <div class="wizard-wrapper">
     <div class="wizard-progress">
       <div class="wizard-dot active" id="dot-0"></div>
@@ -441,47 +650,47 @@ section{padding:88px 24px}
       <div class="wizard-dot" id="dot-3"></div>
       <div class="wizard-dot" id="dot-4"></div>
     </div>
-    
+
     <div class="wizard-step active" id="wstep-0">
       <div class="wizard-question">Czy masz już terminal płatniczy?</div>
       <div class="wizard-options">
-        <button class="wizard-opt" data-step="0" data-value="tak" onclick="wizSelect(this)"><span class="wizard-opt-icon">✅</span><span class="wizard-opt-label">Tak, mam</span></button>
-        <button class="wizard-opt" data-step="0" data-value="nie" onclick="wizSelect(this)"><span class="wizard-opt-icon">🔍</span><span class="wizard-opt-label">Nie, szukam pierwszego</span></button>
+        <button class="wizard-opt" type="button" data-step="0" data-value="tak" onclick="wizSelect(this)"><svg class="ico"><use href="#i-check"/></svg><span class="wizard-opt-label">Tak, mam</span></button>
+        <button class="wizard-opt" type="button" data-step="0" data-value="nie" onclick="wizSelect(this)"><svg class="ico"><use href="#i-search"/></svg><span class="wizard-opt-label">Nie, szukam pierwszego</span></button>
       </div>
     </div>
-    
+
     <div class="wizard-step" id="wstep-1">
       <div class="wizard-question">Jaki typ lokalu prowadzisz?</div>
-      <div class="wizard-options" style="grid-template-columns:1fr 1fr 1fr">
-        <button class="wizard-opt" data-step="1" data-value="restauracja" onclick="wizSelect(this)"><span class="wizard-opt-icon">🍽️</span><span class="wizard-opt-label">Restauracja</span></button>
-        <button class="wizard-opt" data-step="1" data-value="kawiarnia" onclick="wizSelect(this)"><span class="wizard-opt-icon">☕</span><span class="wizard-opt-label">Kawiarnia / bar</span></button>
-        <button class="wizard-opt" data-step="1" data-value="hotel" onclick="wizSelect(this)"><span class="wizard-opt-icon">🏨</span><span class="wizard-opt-label">Hotel</span></button>
-        <button class="wizard-opt" data-step="1" data-value="food-truck" onclick="wizSelect(this)"><span class="wizard-opt-icon">🚚</span><span class="wizard-opt-label">Food truck</span></button>
-        <button class="wizard-opt" data-step="1" data-value="catering" onclick="wizSelect(this)"><span class="wizard-opt-icon">🍱</span><span class="wizard-opt-label">Catering</span></button>
-        <button class="wizard-opt" data-step="1" data-value="inny" onclick="wizSelect(this)"><span class="wizard-opt-icon">🏪</span><span class="wizard-opt-label">Inny</span></button>
+      <div class="wizard-options three">
+        <button class="wizard-opt" type="button" data-step="1" data-value="restauracja" onclick="wizSelect(this)"><svg class="ico"><use href="#i-plate"/></svg><span class="wizard-opt-label">Restauracja</span></button>
+        <button class="wizard-opt" type="button" data-step="1" data-value="kawiarnia" onclick="wizSelect(this)"><svg class="ico"><use href="#i-cup"/></svg><span class="wizard-opt-label">Kawiarnia / bar</span></button>
+        <button class="wizard-opt" type="button" data-step="1" data-value="hotel" onclick="wizSelect(this)"><svg class="ico"><use href="#i-bed"/></svg><span class="wizard-opt-label">Hotel</span></button>
+        <button class="wizard-opt" type="button" data-step="1" data-value="food-truck" onclick="wizSelect(this)"><svg class="ico"><use href="#i-truck"/></svg><span class="wizard-opt-label">Food truck</span></button>
+        <button class="wizard-opt" type="button" data-step="1" data-value="catering" onclick="wizSelect(this)"><svg class="ico"><use href="#i-box"/></svg><span class="wizard-opt-label">Catering</span></button>
+        <button class="wizard-opt" type="button" data-step="1" data-value="inny" onclick="wizSelect(this)"><svg class="ico"><use href="#i-store"/></svg><span class="wizard-opt-label">Inny</span></button>
       </div>
     </div>
-    
+
     <div class="wizard-step" id="wstep-2">
       <div class="wizard-question">Jaki masz miesięczny obrót kartowy?</div>
       <div class="wizard-options">
-        <button class="wizard-opt" data-step="2" data-value="do-10k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">Do 10 000 zł</span></button>
-        <button class="wizard-opt" data-step="2" data-value="10-30k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">10 – 30 tys. zł</span></button>
-        <button class="wizard-opt" data-step="2" data-value="30-80k" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">30 – 80 tys. zł</span></button>
-        <button class="wizard-opt" data-step="2" data-value="80k+" onclick="wizSelect(this)"><span class="wizard-opt-icon">📊</span><span class="wizard-opt-label">Powyżej 80 tys. zł</span></button>
+        <button class="wizard-opt" type="button" data-step="2" data-value="do-10k" onclick="wizSelect(this)"><svg class="ico"><use href="#i-chart"/></svg><span class="wizard-opt-label">Do 10 000 zł</span></button>
+        <button class="wizard-opt" type="button" data-step="2" data-value="10-30k" onclick="wizSelect(this)"><svg class="ico"><use href="#i-chart"/></svg><span class="wizard-opt-label">10 – 30 tys. zł</span></button>
+        <button class="wizard-opt" type="button" data-step="2" data-value="30-80k" onclick="wizSelect(this)"><svg class="ico"><use href="#i-chart"/></svg><span class="wizard-opt-label">30 – 80 tys. zł</span></button>
+        <button class="wizard-opt" type="button" data-step="2" data-value="80k+" onclick="wizSelect(this)"><svg class="ico"><use href="#i-chart"/></svg><span class="wizard-opt-label">Powyżej 80 tys. zł</span></button>
       </div>
     </div>
-    
+
     <div class="wizard-step" id="wstep-3">
       <div class="wizard-question">Co jest dla Ciebie najważniejsze?</div>
       <div class="wizard-options">
-        <button class="wizard-opt" data-step="3" data-value="prowizja" onclick="wizSelect(this)"><span class="wizard-opt-icon">💰</span><span class="wizard-opt-label">Najniższa prowizja</span></button>
-        <button class="wizard-opt" data-step="3" data-value="szybkosc" onclick="wizSelect(this)"><span class="wizard-opt-icon">⚡</span><span class="wizard-opt-label">Szybkie wdrożenie</span></button>
-        <button class="wizard-opt" data-step="3" data-value="mobilnosc" onclick="wizSelect(this)"><span class="wizard-opt-icon">📱</span><span class="wizard-opt-label">Terminal mobilny</span></button>
-        <button class="wizard-opt" data-step="3" data-value="wsparcie" onclick="wizSelect(this)"><span class="wizard-opt-icon">🤝</span><span class="wizard-opt-label">Dobre wsparcie</span></button>
+        <button class="wizard-opt" type="button" data-step="3" data-value="prowizja" onclick="wizSelect(this)"><svg class="ico"><use href="#i-coin"/></svg><span class="wizard-opt-label">Najniższa prowizja</span></button>
+        <button class="wizard-opt" type="button" data-step="3" data-value="szybkosc" onclick="wizSelect(this)"><svg class="ico"><use href="#i-bolt"/></svg><span class="wizard-opt-label">Szybkie wdrożenie</span></button>
+        <button class="wizard-opt" type="button" data-step="3" data-value="mobilnosc" onclick="wizSelect(this)"><svg class="ico"><use href="#i-phone"/></svg><span class="wizard-opt-label">Terminal mobilny</span></button>
+        <button class="wizard-opt" type="button" data-step="3" data-value="wsparcie" onclick="wizSelect(this)"><svg class="ico"><use href="#i-hand"/></svg><span class="wizard-opt-label">Dobre wsparcie</span></button>
       </div>
     </div>
-    
+
     <div class="wizard-step" id="wstep-4">
       <div class="wizard-question">Podaj dane — oddzwonimy z ofertą</div>
       <div class="wizard-contact">
@@ -491,72 +700,63 @@ section{padding:88px 24px}
         <input class="wizard-input" type="text" name="miasto" placeholder="Miasto" id="wiz-miasto">
       </div>
     </div>
-    
+
     <div class="wizard-step" id="wstep-success" style="text-align:center;padding:32px 0">
-      <div style="font-size:48px;margin-bottom:16px">✅</div>
+      <div class="success-ico"><svg class="ico" style="width:28px;height:28px"><use href="#i-check"/></svg></div>
       <div style="font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:8px">Dziękujemy!</div>
       <div style="color:var(--muted);font-size:15px;line-height:1.6">Oddzwonimy w ciągu kilku godzin z propozycją dopasowaną do Twojego lokalu.</div>
       <div style="margin-top:16px;font-size:14px;color:var(--subtle)">Możesz też zadzwonić: <a href="tel:+48734037907" style="font-weight:600">734 037 907</a></div>
     </div>
-    
+
     <div class="wizard-nav" id="wizard-nav">
-      <button class="wizard-back" id="wiz-back" onclick="wizBack()" style="visibility:hidden">← Wstecz</button>
-      <button class="wizard-next" id="wiz-next" onclick="wizNext()" disabled>Dalej →</button>
+      <button class="wizard-back" type="button" id="wiz-back" onclick="wizBack()" style="visibility:hidden">← Wstecz</button>
+      <button class="wizard-next" type="button" id="wiz-next" onclick="wizNext()" disabled>Dalej →</button>
     </div>
   </div>
 </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section id="opinie">
+<!-- ZOBOWIĄZANIA (zastępują opinie; prawdziwe opinie klientów można dodać tutaj później) -->
+<section class="pain-section" id="dlaczego">
 <div class="container">
-  <div class="section-label">Opinie</div>
-  <h2 class="section-title">Co mówią <em>nasi klienci</em></h2>
-  
-  <div class="testimonials-grid">
-    <div class="testimonial-card">
-      <div class="testimonial-stars">★★★★★</div>
-      <div class="testimonial-text">„Myślałem, że prowizja 1,2% to standard. Po analizie okazało się, że przepłacam ponad 200 zł miesięcznie. Zmiana terminala trwała jeden dzień."</div>
-      <div class="testimonial-author"><strong>Marek W.</strong> — właściciel pizzerii, Kraków</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-stars">★★★★★</div>
-      <div class="testimonial-text">„Doceniam to, że dzwonię do konkretnej osoby. Poprzedni operator miał infolinię, na której czekałem po 20 minut."</div>
-      <div class="testimonial-author"><strong>Anna K.</strong> — kawiarnia, Nowy Sącz</div>
-    </div>
-    <div class="testimonial-card">
-      <div class="testimonial-stars">★★★★★</div>
-      <div class="testimonial-text">„Bałam się, że zmiana operatora to tygodnie papierków. Przyjechali rano, po południu terminal już działał. Zero przestojów."</div>
-      <div class="testimonial-author"><strong>Katarzyna M.</strong> — restauracja, Tarnów</div>
-    </div>
+  <div class="section-label">Dlaczego specpos</div>
+  <h2 class="section-title">Co Ci <em>obiecujemy</em></h2>
+
+  <div class="promise-grid">
+    <div class="promise"><div class="promise-ico"><svg class="ico"><use href="#i-user"/></svg></div><div><div class="promise-t">Jeden opiekun</div><div class="promise-d">Dzwonisz do konkretnej osoby, która zna Twój lokal. Bez infolinii i czekania.</div></div></div>
+    <div class="promise"><div class="promise-ico"><svg class="ico"><use href="#i-shield"/></svg></div><div><div class="promise-t">Pełne zestawienie kosztów</div><div class="promise-d">Przed podpisaniem widzisz każdą opłatę na piśmie. Bez gwiazdek i drobnego druku.</div></div></div>
+    <div class="promise"><div class="promise-ico"><svg class="ico"><use href="#i-calendar"/></svg></div><div><div class="promise-t">Szczera rada</div><div class="promise-d">Jeśli zmiana operatora Ci się nie opłaca, powiemy to wprost i przypomnimy, gdy kończy się umowa.</div></div></div>
   </div>
-  
+
   <div class="cta-bottom">
-    <div class="section-label">Zacznij oszczędzać</div>
-    <h2 class="section-title" style="margin-bottom:4px">Zadzwoń lub zostaw numer</h2>
-    <div class="cta-phone"><a href="tel:+48734037907">734 037 907</a></div>
-    <div class="cta-hours">Pon–Sob, 8:00–20:00 · kontaktspecpos@gmail.com</div>
-    <div style="margin-top:20px"><a href="#kontakt-wizard" class="btn-primary">Wypełnij formularz →</a></div>
+    <div class="cta-text">
+      <div class="section-label">Zacznij oszczędzać</div>
+      <h2 class="section-title">Zadzwoń lub zostaw numer</h2>
+      <div class="cta-phone"><a href="tel:+48734037907">734 037 907</a></div>
+      <div class="cta-hours">Pon–Sob, 8:00–20:00 · kontaktspecpos@gmail.com</div>
+      <a href="#kontakt-wizard" class="btn-primary">Wypełnij formularz →</a>
+    </div>
+    <div class="cta-img" role="img" aria-label="Baristka przyjmuje płatność kartą w kawiarni"></div>
   </div>
 </div>
 </section>
 
 <!-- KONTAKT -->
-<section style="background:var(--bg)" id="kontakt">
+<section id="kontakt">
 <div class="container">
   <div class="section-label">Kontakt</div>
   <h2 class="section-title">Porozmawiajmy <em>o Twoim biznesie</em></h2>
   <p class="section-sub">Zadzwoń, napisz lub zostaw numer — oddzwonimy w ciągu kilku godzin.</p>
-  
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px;max-width:800px">
-    <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;text-align:center">
-      <div style="font-size:28px;margin-bottom:12px">📞</div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-ico"><svg class="ico"><use href="#i-call"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:8px">Telefon</div>
       <div style="font-family:var(--serif);font-size:24px;font-weight:600;margin-bottom:4px"><a href="tel:+48734037907" style="color:var(--ink)">734 037 907</a></div>
       <div style="font-size:13px;color:var(--subtle)">Pon–Sob, 8:00–20:00</div>
     </div>
-    <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:32px;text-align:center">
-      <div style="font-size:28px;margin-bottom:12px">✉️</div>
+    <div class="contact-card">
+      <div class="contact-ico"><svg class="ico"><use href="#i-mail"/></svg></div>
       <div style="font-size:16px;font-weight:600;margin-bottom:8px">E-mail</div>
       <div style="font-size:16px;margin-bottom:4px"><a href="mailto:kontaktspecpos@gmail.com">kontaktspecpos@gmail.com</a></div>
       <div style="font-size:13px;color:var(--subtle)">Odpowiadamy w ciągu 24h</div>
@@ -578,15 +778,20 @@ section{padding:88px 24px}
 var sliderObrot = document.getElementById('slider-obrot');
 var sliderProwizja = document.getElementById('slider-prowizja');
 var sliderAbonament = document.getElementById('slider-abonament');
+var sliderParagon = document.getElementById('slider-paragon');
 
 function updateCalc() {
   var obrot = parseInt(sliderObrot.value);
   var prowizja = parseFloat(sliderProwizja.value);
   var abonament = parseInt(sliderAbonament.value);
-  var specposProwizja = 0.55;
-  var specposAbonament = 18;
+  var paragon = parseInt(sliderParagon.value);
+  var transakcje = Math.round(obrot / paragon);
+  var specposProwizja = 0.55;     // % od transakcji (najpopularniejsze karty)
+  var specposOplataTx = 0.05;     // zł za transakcję
+  var specposAbonament = 30;      // zł netto / mies. (wynajem terminala)
   var kosztTeraz = Math.round(obrot * prowizja / 100 + abonament);
-  var kosztSpecpos = Math.round(obrot * specposProwizja / 100 + specposAbonament);
+  var kosztSpecpos = Math.round(obrot * specposProwizja / 100 + transakcje * specposOplataTx + specposAbonament);
+  document.getElementById('calc-paragon-val').textContent = paragon + ' zł';
   var savings = Math.max(0, kosztTeraz - kosztSpecpos);
   document.getElementById('calc-obrot-val').textContent = obrot.toLocaleString('pl-PL') + ' zł';
   document.getElementById('calc-prowizja-val').textContent = prowizja.toFixed(2).replace('.', ',') + '%';
@@ -599,6 +804,7 @@ function updateCalc() {
 sliderObrot.addEventListener('input', updateCalc);
 sliderProwizja.addEventListener('input', updateCalc);
 sliderAbonament.addEventListener('input', updateCalc);
+sliderParagon.addEventListener('input', updateCalc);
 updateCalc();
 
 // === WIZARD ===
@@ -629,7 +835,7 @@ function wizNext() {
     fetch('https://formspree.io/f/mpwwnegr', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({source: 'specpos.pl/terminale - wizard', ...wizardData})
+      body: JSON.stringify(Object.assign({source: 'specpos.pl/terminale - wizard'}, wizardData))
     }).catch(function(){});
     document.querySelectorAll('.wizard-step').forEach(function(s){s.classList.remove('active')});
     document.getElementById('wstep-success').classList.add('active');
@@ -664,14 +870,6 @@ function showWizardStep() {
     var sel = document.querySelector('#wstep-' + wizardStep + ' .wizard-opt.selected');
     nextBtn.disabled = !sel;
   }
-}
-
-// === SCROLL ANIMATIONS ===
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.pain-card, .step-card, .testimonial-card').forEach(function(el) { observer.observe(el); });
 }
 
 // === SOLO MODE ===
