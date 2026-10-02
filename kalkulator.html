@@ -1,584 +1,369 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBGH4M410M"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZBGH4M410M');</script></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalkulator oszczędności — specpos</title>
+<meta name="description" content="Sprawdź, ile zaoszczędzisz na terminalu płatniczym: 0,55% + 0,05 zł za transakcję i 30 zł netto za wynajem. Kalkulator dla gastronomii.">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBGH4M410M"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZBGH4M410M');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* Wspólny system specpos: biel, granat #1860F0, Playfair Display + Inter */
 :root{
-  --ink:#0A0A0C;
-  --white:#FFFFFF;
-  --off:#F7F7F5;
-  --border:#E0E0DC;
-  --muted:#888884;
-  --line:rgba(0,0,0,0.08);
-  --line2:rgba(0,0,0,0.1);
-  --surface:#FFFFFF;
-  --surface2:#F7F7F5;
-  --blue:#185FA5;
-  --blue-mid:#378ADD;
-  --blue-light:#EBF3FB;
-  --green:#16A34A;
-  --green-light:#F0FBF4;
-  --gold:#B45309;
-  --serif:'Playfair Display',serif;
-  --sans:'Inter',sans-serif;
+  --white:#FFFFFF;--ink:#0A0A0F;--muted:#5E5E6E;--subtle:#8A8A9A;--line:#E8E8F0;--bg:#F7F8FB;
+  --blue:#1860F0;--blue-dark:#0A46CC;--blue-light:#EEF3FF;--blue-mid:#4080F8;
+  --red:#E53935;--red-bg:#FFF0F0;--green:#16A34A;--green-bg:#F0FDF4;
+  --serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;--radius:12px;
+  color-scheme:light;
 }
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--sans);color:var(--ink);
-  background:var(--off);min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* NAV */
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 48px;border-bottom:1px solid var(--line);
-  background:var(--white);
-  position:sticky;top:0;z-index:100;
-}
-.logo{
-  font-family:var(--serif);font-size:20px;font-weight:700;
-  color:var(--ink);text-decoration:none;letter-spacing:-0.5px;
-}
-.logo span{color:var(--blue-mid)}
-.nav-back{
-  font-size:13px;color:var(--muted);text-decoration:none;
-  display:flex;align-items:center;gap:8px;transition:color .2s;
-}
-.nav-back:hover{color:var(--ink)}
-.nav-back::before{content:'←'}
-
-/* HERO */
-.hero{
-  padding:72px 48px 56px;
-  border-bottom:1px solid var(--border);
-  background:var(--white);
-}
-.hero-inner{max-width:900px;margin:0 auto}
-.eyebrow{
-  font-size:11px;font-weight:600;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--blue-mid);
-  display:flex;align-items:center;gap:10px;margin-bottom:20px;
-}
-.eyebrow::before{content:'';width:24px;height:1px;background:var(--blue-mid)}
-.hero h1{
-  font-family:var(--serif);font-size:clamp(36px,5vw,60px);
-  font-weight:900;letter-spacing:-2px;line-height:1.06;
-  color:var(--ink);margin-bottom:16px;
-}
-.hero h1 em{font-style:italic;color:var(--blue-mid)}
-.hero-sub{
-  font-size:16px;color:var(--muted);
-  line-height:1.7;font-weight:300;max-width:520px;
-}
-
-/* MAIN */
-main{max-width:900px;margin:0 auto;padding:56px 48px 80px}
-
-/* SECTION LABELS */
-.sec-label{
-  font-size:10px;font-weight:600;letter-spacing:2.5px;
-  text-transform:uppercase;color:var(--muted);
-  margin-bottom:20px;display:flex;align-items:center;gap:12px;
-}
-.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* INPUTS */
-.inputs-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--border);
-  border:1px solid var(--border);border-radius:8px;
-  overflow:hidden;margin-bottom:48px;
-}
-.inp-cell{
-  background:var(--white);padding:24px 20px;
-  transition:background .2s;
-}
-.inp-cell:hover{background:var(--off)}
-.inp-label{
-  font-size:11px;font-weight:500;letter-spacing:1px;
-  text-transform:uppercase;color:var(--muted);
-  margin-bottom:10px;display:flex;align-items:center;gap:6px;
-}
-.inp-unit{
-  font-size:10px;color:var(--blue-mid);
-  border:1px solid rgba(24,95,165,0.3);
-  padding:1px 6px;border-radius:2px;
-}
-.inp-field{
-  width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);
-  color:var(--ink);font-family:var(--serif);font-size:28px;font-weight:700;
-  padding:4px 0 8px;outline:none;transition:border-color .2s;
-  -moz-appearance:textfield;letter-spacing:-1px;
-}
-.inp-field::-webkit-inner-spin-button,.inp-field::-webkit-outer-spin-button{-webkit-appearance:none}
-.inp-field:focus{border-color:var(--blue-mid)}
-
-/* RESULTS */
-.results-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--border);
-  border:1px solid var(--border);border-radius:8px;
-  overflow:hidden;margin-bottom:48px;
-}
-.res-card{background:var(--white);padding:28px 20px;transition:background .2s;position:relative}
-.res-card::after{
-  content:'';position:absolute;top:0;left:0;right:0;
-  height:2px;background:transparent;transition:background .2s;
-}
-.res-card:hover{background:var(--off)}
-.res-card:hover::after{background:var(--line2)}
-.res-card.good::after{background:var(--green)}
-.res-card.great::after{background:var(--gold)}
-.res-label{
-  font-size:11px;font-weight:500;letter-spacing:1px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
-}
-.res-val{
-  font-family:var(--serif);font-size:32px;font-weight:700;
-  color:var(--ink);line-height:1;letter-spacing:-1px;
-  transition:color .3s;
-}
-.res-val.green{color:var(--green)}
-.res-val.gold{color:var(--gold)}
-.res-unit{font-size:12px;color:var(--muted);margin-top:6px;letter-spacing:0.5px}
-.res-formula{
-  font-size:10px;color:var(--muted);
-  margin-top:8px;letter-spacing:0.5px;
-}
-
-/* BAR */
-.bar-section{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:8px;padding:28px;margin-bottom:48px;
-}
-.bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
-.bar-title{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-.bar-pct{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--green);letter-spacing:-1px}
-.bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--green));width:0%;transition:width .6s cubic-bezier(.22,1,.36,1)}
-.bar-sub{font-size:12px;color:var(--muted);margin-top:12px;font-weight:300}
-
-/* TABLE */
-.table-wrap{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;margin-bottom:48px;overflow-x:auto;
-}
-table{width:100%;border-collapse:collapse;min-width:600px}
-thead tr{background:var(--off);border-bottom:1px solid var(--border)}
-thead th{
-  font-size:10px;font-weight:600;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--muted);
-  padding:14px 16px;text-align:right;white-space:nowrap;
-}
-thead th:first-child{text-align:left}
-tbody tr{border-bottom:1px solid var(--border)}
-tbody td{
-  padding:16px;font-size:14px;color:var(--ink);
-  text-align:right;white-space:nowrap;
-}
-tbody td:first-child{
-  text-align:left;font-family:var(--serif);
-  font-weight:700;font-size:16px;color:var(--ink);
-}
-.td-green{color:var(--green)!important;font-weight:500}
-.td-gold{color:var(--gold)!important;font-weight:500}
-
-/* DIVIDER */
-.divider{height:1px;background:var(--border);margin:0 0 48px}
-
-/* CONTACT FORM */
-.cta-section{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;
-}
-.cta-top{
-  padding:36px 36px 0;
-  border-bottom:1px solid var(--border);
-  padding-bottom:28px;
-  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
-}
-.cta-h{
-  font-family:var(--serif);font-size:28px;font-weight:700;
-  letter-spacing:-0.5px;color:var(--ink);margin-bottom:8px;
-}
-.cta-sub{font-size:14px;color:var(--muted);font-weight:300;line-height:1.6}
-.savings-pill{
-  background:var(--green-light);border:1px solid rgba(34,197,94,0.2);
-  border-radius:8px;padding:16px 20px;text-align:center;white-space:nowrap;
-}
-.savings-pill-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:6px}
-.savings-pill-val{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--green);letter-spacing:-1px}
-.savings-pill-unit{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px}
-.cta-form{padding:28px 36px 36px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.fg label{
-  display:block;font-size:10px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:8px;
-}
-.fg input,.fg select,.fg textarea{
-  width:100%;padding:12px 16px;
-  background:var(--off);
-  border:1px solid var(--border);border-radius:4px;
-  font-family:var(--sans);font-size:14px;
-  color:var(--ink);font-weight:300;
-  transition:border .2s;outline:none;
-}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue-mid)}
-.fg input::placeholder,.fg textarea::placeholder{color:#BBBBB7}
-.fg select{appearance:none;cursor:pointer}
-.fg select option{background:var(--white)}
-.fg textarea{min-height:80px;resize:vertical;margin-bottom:16px}
-.btn-send{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;background:var(--blue);color:var(--white);border:none;
-  padding:15px;border-radius:4px;font-family:var(--sans);
-  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:background .2s;
-}
-.btn-send:hover{background:#0A5CE8}
-.btn-send::after{content:'→'}
-.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;font-weight:300}
-
-/* SUCCESS */
-.success-msg{
-  display:none;text-align:center;padding:48px 36px;
-}
-.success-msg.show{display:block}
-.success-icon{font-size:48px;margin-bottom:16px}
-.success-h{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:8px}
-.success-p{font-size:14px;color:var(--muted);font-weight:300}
-
-/* FOOTER */
-footer{
-  border-top:1px solid var(--border);
-  padding:24px 48px;
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:0;
-}
-.footer-logo{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--muted);text-decoration:none}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[hidden]{display:none!important}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--blue-dark)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav-logo{font-weight:700;font-size:20px;letter-spacing:-.5px;color:var(--ink)}
+.nav-logo span{color:var(--blue)}
+.nav-links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.nav-links a{color:var(--muted);transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--blue)}
+.nav-cta-btn{background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:10px 18px;border-radius:8px;transition:background .2s;white-space:nowrap}
+.nav-cta-btn:hover{background:var(--blue-dark);color:#fff}
+.hamburger{display:none;background:none;border:none}
+section{padding:88px 20px}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.section-title{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.3px;line-height:1.15;margin-bottom:16px;text-wrap:balance}
+.section-title em{font-style:italic;color:var(--blue)}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px;line-height:1.7}
+.alt{background:var(--bg)}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.btn-primary:hover{background:var(--blue-dark);color:#fff;transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.5;cursor:wait;transform:none}
+.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--white);color:var(--ink);font-weight:500;font-size:15px;padding:14px 28px;border-radius:10px;border:1px solid var(--line);transition:all .2s}
+.btn-secondary:hover{border-color:var(--subtle);background:var(--bg);color:var(--ink)}
+.hero{padding-top:128px;padding-bottom:64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:520px;height:520px;background:radial-gradient(circle,rgba(24,96,240,.07) 0%,transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.hero-grid>*{min-width:0}
+.hero h1{font-family:var(--serif);font-size:clamp(34px,5vw,54px);font-weight:600;letter-spacing:-.5px;line-height:1.1;margin-bottom:20px;text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero-desc{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:28px;max-width:470px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.hero-photo{position:relative}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:0 24px 60px rgba(10,30,80,.18)}
+.chip{position:absolute;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:0 10px 30px rgba(10,30,80,.12);display:flex;align-items:center;gap:12px}
+.chip-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--blue-light);color:var(--blue)}
+.chip-ico.green{background:var(--green-bg);color:var(--green)}
+.chip-val{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.1}
+.chip-lbl{font-size:12px;color:var(--subtle)}
+.icon-box{width:44px;height:44px;border-radius:10px;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius)}
+.input{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:13px 16px;font-size:15px;color:var(--ink);font-family:var(--sans);outline:none;width:100%;transition:border-color .2s}
+.input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,96,240,.08);background:var(--white)}
+.input::placeholder{color:var(--subtle)}
+select.input{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%238A8A9A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;cursor:pointer}
+textarea.input{min-height:96px;resize:vertical}
+.field-lbl{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.success{text-align:center;padding:24px 0}
+.success-ico{width:56px;height:56px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.success-h{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:8px}
+.success-p{color:var(--muted);font-size:15px;line-height:1.6}
+.cta-band{border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1.1fr 1fr;background:var(--blue);margin-top:48px}
+.cta-band>*{min-width:0}
+.cta-text{padding:48px;color:#fff}
+.cta-text .section-label{color:rgba(255,255,255,.75)}
+.cta-text .section-title{color:#fff;margin-bottom:6px}
+.cta-phone{font-family:var(--serif);font-size:34px;font-weight:600;margin:10px 0 4px}
+.cta-phone a{color:#fff}
+.cta-hours{font-size:14px;color:rgba(255,255,255,.8)}
+.cta-img{background:url('/img/baner.webp') 60% center/cover no-repeat;min-height:260px}
+.footer{background:var(--ink);color:rgba(255,255,255,.55);padding:40px 20px;text-align:center;font-size:13px}
+.footer a{color:rgba(255,255,255,.75)}
+.footer-logo{font-weight:700;font-size:18px;color:#fff;margin-bottom:8px;display:block}
 .footer-logo span{color:var(--blue-mid)}
-footer small{font-size:11px;color:var(--muted);letter-spacing:0.3px}
-
-/* PULSE */
-@keyframes pulse{0%{opacity:1}40%{opacity:.3}100%{opacity:1}}
-.pulse{animation:pulse .35s ease}
-
-/* FADE IN */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.fade{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-.fade.in{opacity:1;transform:translateY(0)}
-
-/* RESPONSIVE */
-@media(max-width:700px){
-  nav{padding:14px 20px}
-  .nav-back{font-size:12px}
-  .hero{padding:40px 20px 28px}
-  .hero h1{font-size:clamp(32px,9vw,48px);letter-spacing:-1px}
-  .hero-sub{font-size:14px}
-  main{padding:28px 20px 60px}
-  .inputs-grid{grid-template-columns:1fr 1fr;border-radius:6px}
-  .inp-field{font-size:22px}
-  .results-grid{grid-template-columns:1fr 1fr;border-radius:6px}
-  .res-val{font-size:24px}
-  .bar-section{padding:20px}
-  .bar-pct{font-size:24px}
-  .table-wrap{border-radius:6px}
-  table{font-size:12px}
-  tbody td{padding:10px 12px}
-  thead th{padding:10px 12px}
-  .cta-section{border-radius:6px}
-  .cta-top{grid-template-columns:1fr;padding:24px 20px 0}
-  .cta-h{font-size:22px}
-  .cta-form{padding:20px}
-  .savings-pill{display:none}
-  .form-row{grid-template-columns:1fr}
-  .btn-send{font-size:14px;padding:16px}
-  footer{flex-direction:column;gap:8px;padding:20px;text-align:center}
-  .sec-label{font-size:9px}
+.footer-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+@media(max-width:768px){
+  .hero{padding-top:96px;padding-bottom:48px}
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero-btns{flex-direction:column}
+  section{padding:64px 20px}
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--line);padding:16px 24px;gap:0;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+  .nav-links.open a{padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+  .nav-links.open a:last-child{border-bottom:none}
+  .hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px}
+  .cta-band{grid-template-columns:1fr}
+  .cta-img{min-height:200px;order:-1}
+  .cta-text{padding:32px 24px}
 }
+@media(max-width:420px){.nav-cta-btn{padding:9px 12px;font-size:12px}}
+
+.calc-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:start;margin-top:36px}
+.calc-grid>*{min-width:0}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:28px}
+.panel-h{font-weight:600;font-size:16px;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.panel-sub{font-size:13px;color:var(--subtle);margin-bottom:22px}
+.row{margin-bottom:22px}
+.row-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
+.row-lbl{font-size:14px;color:var(--muted)}
+.row-val{display:flex;align-items:center;gap:6px}
+.num{width:110px;text-align:right;font-family:var(--sans);font-size:17px;font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--bg);outline:none;-moz-appearance:textfield;font-variant-numeric:tabular-nums}
+.num::-webkit-inner-spin-button,.num::-webkit-outer-spin-button{-webkit-appearance:none}
+.num:focus{border-color:var(--blue);background:var(--white)}
+.unit{font-size:13px;color:var(--subtle);min-width:28px}
+.slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--line);outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);box-shadow:0 1px 4px rgba(24,96,240,.35);cursor:pointer}
+.slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer}
+.hint{font-size:12px;color:var(--subtle);margin-top:6px}
+.fixed{background:var(--blue-light);border:1px solid rgba(24,96,240,.12);border-radius:12px;padding:16px 18px;font-size:14px;color:var(--muted);margin-top:6px}
+.fixed b{color:var(--blue)}
+.result{position:sticky;top:88px}
+.big{background:var(--blue);color:#fff;border-radius:16px;padding:28px;margin-bottom:16px}
+.big-lbl{font-size:14px;color:rgba(255,255,255,.8)}
+.big-val{font-family:var(--serif);font-size:48px;font-weight:600;line-height:1.1;margin:4px 0;font-variant-numeric:tabular-nums}
+.big-sub{font-size:15px;color:rgba(255,255,255,.9)}
+.big-sub b{font-weight:700}
+.bar{height:8px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:18px;overflow:hidden}
+.bar-fill{height:100%;background:#fff;border-radius:4px;transition:width .4s ease}
+.bar-cap{font-size:12px;color:rgba(255,255,255,.8);margin-top:8px}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+.cmp th{font-size:12px;font-weight:600;color:var(--subtle);text-transform:uppercase;letter-spacing:.5px;text-align:right;padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.cmp th:first-child,.cmp td:first-child{text-align:left}
+.cmp td{padding:12px 16px;font-size:14px;text-align:right;border-bottom:1px solid var(--line)}
+.cmp tr:last-child td{border-bottom:none;font-weight:700}
+.cmp td.old{color:var(--red)}
+.cmp td.new{color:var(--green)}
+.newbiz-note{display:flex;gap:12px;align-items:flex-start;background:var(--green-bg);border:1px solid rgba(22,163,74,.18);border-radius:12px;padding:14px 16px;margin-top:16px;font-size:14px;color:var(--muted)}
+.newbiz-note .ico{color:var(--green);margin-top:2px}
+.newbiz-note b{color:var(--ink)}
+.form-wrap{max-width:720px;margin:36px auto 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:1/-1}
+.form-note{font-size:13px;color:var(--subtle);text-align:center;margin-top:12px}
+@media(max-width:900px){.calc-grid{grid-template-columns:1fr}.result{position:static}}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.panel{padding:22px 18px}.big-val{font-size:40px}.num{width:96px}}
 </style>
 </head>
 <body>
-
-<nav>
-  <a href="/" class="logo" style="display:flex;align-items:center;gap:10px;text-decoration:none"><svg width="22" height="38" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:21px;font-weight:700;color:#fff;letter-spacing:-0.5px">spec<span style="color:#378ADD">pos</span></span></a>
-  <a href="/" class="nav-back">Wróć do strony głównej</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-chef" viewBox="0 0 24 24"><path d="M6 13.9A4 4 0 0 1 7.2 6a5 5 0 0 1 9.6 0A4 4 0 0 1 18 13.9V20H6z"/><path d="M6 17h12"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2" y="14" width="5" height="6" rx="1.5"/><rect x="17" y="14" width="5" height="6" rx="1.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+</svg>
+<nav class="nav">
+<div class="nav-inner">
+  <a href="/" class="nav-logo">spec<span>pos</span></a>
+  <div class="nav-links">
+    <a href="/#terminal">Terminal</a>
+    <a href="/kalkulator.html" class="active">Kalkulator</a>
+    <a href="/pos/">System POS</a>
+    <a href="/kontakt.html">Kontakt</a>
+  </div>
+  <a href="/#kontakt-wizard" class="nav-cta-btn">Bezpłatna analiza →</a>
+  <button class="hamburger" type="button" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')"><span></span><span></span><span></span></button>
+</div>
 </nav>
 
-<div class="hero">
-  <div class="hero-inner">
-    <span class="eyebrow">Kalkulator oszczędności</span>
-    <h1>Ile tracisz<br>na <em>prowizjach?</em></h1>
-    <p class="hero-sub">Poniższe pola można swobodnie uzupełnić swoimi danymi — jeśli posiadasz już terminal, wartości znajdziesz na fakturze od obecnego dostawcy. Wyniki aktualizują się na bieżąco.</p>
+<section class="hero">
+<div class="container">
+<div class="hero-grid">
+  <div>
+    <div class="section-label">Kalkulator oszczędności</div>
+    <h1>Ile tracisz <em>na prowizjach?</em></h1>
+    <p class="hero-desc">Wpisz dane z faktury od obecnego operatora i porównaj je z ofertą specpos: 0,55% + 0,05 zł za transakcję i 30 zł netto miesięcznie za wynajem terminala. Wynik liczy się na bieżąco.</p>
+    <div class="hero-btns">
+      <a href="#kalkulator" class="btn-primary">Przejdź do kalkulatora ↓</a>
+      <a href="#oferta" class="btn-secondary">Poproś o ofertę</a>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <img src="/img/kawiarnia.webp" width="800" height="600" alt="Płatność kartą zbliżeniową przy terminalu obok filiżanki kawy">
+    <div class="chip" style="right:-12px;bottom:24px">
+      <div class="chip-ico green"><svg class="ico"><use href="#i-trend"/></svg></div>
+      <div><div class="chip-val" id="chip-year">2 208 zł</div><div class="chip-lbl">oszczędności rocznie</div></div>
+    </div>
   </div>
 </div>
+</div>
+</section>
 
-<main>
+<section class="alt" id="kalkulator">
+<div class="container">
+  <div class="section-label">Twoje dane</div>
+  <h2 class="section-title">Porównaj <em>swoje koszty</em></h2>
+  <p class="section-sub">Przesuń suwaki albo wpisz dokładne wartości. Wszystkie kwoty są netto i miesięczne.</p>
 
-  <!-- INPUTS -->
-  <p class="sec-label">Uzupełnij swoimi danymi — wartości można dowolnie zmieniać</p>
-  <div class="inputs-grid fade">
-    <div class="inp-cell">
-      <div class="inp-label">Obrót miesięczny <span class="inp-unit">PLN</span></div>
-      <input class="inp-field" id="inp-kwota" type="number" value="50000" step="1000" min="0">
-    </div>
-    <div class="inp-cell">
-      <div class="inp-label">Liczba transakcji <span class="inp-unit">szt.</span></div>
-      <input class="inp-field" id="inp-transakcje" type="number" value="200" step="10" min="0">
-    </div>
-    <div class="inp-cell">
-      <div class="inp-label">Prowizja obecna <span class="inp-unit">%</span></div>
-      <input class="inp-field" id="inp-biezaca" type="number" value="0.76" step="0.01" min="0" max="10">
-    </div>
-    <div class="inp-cell">
-      <div class="inp-label">Prowizja specpos <span class="inp-unit">%</span></div>
-      <input class="inp-field" id="inp-nowa" type="number" value="0.55" step="0.01" min="0" max="10">
-    </div>
-  </div>
-
-  <!-- RESULTS -->
-  <p class="sec-label">Wyniki kalkulacji</p>
-  <div class="results-grid fade">
-    <div class="res-card">
-      <div class="res-label">Prowizja obecna</div>
-      <div class="res-val" id="r-biezaca">380,00</div>
-      <div class="res-unit">PLN / miesiąc</div>
-      <div class="res-formula" id="r-biezaca-pct">= 0,76% obrotu</div>
-    </div>
-    <div class="res-card">
-      <div class="res-label">Prowizja specpos</div>
-      <div class="res-val" id="r-nowa">275,00</div>
-      <div class="res-unit">PLN / miesiąc</div>
-      <div class="res-formula">= 0,55% obrotu</div>
-    </div>
-    <div class="res-card good">
-      <div class="res-label">Oszczędność / miesiąc</div>
-      <div class="res-val green" id="r-miesiac">105,00</div>
-      <div class="res-unit">PLN</div>
-      <div class="res-formula">prowizja obecna − specpos</div>
-    </div>
-    <div class="res-card great">
-      <div class="res-label">Oszczędność / rok</div>
-      <div class="res-val gold" id="r-rok">1 260,00</div>
-      <div class="res-unit">PLN</div>
-      <div class="res-formula">× 12 miesięcy</div>
-    </div>
-  </div>
-
-  <!-- BAR -->
-  <div class="bar-section fade">
-    <div class="bar-top">
-      <span class="bar-title">Procent oszczędności względem obecnej prowizji</span>
-      <span class="bar-pct" id="r-pct">27,6%</span>
-    </div>
-    <div class="bar-track">
-      <div class="bar-fill" id="bar-fill"></div>
-    </div>
-    <p class="bar-sub" id="bar-sub">Przy obrocie 50 000 zł/mies. i prowizji 0,76% → 0,55% oszczędzasz 105,00 zł miesięcznie</p>
-  </div>
-
-  <!-- TABLE -->
-  <p class="sec-label">Szczegółowe zestawienie</p>
-  <div class="table-wrap fade">
-    <table>
-      <thead>
-        <tr>
-          <th>Karta</th>
-          <th>Transakcji</th>
-          <th>Obrót PLN</th>
-          <th>Prowizja obecna</th>
-          <th>Prowizja specpos</th>
-          <th>Oszczędność/mies.</th>
-          <th>Oszczędność/rok</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Visa / Mastercard</td>
-          <td id="t-trans">200</td>
-          <td id="t-obrot">50 000,00</td>
-          <td id="t-biezaca">380,00</td>
-          <td id="t-nowa">275,00</td>
-          <td class="td-green" id="t-miesiac">105,00</td>
-          <td class="td-gold" id="t-rok">1 260,00</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- CTA FORM -->
-  <div class="divider"></div>
-  <p class="sec-label">Chcę poznać pełną ofertę</p>
-  <div class="cta-section fade">
-    <div class="cta-top">
-      <div>
-        <div class="cta-h">Sprawdź ofertę dla swojego lokalu</div>
-        <p class="cta-sub">Zostaw dane — oddzwonimy lub napiszemy tego samego dnia roboczego. Konsultacja jest bezpłatna i bez zobowiązań.</p>
+  <div class="calc-grid">
+    <div class="panel">
+      <div class="panel-h"><span class="icon-box"><svg class="ico"><use href="#i-chart"/></svg></span>Obroty Twojego lokalu</div>
+      <div class="panel-sub">Znajdziesz je w panelu terminala albo na wyciągu.</div>
+      <div class="row">
+        <div class="row-top"><span class="row-lbl">Miesięczny obrót kartowy</span><span class="row-val"><input class="num" id="n-obrot" type="number" min="0" step="1000" value="30000"><span class="unit">zł</span></span></div>
+        <input class="slider" id="s-obrot" type="range" min="2000" max="200000" step="1000" value="30000" aria-label="Miesięczny obrót kartowy">
       </div>
-      <div class="savings-pill">
-        <div class="savings-pill-label">Twoja oszczędność</div>
-        <div class="savings-pill-val" id="pill-rok">1 260</div>
-        <div class="savings-pill-unit">PLN rocznie</div>
+      <div class="row">
+        <div class="row-top"><span class="row-lbl">Liczba transakcji w miesiącu</span><span class="row-val"><input class="num" id="n-trans" type="number" min="0" step="10" value="600"><span class="unit">szt.</span></span></div>
+        <input class="slider" id="s-trans" type="range" min="20" max="5000" step="10" value="600" aria-label="Liczba transakcji">
+        <div class="hint" id="avg-hint">Średnia transakcja: 50 zł</div>
       </div>
+
+      <div class="panel-h" style="margin-top:30px"><span class="icon-box"><svg class="ico"><use href="#i-receipt"/></svg></span>Obecny operator</div>
+      <div class="panel-sub">Wartości z faktury. Jeśli nie masz jeszcze terminala, zostaw domyślne.</div>
+      <div class="row">
+        <div class="row-top"><span class="row-lbl">Prowizja</span><span class="row-val"><input class="num" id="n-prow" type="number" min="0" max="5" step="0.05" value="1.20"><span class="unit">%</span></span></div>
+        <input class="slider" id="s-prow" type="range" min="0.3" max="3" step="0.05" value="1.2" aria-label="Obecna prowizja">
+      </div>
+      <div class="row">
+        <div class="row-top"><span class="row-lbl">Abonament / wynajem terminala</span><span class="row-val"><input class="num" id="n-abo" type="number" min="0" step="1" value="49"><span class="unit">zł</span></span></div>
+        <input class="slider" id="s-abo" type="range" min="0" max="200" step="1" value="49" aria-label="Obecny abonament">
+      </div>
+      <div class="row" style="margin-bottom:8px">
+        <div class="row-top"><span class="row-lbl">Opłata za transakcję</span><span class="row-val"><input class="num" id="n-tx" type="number" min="0" step="0.01" value="0"><span class="unit">zł</span></span></div>
+        <input class="slider" id="s-tx" type="range" min="0" max="0.5" step="0.01" value="0" aria-label="Obecna opłata za transakcję">
+      </div>
+      <div class="fixed">Oferta specpos: <b>0,55%</b> + <b>0,05 zł</b> za transakcję popularnymi kartami i <b>30 zł netto</b> miesięcznie za wynajem terminala.</div>
     </div>
-    <form class="cta-form" id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
-      <div class="form-row">
-        <div class="fg">
-          <label>Imię i nazwisko</label>
-          <input type="text" name="name" placeholder="Jan Kowalski" required>
-        </div>
-        <div class="fg">
-          <label>Telefon</label>
-          <input type="tel" name="phone" placeholder="+48 734 037 907" required>
-        </div>
+
+    <div class="result">
+      <div class="big">
+        <div class="big-lbl">Oszczędzasz miesięcznie</div>
+        <div class="big-val" id="r-month">184 zł</div>
+        <div class="big-sub">To <b id="r-year">2 208 zł</b> rocznie</div>
+        <div class="bar"><div class="bar-fill" id="r-bar" style="width:45%"></div></div>
+        <div class="bar-cap" id="r-pct">o 45% mniej niż płacisz teraz</div>
       </div>
-      <div class="form-row">
-        <div class="fg">
-          <label>Nazwa lokalu</label>
-          <input type="text" name="lokal" placeholder="np. Restauracja Roma">
-        </div>
-        <div class="fg">
-          <label>Obecny dostawca terminala</label>
-          <select name="dostawca">
+      <table class="cmp">
+        <thead><tr><th>Koszt / mies.</th><th>Teraz</th><th>specpos</th></tr></thead>
+        <tbody>
+          <tr><td>Prowizja</td><td class="old" id="t-p-old">360 zł</td><td class="new" id="t-p-new">165 zł</td></tr>
+          <tr><td>Opłaty za transakcje</td><td class="old" id="t-x-old">0 zł</td><td class="new" id="t-x-new">30 zł</td></tr>
+          <tr><td>Wynajem terminala</td><td class="old" id="t-a-old">49 zł</td><td class="new">30 zł</td></tr>
+          <tr><td>Razem</td><td class="old" id="t-s-old">409 zł</td><td class="new" id="t-s-new">225 zł</td></tr>
+        </tbody>
+      </table>
+      <div class="newbiz-note"><svg class="ico"><use href="#i-calendar"/></svg><div><b>Nowa firma?</b> W programie Polska Bezgotówkowa przez pierwsze 12 miesięcy nie płacisz za terminal ani za transakcje (do 100 000 zł obrotu kartowego). Potem obowiązują powyższe warunki.</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="oferta">
+<div class="container">
+  <div class="section-label">Oferta dla Twojego lokalu</div>
+  <h2 class="section-title">Wyślij wynik, <em>oddzwonimy z ofertą</em></h2>
+  <p class="section-sub">Dołączymy dane z kalkulatora, żebyś nie musiał niczego powtarzać. Konsultacja jest bezpłatna.</p>
+  <div class="form-wrap card" style="padding:32px">
+    <form id="contact-form" action="https://formspree.io/f/mpwwnegr" method="POST">
+      <div class="form-grid">
+        <div><label class="field-lbl" for="f-name">Imię i nazwisko</label><input class="input" id="f-name" name="name" required placeholder="Jan Kowalski"></div>
+        <div><label class="field-lbl" for="f-phone">Telefon</label><input class="input" id="f-phone" name="phone" type="tel" required placeholder="np. 600 100 200"></div>
+        <div><label class="field-lbl" for="f-lokal">Nazwa lokalu</label><input class="input" id="f-lokal" name="lokal" placeholder="np. Restauracja Roma"></div>
+        <div><label class="field-lbl" for="f-dost">Obecny operator</label>
+          <select class="input" id="f-dost" name="dostawca">
             <option value="">Wybierz...</option>
-            <option>eService / PKO</option>
-            <option>Polskie ePłatności (PeP)</option>
-            <option>First Data / Fiserv</option>
-            <option>Paylane</option>
-            <option>PayTel</option>
-            <option>Nets</option>
-            <option>Inny</option>
-            <option>Nie mam jeszcze terminala</option>
-          </select>
-        </div>
+            <option>eService / PKO</option><option>Polskie ePłatności (PeP)</option><option>Fiserv / First Data</option><option>PayTel</option><option>Nets</option><option>Inny</option><option>Nie mam jeszcze terminala</option>
+          </select></div>
+        <div class="full"><label class="field-lbl" for="f-msg">Wiadomość (opcjonalnie)</label><textarea class="input" id="f-msg" name="message" placeholder="Dodatkowe informacje o lokalu, pytania..."></textarea></div>
       </div>
-      <!-- Hidden fields — przekazujemy wyniki kalkulatora -->
-      <input type="hidden" name="obrot" id="f-obrot">
-      <input type="hidden" name="prowizja_obecna_pct" id="f-biezaca-pct">
-      <input type="hidden" name="prowizja_specpos_pct" id="f-nowa-pct">
-      <input type="hidden" name="oszczednosc_miesiac" id="f-miesiac">
-      <input type="hidden" name="oszczednosc_rok" id="f-rok">
-      <div class="fg">
-        <label>Wiadomość (opcjonalnie)</label>
-        <textarea name="message" placeholder="Dodatkowe informacje o lokalu, pytania..."></textarea>
-      </div>
-      <button type="submit" class="btn-send">Wyślij — skontaktujemy się dziś</button>
+      <input type="hidden" name="source" value="specpos.pl/kalkulator">
+      <input type="hidden" name="obrot" id="h-obrot">
+      <input type="hidden" name="transakcje" id="h-trans">
+      <input type="hidden" name="prowizja_obecna_pct" id="h-prow">
+      <input type="hidden" name="abonament_obecny" id="h-abo">
+      <input type="hidden" name="oplata_tx_obecna" id="h-tx">
+      <input type="hidden" name="oszczednosc_miesiac" id="h-month">
+      <input type="hidden" name="oszczednosc_rok" id="h-year">
+      <button type="submit" class="btn-primary" style="width:100%;margin-top:20px" id="f-btn">Wyślij — oddzwonimy dziś →</button>
       <p class="form-note">Odpowiadamy w ciągu kilku godzin w dni robocze · Bez spamu · Bez zobowiązań</p>
     </form>
-    <div class="success-msg" id="success-msg">
-      <div class="success-icon">✓</div>
-      <div class="success-h">Wiadomość wysłana!</div>
-      <p class="success-p">Oddzwonimy lub napiszemy do Ciebie tego samego dnia roboczego.<br>Dziękujemy za zainteresowanie ofertą specpos.</p>
+    <div class="success" id="f-ok" hidden>
+      <div class="success-ico"><svg class="ico" style="width:28px;height:28px"><use href="#i-check"/></svg></div>
+      <div class="success-h">Wiadomość wysłana</div>
+      <p class="success-p">Oddzwonimy tego samego dnia roboczego. Dziękujemy za zainteresowanie ofertą specpos.</p>
     </div>
   </div>
+  <div class="cta-band">
+    <div class="cta-text">
+      <div class="section-label">Wolisz porozmawiać?</div>
+      <h2 class="section-title">Zadzwoń do nas</h2>
+      <div class="cta-phone"><a href="tel:+48734037907">734 037 907</a></div>
+      <div class="cta-hours">Pon–Sob, 8:00–20:00 · kontaktspecpos@gmail.com</div>
+    </div>
+    <div class="cta-img" role="img" aria-label="Baristka przyjmuje płatność kartą w kawiarni"></div>
+  </div>
+</div>
+</section>
 
-</main>
-
-<footer>
-  <a href="/" class="footer-logo" style="display:flex;align-items:center;gap:8px;text-decoration:none"><svg width="18" height="32" viewBox="0 0 22 38" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="1" width="10" height="36" rx="3" fill="#185FA5" transform="rotate(-12 5 19)"/><rect x="14" y="1" width="10" height="36" rx="3" fill="#378ADD" transform="rotate(-12 19 19)"/></svg><span style="font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;color:rgba(255,255,255,0.6)">spec<span style="color:#378ADD">pos</span></span></a>
-  <small>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii</small>
+<footer class="footer">
+  <div class="container">
+    <span class="footer-logo">spec<span>pos</span></span>
+    <div class="footer-links"><a href="/">Strona główna</a><a href="/kalkulator.html">Kalkulator</a><a href="/pos/">System POS</a><a href="/kontakt.html">Kontakt</a></div>
+    <p>© 2026 specpos · Terminale płatnicze i systemy POS dla gastronomii · Polska</p>
+  </div>
 </footer>
 
 <script>
-const fmt = (n,d=2) => n.toLocaleString('pl-PL',{minimumFractionDigits:d,maximumFractionDigits:d});
-
-function recalc(){
-  const kwota = parseFloat(document.getElementById('inp-kwota').value)||0;
-  const trans = parseInt(document.getElementById('inp-transakcje').value)||0;
-  const pB    = parseFloat(document.getElementById('inp-biezaca').value)||0;
-  const pN    = parseFloat(document.getElementById('inp-nowa').value)||0;
-
-  const prowB  = kwota * pB / 100;
-  const prowN  = kwota * pN / 100;
-  const oszcz  = prowB - prowN;
-  const roczn  = oszcz * 12;
-  const ratio  = prowB > 0 ? (oszcz / prowB) * 100 : 0;
-
-  pulse('r-biezaca',  fmt(prowB));
-  pulse('r-nowa',     fmt(prowN));
-  pulse('r-miesiac',  fmt(oszcz));
-  pulse('r-rok',      fmt(roczn));
-
-  document.getElementById('r-biezaca-pct').textContent = '= ' + pB.toFixed(2).replace('.',',') + '% obrotu';
-  document.getElementById('r-pct').textContent = ratio.toFixed(1).replace('.',',') + '%';
-
-  const capped = Math.min(Math.max(ratio,0),100);
-  document.getElementById('bar-fill').style.width = capped.toFixed(1)+'%';
-  document.getElementById('bar-sub').textContent =
-    `Przy obrocie ${fmt(kwota,0)} zł/mies. i prowizji ${pB.toFixed(2).replace('.',',')}% → ${pN.toFixed(2).replace('.',',')}% oszczędzasz ${fmt(oszcz)} zł miesięcznie`;
-
-  document.getElementById('t-trans').textContent   = trans;
-  document.getElementById('t-obrot').textContent   = fmt(kwota);
-  document.getElementById('t-biezaca').textContent = fmt(prowB);
-  document.getElementById('t-nowa').textContent    = fmt(prowN);
-  document.getElementById('t-miesiac').textContent = fmt(oszcz);
-  document.getElementById('t-rok').textContent     = fmt(roczn);
-
-  // Pill
-  const pillVal = Math.round(roczn);
-  document.getElementById('pill-rok').textContent = pillVal.toLocaleString('pl-PL');
-
-  // Hidden form fields
-  document.getElementById('f-obrot').value        = fmt(kwota,0) + ' PLN';
-  document.getElementById('f-biezaca-pct').value  = pB.toFixed(2) + '%';
-  document.getElementById('f-nowa-pct').value     = pN.toFixed(2) + '%';
-  document.getElementById('f-miesiac').value      = fmt(oszcz) + ' PLN';
-  document.getElementById('f-rok').value          = fmt(roczn) + ' PLN';
+var SP={prow:0.55,tx:0.05,abo:30};
+var pairs=[['obrot',0],['trans',0],['prow',2],['abo',0],['tx',2]];
+function zl(n,d){return n.toLocaleString('pl-PL',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})+' zł'}
+function v(k){var x=parseFloat(document.getElementById('n-'+k).value);return isNaN(x)?0:x}
+function calc(){
+  var o=v('obrot'),t=v('trans'),p=v('prow'),a=v('abo'),x=v('tx');
+  var pOld=o*p/100,xOld=t*x,sOld=pOld+xOld+a;
+  var pNew=o*SP.prow/100,xNew=t*SP.tx,sNew=pNew+xNew+SP.abo;
+  var m=Math.max(0,sOld-sNew),y=m*12,pct=sOld>0?m/sOld*100:0;
+  document.getElementById('avg-hint').textContent='Średnia transakcja: '+(t>0?zl(o/t):'—');
+  document.getElementById('r-month').textContent=zl(Math.round(m));
+  document.getElementById('r-year').textContent=zl(Math.round(y));
+  document.getElementById('chip-year').textContent=zl(Math.round(y));
+  document.getElementById('r-bar').style.width=Math.min(100,pct).toFixed(0)+'%';
+  document.getElementById('r-pct').textContent=m>0?('o '+pct.toFixed(0)+'% mniej niż płacisz teraz'):'Przy tych danych obecna oferta jest korzystniejsza — zadzwoń, sprawdzimy szczegóły';
+  var set=function(id,val){document.getElementById(id).textContent=zl(Math.round(val))};
+  set('t-p-old',pOld);set('t-p-new',pNew);set('t-x-old',xOld);set('t-x-new',xNew);set('t-a-old',a);set('t-s-old',sOld);set('t-s-new',sNew);
+  document.getElementById('h-obrot').value=zl(o);document.getElementById('h-trans').value=t;
+  document.getElementById('h-prow').value=p.toFixed(2)+'%';document.getElementById('h-abo').value=zl(a);
+  document.getElementById('h-tx').value=zl(x,2);document.getElementById('h-month').value=zl(Math.round(m));document.getElementById('h-year').value=zl(Math.round(y));
 }
-
-function pulse(id,val){
-  const el = document.getElementById(id);
-  el.textContent = val;
-  el.classList.remove('pulse');
-  void el.offsetWidth;
-  el.classList.add('pulse');
-}
-
-['inp-kwota','inp-transakcje','inp-biezaca','inp-nowa'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', recalc);
+pairs.forEach(function(pr){
+  var k=pr[0],n=document.getElementById('n-'+k),s=document.getElementById('s-'+k);
+  s.addEventListener('input',function(){n.value=pr[1]?parseFloat(s.value).toFixed(pr[1]):s.value;calc()});
+  n.addEventListener('input',function(){s.value=n.value;calc()});
 });
-
-// Form submit
-document.getElementById('contact-form').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const btn = this.querySelector('.btn-send');
-  btn.textContent = 'Wysyłanie...';
-  btn.disabled = true;
-  try{
-    const res = await fetch(this.action,{
-      method:'POST',
-      body:new FormData(this),
-      headers:{'Accept':'application/json'}
-    });
-    if(res.ok){
-      this.style.display='none';
-      document.getElementById('success-msg').classList.add('show');
-    } else {
-      btn.textContent = 'Błąd — spróbuj ponownie';
-      btn.disabled = false;
-    }
-  }catch{
-    btn.textContent = 'Błąd — spróbuj ponownie';
-    btn.disabled = false;
-  }
+calc();
+document.getElementById('contact-form').addEventListener('submit',async function(e){
+  e.preventDefault();var b=document.getElementById('f-btn');b.textContent='Wysyłanie...';b.disabled=true;
+  try{var r=await fetch(this.action,{method:'POST',body:new FormData(this),headers:{'Accept':'application/json'}});
+    if(r.ok){this.hidden=true;document.getElementById('f-ok').hidden=false}else{b.textContent='Błąd — spróbuj ponownie';b.disabled=false}}
+  catch(err){b.textContent='Błąd — spróbuj ponownie';b.disabled=false}
 });
-
-// Scroll reveal
-const fades = document.querySelectorAll('.fade');
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }});
-},{threshold:0.08});
-fades.forEach(el=>obs.observe(el));
-
-window.addEventListener('load',()=>{ setTimeout(recalc,200); });
+document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('.nav-links').classList.remove('open')})});
 </script>
 </body>
 </html>
